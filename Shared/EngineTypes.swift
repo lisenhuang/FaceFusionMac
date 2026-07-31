@@ -153,7 +153,87 @@ public struct DetectedFace: Codable, Sendable, Hashable {
 
 public struct FrameAnalysis: Codable, Sendable {
     public var faces: [DetectedFace]
-    public init(faces: [DetectedFace]) { self.faces = faces }
+    /// Parallel to `faces`, and empty unless the caller asked for identities.
+    /// The per-frame overlay does not need them; the "who is in this video"
+    /// scan does, and paying for them there only is the difference between one
+    /// extra model pass per face and none.
+    public var identities: [FaceIdentity]
+
+    public init(faces: [DetectedFace], identities: [FaceIdentity] = []) {
+        self.faces = faces
+        self.identities = identities
+    }
+}
+
+/// What `analyzeFaces` should do beyond detecting. Alignment has to match the
+/// settings the swap will run with, or the identities compared at swap time
+/// are not the ones the picker collected.
+public struct AnalysisOptions: Codable, Sendable {
+    public var detectorScore: Double
+    public var refineLandmarks: Bool
+    /// Skips the recognizer when only boxes are wanted.
+    public var includeIdentities: Bool
+
+    public init(detectorScore: Double = 0.5,
+                refineLandmarks: Bool = true,
+                includeIdentities: Bool = true) {
+        self.detectorScore = detectorScore
+        self.refineLandmarks = refineLandmarks
+        self.includeIdentities = includeIdentities
+    }
+}
+
+// MARK: - Identity
+
+/// An L2-normalised ArcFace vector — the same 512 numbers the swapper is
+/// conditioned on, reused here for a different purpose: deciding whether two
+/// faces in different frames are the same person.
+public struct FaceIdentity: Codable, Sendable, Equatable {
+    public var vector: [Float]
+
+    public init(vector: [Float]) { self.vector = vector }
+
+    /// Cosine distance: 0 for identical, 1 for unrelated, 2 for opposite.
+    /// Both operands are already unit length, so the dot product *is* the
+    /// cosine and no division is needed.
+    ///
+    /// For scale, with this model two photos of one person typically land
+    /// between 0.2 and 0.5, and two different people above 0.7.
+    /// Vectors of different lengths came from different models, so they are
+    /// reported as unmatchable rather than compared over their common prefix —
+    /// a truncated dot product looks like a perfectly ordinary distance.
+    public func distance(to other: FaceIdentity) -> Double {
+        guard !vector.isEmpty, vector.count == other.vector.count else {
+            return .greatestFiniteMagnitude
+        }
+        var dot: Float = 0
+        for index in 0 ..< vector.count { dot += vector[index] * other.vector[index] }
+        return 1 - Double(dot)
+    }
+
+    /// Nearest distance to any of `others`, or infinity when there are none.
+    public func nearestDistance(among others: [FaceIdentity]) -> Double {
+        var best = Double.greatestFiniteMagnitude
+        for other in others { best = min(best, distance(to: other)) }
+        return best
+    }
+}
+
+/// The identities of the faces the user checked.
+///
+/// Sent to the engine once per change rather than riding in `SwapOptions`,
+/// which is re-encoded for every frame — 512 floats per face at 60fps is a lot
+/// of JSON to write and throw away. `generation` rises on each send, and a
+/// swap naming a generation the engine no longer holds is refused rather than
+/// quietly swapping against a stale set.
+public struct ReferenceFaceSet: Codable, Sendable {
+    public var generation: Int
+    public var identities: [FaceIdentity]
+
+    public init(generation: Int, identities: [FaceIdentity]) {
+        self.generation = generation
+        self.identities = identities
+    }
 }
 
 public struct SourceAnalysis: Codable, Sendable {
@@ -173,7 +253,28 @@ public enum FaceSelection: Codable, Sendable, Equatable {
     /// Nearest to a point in normalised (0...1) frame coordinates. Survives
     /// resolution changes and frame-to-frame detector jitter better than an index.
     case nearestTo(x: Double, y: Double)
+    /// Only faces matching one of the identities in the reference set the
+    /// engine currently holds, within `maxDistance` cosine distance.
+    ///
+    /// This is the only selection that means the same thing throughout a
+    /// video. An index is left-to-right order within a single frame, so two
+    /// people crossing reassigns it; a fixed point stops naming anyone as soon
+    /// as the subject moves. An identity keeps pointing at the person.
+    case reference(generation: Int, maxDistance: Double)
+
+    /// True when choosing faces costs an identity pass over every detection.
+    public var needsIdentities: Bool {
+        if case .reference = self { return true }
+        return false
+    }
 }
+
+/// Default cosine distance for calling two faces the same person.
+///
+/// Mirrors FaceFusion's `reference_face_distance`. Loose enough to hold a
+/// person across a turn of the head or a change of lighting, tight enough to
+/// keep two different people apart.
+public let defaultFaceMatchDistance = 0.6
 
 public struct SwapOptions: Codable, Sendable {
     public var selection: FaceSelection
@@ -212,6 +313,9 @@ public struct SwapOptions: Codable, Sendable {
 public struct StageSeconds: Codable, Sendable {
     public var detect: Double = 0
     public var landmarks: Double = 0
+    /// Recognising which detections are the faces the user checked. Zero for
+    /// every selection except `.reference`.
+    public var match: Double = 0
     public var swap: Double = 0
     public var paste: Double = 0
     public var enhance: Double = 0
@@ -223,6 +327,7 @@ public struct StageSeconds: Codable, Sendable {
         var out = StageSeconds()
         out.detect = a.detect + b.detect
         out.landmarks = a.landmarks + b.landmarks
+        out.match = a.match + b.match
         out.swap = a.swap + b.swap
         out.paste = a.paste + b.paste
         out.enhance = a.enhance + b.enhance
@@ -234,6 +339,7 @@ public struct StageSeconds: Codable, Sendable {
         var out = StageSeconds()
         out.detect = detect * factor
         out.landmarks = landmarks * factor
+        out.match = match * factor
         out.swap = swap * factor
         out.paste = paste * factor
         out.enhance = enhance * factor
@@ -267,6 +373,7 @@ public enum EngineError: Int, Codable, Sendable {
     case invalidSurface = 5
     case notPrepared = 6
     case cancelled = 7
+    case referenceFacesStale = 8
 
     public var message: String {
         switch self {
@@ -277,6 +384,8 @@ public enum EngineError: Int, Codable, Sendable {
         case .invalidSurface:  return "An internal image buffer was invalid."
         case .notPrepared:     return "The engine has not finished loading its models."
         case .cancelled:       return "Cancelled."
+        case .referenceFacesStale:
+            return "The chosen faces are no longer loaded. Scan the target again and reselect them."
         }
     }
 }

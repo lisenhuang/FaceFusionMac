@@ -35,12 +35,13 @@ struct PreviewCanvas: View {
                         .clipShape(.rect(cornerRadius: 14))
 
                     FaceOverlay(faces: model.previewFaces,
+                                selected: model.selectedFaceIndices,
                                 frameSize: frameSize,
-                                rect: rect,
-                                selection: model.faceSelection)
+                                rect: rect)
                         .allowsHitTesting(false)
 
-                    // Clicking picks the nearest face; coordinates are
+                    // Clicking picks the nearest face — or, while choosing
+                    // faces, ticks whoever was clicked. Coordinates are
                     // normalised so the choice survives a window resize.
                     Color.clear
                         .contentShape(.rect)
@@ -97,11 +98,16 @@ struct PreviewCanvas: View {
 
 // MARK: - Face boxes
 
+/// Draws a box per detected face, highlighting the ones that will be replaced.
+///
+/// Which those are is decided by `AppModel.selectedFaceIndices` rather than
+/// here: the rule used to be written out twice, and matching by identity is
+/// not a question the view can answer at all — it has boxes, not identities.
 private struct FaceOverlay: View {
     var faces: [DetectedFace]
+    var selected: Set<Int>
     var frameSize: CGSize
     var rect: CGRect
-    var selection: FaceSelection
 
     var body: some View {
         Canvas { context, _ in
@@ -113,31 +119,12 @@ private struct FaceOverlay: View {
                                  y: rect.minY + face.box.y * scaleY,
                                  width: face.box.width * scaleX,
                                  height: face.box.height * scaleY)
-                let active = isSelected(face)
+                let active = selected.contains(face.index)
                 let path = Path(roundedRect: box, cornerRadius: 6)
                 context.stroke(path,
                                with: .color(active ? .accentColor : .white.opacity(0.35)),
                                lineWidth: active ? 2.5 : 1.2)
             }
-        }
-    }
-
-    private func isSelected(_ face: DetectedFace) -> Bool {
-        switch selection {
-        case .all:
-            return true
-        case .largest:
-            return face.box.width * face.box.height
-                == faces.map { $0.box.width * $0.box.height }.max()
-        case .nearestTo(let x, let y):
-            let point = CGPoint(x: x * frameSize.width, y: y * frameSize.height)
-            let distances = faces.map {
-                hypot($0.box.x + $0.box.width / 2 - point.x,
-                      $0.box.y + $0.box.height / 2 - point.y)
-            }
-            guard let best = distances.min(),
-                  let index = distances.firstIndex(of: best) else { return false }
-            return faces[index].index == face.index
         }
     }
 }

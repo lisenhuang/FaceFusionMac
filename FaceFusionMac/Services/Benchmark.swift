@@ -128,9 +128,9 @@ enum Benchmark {
         }
 
         emit(pad("configuration", 26)
-             + ["detect", "landmk", "swap", "paste", "enhance", "total"]
+             + ["detect", "landmk", "match", "swap", "paste", "enhance", "total"]
                 .map { padLeft($0, 8) }.joined())
-        emit(String(repeating: "-", count: 90))
+        emit(String(repeating: "-", count: 98))
 
         for configuration in sweep {
             do {
@@ -164,7 +164,7 @@ enum Benchmark {
                 }
                 let mean = total.scaled(by: 1.0 / Double(iterations))
 
-                let columns = [mean.detect, mean.landmarks, mean.swap,
+                let columns = [mean.detect, mean.landmarks, mean.match, mean.swap,
                                mean.paste, mean.enhance, mean.total]
                     .map { padLeft(String(format: "%.1f", $0 * 1000), 8) }
                     .joined()

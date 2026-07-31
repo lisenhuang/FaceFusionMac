@@ -40,6 +40,26 @@ enum PixelSurface {
         return buffer
     }
 
+    /// Draws a decoded image into a fresh IOSurface-backed buffer, which is
+    /// the form the engine can be handed without a copy.
+    static func makeBuffer(from image: CGImage) throws -> CVPixelBuffer {
+        let buffer = try makeBuffer(width: image.width, height: image.height)
+        CVPixelBufferLockBaseAddress(buffer, [])
+        defer { CVPixelBufferUnlockBaseAddress(buffer, []) }
+        guard let base = CVPixelBufferGetBaseAddress(buffer),
+              let context = CGContext(data: base,
+                                      width: image.width, height: image.height,
+                                      bitsPerComponent: 8,
+                                      bytesPerRow: CVPixelBufferGetBytesPerRow(buffer),
+                                      space: CGColorSpaceCreateDeviceRGB(),
+                                      bitmapInfo: CGImageAlphaInfo.premultipliedFirst.rawValue
+                                                | CGBitmapInfo.byteOrder32Little.rawValue) else {
+            throw MediaError.pixelBuffer("Could not draw the frame.")
+        }
+        context.draw(image, in: CGRect(x: 0, y: 0, width: image.width, height: image.height))
+        return buffer
+    }
+
     /// The IOSurface behind a pixel buffer. Buffers created above always have
     /// one; decoder output does too, which is why frames need no copy.
     static func surface(of buffer: CVPixelBuffer) throws -> IOSurface {

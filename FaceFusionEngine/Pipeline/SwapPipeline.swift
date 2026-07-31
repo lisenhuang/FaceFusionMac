@@ -28,6 +28,10 @@ final class SwapPipeline {
     private var sourceEmbedding: FaceEmbedding?
     private var projectedSource: [Float]?
 
+    /// Identities of the faces the user checked in the picker. Set once per
+    /// change, read by every frame — see `setReferenceFaces`.
+    private var referenceFaces: ReferenceFaceSet?
+
     // MARK: - Lifecycle
 
     func prepare(_ config: EngineConfiguration) throws -> EnginePreparation {
@@ -45,6 +49,9 @@ final class SwapPipeline {
             detector = nil; landmarker = nil; recognizer = nil
             swapper = nil; enhancer = nil
             sourceEmbedding = nil; projectedSource = nil
+            // Reference identities came out of the old recognizer session.
+            // Keeping them would compare vectors from two different graphs.
+            referenceFaces = nil
         }
         configuration = config
 
@@ -97,7 +104,18 @@ final class SwapPipeline {
         detector = nil; landmarker = nil; recognizer = nil
         swapper = nil; enhancer = nil
         sourceEmbedding = nil; projectedSource = nil
+        referenceFaces = nil
         configuration = nil
+    }
+
+    // MARK: - Chosen faces
+
+    /// Replaces the identities that `.reference` selection matches against.
+    ///
+    /// Called on the barrier queue, so no swap is part-way through comparing
+    /// against the outgoing set.
+    func setReferenceFaces(_ set: ReferenceFaceSet) {
+        referenceFaces = set
     }
 
     // MARK: - Source
@@ -142,6 +160,42 @@ final class SwapPipeline {
         })
     }
 
+    /// Detection plus an identity per face, for the scan that populates the
+    /// face picker.
+    ///
+    /// The alignment settings have to be the caller's swap settings: an
+    /// identity encoded from the detector's raw key points and one encoded
+    /// from refined landmarks are not the same vector, and comparing across
+    /// the two would put a floor under every distance.
+    func analyzeFaces(in image: BGRAImage, options: AnalysisOptions) throws -> FrameAnalysis {
+        guard let detector else { throw makeEngineNSError(.notPrepared) }
+        let faces = try detector.detect(in: image, scoreThreshold: Float(options.detectorScore))
+            .sorted { $0.box.minX < $1.box.minX }
+
+        var described: [DetectedFace] = []
+        var identities: [FaceIdentity] = []
+        described.reserveCapacity(faces.count)
+
+        for face in faces {
+            let landmarks = refinedLandmarks(for: face, in: image, refine: options.refineLandmarks)
+            if options.includeIdentities {
+                guard let recognizer,
+                      let embedding = try? recognizer.embedding(for: image, landmarks: landmarks) else {
+                    // A face the recognizer cannot encode is one the picker
+                    // could never match again, so leave it out entirely rather
+                    // than offer a checkbox that does nothing.
+                    continue
+                }
+                identities.append(FaceIdentity(vector: embedding.normalized))
+            }
+            // Numbered over what survives, so `faces` and `identities` stay
+            // index-for-index parallel for the caller.
+            described.append(Self.describe(face, index: described.count, landmarks: landmarks))
+        }
+
+        return FrameAnalysis(faces: described, identities: identities)
+    }
+
     // MARK: - Swapping
 
     func swap(input: BGRAImage, output: BGRAImage, options: SwapOptions) throws -> SwapResult {
@@ -160,24 +214,25 @@ final class SwapPipeline {
         let detected = try detector.detect(in: input, scoreThreshold: Float(options.detectorScore))
             .sorted { $0.box.minX < $1.box.minX }
         timing.detect = Date().timeIntervalSince(detectStarted)
-        let chosen = Self.select(detected, using: options.selection,
-                                 frameWidth: input.width, frameHeight: input.height)
+
+        let chosen = try resolve(detected, in: input, options: options, timing: &timing)
         guard !chosen.isEmpty else {
+            timing.total = Date().timeIntervalSince(started)
             return SwapResult(facesFound: detected.count, facesSwapped: 0,
-                              inferenceSeconds: Date().timeIntervalSince(started))
+                              inferenceSeconds: timing.total, stages: timing)
         }
 
         let needsTarget = FaceSwapper.needsTargetEmbedding(identityStrength: options.identityStrength)
         var swappedLandmarks: [[CGPoint]] = []
 
-        for face in chosen {
-            let landmarkStarted = Date()
-            let landmarks = refinedLandmarks(for: face, in: input, refine: options.refineLandmarks)
-            timing.landmarks += Date().timeIntervalSince(landmarkStarted)
+        for candidate in chosen {
+            let landmarks = candidate.landmarks
 
-            // Only pay for the target identity pass when it will actually be mixed in.
+            // Only pay for the target identity pass when it will actually be
+            // mixed in — and never twice, since matching by identity has
+            // already encoded this face.
             let targetEmbedding = needsTarget
-                ? try? recognizer.embedding(for: input, landmarks: landmarks)
+                ? (candidate.identity ?? (try? recognizer.embedding(for: input, landmarks: landmarks)))
                 : nil
 
             let conditioning = swapper.blend(projected: projectedSource,
@@ -249,6 +304,7 @@ final class SwapPipeline {
             \(frames) frames, mean ms — \
             detect \(accumulated.detect / n * 1000, format: .fixed(precision: 1)) \
             landmarks \(accumulated.landmarks / n * 1000, format: .fixed(precision: 1)) \
+            match \(accumulated.match / n * 1000, format: .fixed(precision: 1)) \
             swap \(accumulated.swap / n * 1000, format: .fixed(precision: 1)) \
             paste \(accumulated.paste / n * 1000, format: .fixed(precision: 1)) \
             enhance \(accumulated.enhance / n * 1000, format: .fixed(precision: 1)) \
@@ -257,6 +313,71 @@ final class SwapPipeline {
     }
 
     // MARK: - Helpers
+
+    /// A face that is going to be swapped, with the work done to choose it
+    /// carried along so none of it is repeated.
+    private struct Candidate {
+        var face: FaceObservation
+        var landmarks: [CGPoint]
+        /// Present only when this face was chosen by identity, in which case
+        /// the recognizer has already run over it.
+        var identity: FaceEmbedding?
+    }
+
+    /// Narrows the frame's detections to the faces that should be replaced.
+    ///
+    /// Split out from `swap` because `.reference` is a different shape of
+    /// decision from the others: the geometric selections read boxes and are
+    /// free, while matching by identity has to align and encode every
+    /// detection before it knows which ones the user meant.
+    private func resolve(_ detected: [FaceObservation],
+                         in image: BGRAImage,
+                         options: SwapOptions,
+                         timing: inout StageSeconds) throws -> [Candidate] {
+
+        guard case .reference(let generation, let maxDistance) = options.selection else {
+            let landmarkStarted = Date()
+            let chosen = Self.select(detected, using: options.selection,
+                                     frameWidth: image.width, frameHeight: image.height)
+                .map { face in
+                    Candidate(face: face,
+                              landmarks: refinedLandmarks(for: face, in: image,
+                                                          refine: options.refineLandmarks),
+                              identity: nil)
+                }
+            timing.landmarks = Date().timeIntervalSince(landmarkStarted)
+            return chosen
+        }
+
+        guard let recognizer else { throw makeEngineNSError(.notPrepared) }
+        // Refusing beats guessing. A generation the engine does not hold means
+        // the app and the engine disagree about which faces were checked, and
+        // swapping the wrong person is worse than failing the frame.
+        guard let references = referenceFaces, references.generation == generation else {
+            let held = referenceFaces.map { String($0.generation) } ?? "none"
+            throw makeEngineNSError(.referenceFacesStale,
+                                    underlying: "asked for generation \(generation), holding \(held)")
+        }
+        guard !references.identities.isEmpty else { return [] }
+
+        var chosen: [Candidate] = []
+        for face in detected {
+            let landmarkStarted = Date()
+            let landmarks = refinedLandmarks(for: face, in: image, refine: options.refineLandmarks)
+            timing.landmarks += Date().timeIntervalSince(landmarkStarted)
+
+            let matchStarted = Date()
+            let embedding = try? recognizer.embedding(for: image, landmarks: landmarks)
+            let distance = embedding.map {
+                FaceIdentity(vector: $0.normalized).nearestDistance(among: references.identities)
+            } ?? Double.greatestFiniteMagnitude
+            timing.match += Date().timeIntervalSince(matchStarted)
+
+            guard distance <= maxDistance else { continue }
+            chosen.append(Candidate(face: face, landmarks: landmarks, identity: embedding))
+        }
+        return chosen
+    }
 
     /// Upgrades the detector's five coarse points to the five derived from 68
     /// landmarks, when the landmarker is loaded and confident.
@@ -297,6 +418,12 @@ final class SwapPipeline {
                     < hypot($1.box.midX - point.x, $1.box.midY - point.y)
             }) else { return [] }
             return [nearest]
+
+        case .reference:
+            // Answered by `resolve`, which has the recognizer and the pixels.
+            // Boxes alone cannot say who anyone is, and quietly returning
+            // every face here would replace the whole frame.
+            return []
         }
     }
 

@@ -39,6 +39,24 @@ public enum EngineServiceIdentity {
     func detectFaces(surface: IOSurface,
                      withReply reply: @escaping (Data?, Error?) -> Void)
 
+    /// Detects faces *and* encodes each one's identity. This is what the scan
+    /// over a whole video runs; `detectFaces` stays free of the recognizer so
+    /// the per-frame overlay does not pay for it.
+    /// - Parameter optionsJSON: JSON-encoded ``AnalysisOptions``.
+    /// - Parameter reply: JSON-encoded ``FrameAnalysis``, identities included.
+    func analyzeFaces(surface: IOSurface,
+                      optionsJSON: Data,
+                      withReply reply: @escaping (Data?, Error?) -> Void)
+
+    /// Caches the identities of the faces the user checked, for
+    /// ``FaceSelection/reference(generation:maxDistance:)`` to match against.
+    ///
+    /// A barrier, like ``analyzeSource``: no swap may be comparing against the
+    /// old set while it is replaced.
+    /// - Parameter setJSON: JSON-encoded ``ReferenceFaceSet``.
+    func setReferenceFaces(setJSON: Data,
+                           withReply reply: @escaping (Error?) -> Void)
+
     /// Swaps faces from `surface` into `output`. Both surfaces must be BGRA8
     /// and the same size. `output` is always fully written, so the caller can
     /// recycle surfaces from a pool.
@@ -64,6 +82,9 @@ public func makeEngineInterface() -> NSXPCInterface {
                          argumentIndex: 0, ofReply: false)
     interface.setClasses(allowed,
                          for: #selector(FaceFusionEngineProtocol.detectFaces(surface:withReply:)),
+                         argumentIndex: 0, ofReply: false)
+    interface.setClasses(allowed,
+                         for: #selector(FaceFusionEngineProtocol.analyzeFaces(surface:optionsJSON:withReply:)),
                          argumentIndex: 0, ofReply: false)
     interface.setClasses(allowed,
                          for: #selector(FaceFusionEngineProtocol.swap(surface:into:optionsJSON:withReply:)),
