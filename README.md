@@ -1,8 +1,8 @@
 # FaceFusionMac
 
-A local-first face-swapping app for macOS. No Python, no FFmpeg, no Conda,
-no Homebrew — install the app, download the models once, and everything after
-that runs on your Mac with no network connection.
+A local-first face-swapping app for macOS, for video and for photos. No Python,
+no FFmpeg, no Conda, no Homebrew — install the app, download the models once,
+and everything after that runs on your Mac with no network connection.
 
 ```
 SwiftUI app  ──XPC──▶  FaceFusionEngine.xpc  ──▶  ONNX Runtime  ──▶  Core ML  ──▶  ANE / GPU
@@ -62,6 +62,18 @@ Per frame, mirroring FaceFusion 3.8.0's `inswapper` path:
 `emap` is read with a small purpose-built ONNX protobuf walker
 (`OnnxInitializer.swift`) — the file is memory-mapped, so the hundreds of
 megabytes of weights are skipped rather than paged in.
+
+### Photos
+
+A photo target is the same pipeline with one frame. It differs only at the
+edges: there is no timeline to scrub, the codec toggle gives way to the save
+panel's PNG/JPEG choice, and the result is written by ImageIO instead of an
+encoder. The image is decoded at full resolution rather than the 2048 px cap
+used for the source portrait — that cap exists because the source only ever
+feeds a 112 px crop, whereas a target photo is what gets written back out.
+
+The export re-runs the swap rather than saving what the preview produced, so
+the file always matches the settings as they stand when Export is pressed.
 
 ### One deliberate divergence
 
@@ -208,10 +220,16 @@ Release/FaceFusionMac.app/Contents/MacOS/FaceFusionMac --selftest
 ```
 
 Reads `source.jpg` and `target.mp4` from `SelfTest/` in the shared container,
-downloads any missing models, exports `output.mp4`, and exits non-zero on
+downloads any missing models, exports `output.mp4`, then exports `output.png`
+through the photo path and checks the remembered-folder store. Exits non-zero on
 failure. It reads from the container rather than from argv because the app is
 sandboxed — without the user picking them through the open panel, arbitrary
 paths are not readable.
+
+The headless modes run from `applicationDidFinishLaunching`, not from a view's
+`.task`. Launching the binary from a shell does not reliably produce a window,
+and a view-driven headless run in that situation sits there producing no output
+at all, which looks identical to a hang inside the pipeline.
 
 ## Debugging
 

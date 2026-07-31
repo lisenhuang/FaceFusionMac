@@ -132,6 +132,92 @@ enum SelfTest {
                      elapsed, ByteCountFormatter.string(fromByteCount: size, countStyle: .file),
                      Int(written.displaySize.width), Int(written.displaySize.height),
                      written.durationSeconds, written.hasAudio ? "yes" : "no"))
+
+        await checkPhotoExport(model: model, source: source, fail: fail)
+        checkRememberedFolders(source: source, target: target, fail: fail)
+
+        emit("SELFTEST ALL OK")
         exit(0)
+    }
+
+    /// The photo path: the same engine, but one frame in and an ImageIO write
+    /// out. The source portrait doubles as the target, which is a real face at
+    /// a real resolution.
+    @MainActor
+    private static func checkPhotoExport(model: AppModel,
+                                         source: URL,
+                                         fail: (String) -> Never) async {
+        let output = directory.appendingPathComponent("output.png")
+        try? FileManager.default.removeItem(at: output)
+
+        await model.setTarget(source)
+        guard model.targetIsImage else { fail("a photo target was read back as a video") }
+        guard let size = model.target?.displaySize, size.width > 0 else {
+            fail("the photo target has no size")
+        }
+
+        do {
+            try await model.exportStillImage(to: output)
+        } catch {
+            fail("photo export threw: \(error.localizedDescription)")
+        }
+
+        // Read it back with a fresh decode: a file that cannot be reopened at
+        // the right size is not an export, whatever its byte count.
+        guard let bytes = try? FileManager.default
+            .attributesOfItem(atPath: output.path)[.size] as? Int64, bytes > 0 else {
+            fail("no photo was produced")
+        }
+        guard let reloaded = try? PixelSurface.loadImage(at: output, maximumDimension: .max) else {
+            fail("the exported photo could not be read back")
+        }
+        let reloadedSize = CGSize(width: CVPixelBufferGetWidth(reloaded),
+                                  height: CVPixelBufferGetHeight(reloaded))
+        guard reloadedSize == size else {
+            fail("the exported photo is \(reloadedSize) but the target was \(size)")
+        }
+        guard let faces = model.progress?.facesSwappedInLastFrame, faces > 0 else {
+            fail("the photo export swapped no faces")
+        }
+
+        emit(String(format: "SELFTEST PHOTO OK  %@  %dx%d  %d face(s)",
+                     ByteCountFormatter.string(fromByteCount: bytes, countStyle: .file),
+                     Int(reloadedSize.width), Int(reloadedSize.height), faces))
+    }
+
+    /// The three panel folders are stored separately. The panels themselves
+    /// need a click, so what is checked here is the part that has logic in it:
+    /// each role keeps its own folder, and only the folder, across a reload.
+    private static func checkRememberedFolders(source: URL, target: URL,
+                                               fail: (String) -> Never) {
+        let suite = "com.lisenhuang.FaceFusionMac.selftest.locations"
+        guard let defaults = UserDefaults(suiteName: suite) else {
+            fail("could not open a scratch preferences domain")
+        }
+        defer { UserDefaults.standard.removePersistentDomain(forName: suite) }
+
+        let exportURL = directory.appendingPathComponent("elsewhere/output.mp4")
+        let locations = RecentLocations(defaults: defaults)
+        locations.remember(source, for: .face)
+        locations.remember(target, for: .target)
+        locations.remember(exportURL, for: .export)
+
+        // A second reader sees what the first wrote, which is what makes the
+        // folders survive a relaunch.
+        let reloaded = RecentLocations(defaults: defaults)
+        let expected: [(RecentLocations.Slot, URL)] = [
+            (.face, source), (.target, target), (.export, exportURL),
+        ]
+        for (slot, url) in expected {
+            let stored = reloaded.directory(for: slot)
+            guard stored?.path == url.deletingLastPathComponent().path else {
+                fail("\(slot.rawValue) came back as \(stored?.path ?? "nil"), "
+                     + "expected \(url.deletingLastPathComponent().path)")
+            }
+        }
+        guard reloaded.directory(for: .export)?.path != reloaded.directory(for: .face)?.path else {
+            fail("the export folder was not kept separate from the face folder")
+        }
+        emit("SELFTEST FOLDERS OK  face, target and export tracked separately")
     }
 }

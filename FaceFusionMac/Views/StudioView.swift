@@ -55,7 +55,7 @@ struct StudioView: View {
                           accepted: [.image],
                           onChoose: { model.chooseSource() },
                           onClear: { model.clearSource() },
-                          onDrop: { url in Task { await model.setSource(url) } }) {
+                          onDrop: { url in Task { await model.useSource(url) } }) {
                     if let buffer = model.sourceBuffer,
                        let image = PixelSurface.makeCGImage(from: buffer) {
                         Image(decorative: image, scale: 1)
@@ -64,15 +64,15 @@ struct StudioView: View {
                     }
                 }
 
-                MediaWell(title: "TARGET VIDEO",
-                          systemImage: "film",
-                          hint: "Drop a video\nor click to choose",
+                MediaWell(title: "TARGET",
+                          systemImage: "photo.on.rectangle.angled",
+                          hint: "Drop a video or photo\nor click to choose",
                           isFilled: model.targetURL != nil,
                           caption: targetCaption,
-                          accepted: [.movie],
+                          accepted: [.movie, .image],
                           onChoose: { model.chooseTarget() },
                           onClear: { model.clearTarget() },
-                          onDrop: { url in Task { await model.setTarget(url) } }) {
+                          onDrop: { url in Task { await model.useTarget(url) } }) {
                     if let buffer = model.previewFrame,
                        let image = PixelSurface.makeCGImage(from: buffer) {
                         Image(decorative: image, scale: 1)
@@ -106,10 +106,16 @@ struct StudioView: View {
     }
 
     private var targetCaption: String? {
-        guard let info = model.targetInfo else { return nil }
-        let duration = Duration.seconds(info.durationSeconds)
-            .formatted(.time(pattern: .minuteSecond))
-        return "\(Int(info.displaySize.width))×\(Int(info.displaySize.height)) · \(duration) · \(info.codecDescription)"
+        guard let target = model.target else { return nil }
+        let size = "\(Int(target.displaySize.width))×\(Int(target.displaySize.height))"
+        switch target {
+        case .video(let info):
+            let duration = Duration.seconds(info.durationSeconds)
+                .formatted(.time(pattern: .minuteSecond))
+            return "\(size) · \(duration) · \(info.codecDescription)"
+        case .image(_, let format):
+            return "\(size) · \(format.isEmpty ? "Photo" : format)"
+        }
     }
 
     // MARK: - Settings
@@ -188,12 +194,16 @@ struct StudioView: View {
             .disabled(!model.models.isInstalledModel(.faceEnhancer))
             .onChange(of: model.enhanceFace) { Task { await model.refreshPreview() } }
 
-            Toggle(isOn: $model.useHEVC) {
-                VStack(alignment: .leading, spacing: 1) {
-                    Text("Export as HEVC")
-                    Text(model.useHEVC ? "Smaller files." : "H.264 plays anywhere.")
-                        .font(.caption2)
-                        .foregroundStyle(.secondary)
+            // Codec choice is meaningless for a photo; the save panel offers
+            // PNG or JPEG there instead.
+            if !model.targetIsImage {
+                Toggle(isOn: $model.useHEVC) {
+                    VStack(alignment: .leading, spacing: 1) {
+                        Text("Export as HEVC")
+                        Text(model.useHEVC ? "Smaller files." : "H.264 plays anywhere.")
+                            .font(.caption2)
+                            .foregroundStyle(.secondary)
+                    }
                 }
             }
         }
@@ -231,23 +241,32 @@ struct StudioView: View {
     private var scrubber: some View {
         @Bindable var model = model
 
+        let timeline = model.targetInfo.flatMap { $0.durationSeconds > 0 ? $0 : nil }
+        let canCompare = model.previewResult != nil
+
+        // A photo has no timeline, but it still earns the before/after toggle —
+        // which is why that button does not live inside the slider row.
         return Group {
-            if let info = model.targetInfo, info.durationSeconds > 0 {
+            if timeline != nil || canCompare {
                 HStack(spacing: 12) {
-                    Text(timecode(model.previewTime))
-                        .font(.caption.monospacedDigit())
-                        .foregroundStyle(.secondary)
-                        .frame(width: 46, alignment: .trailing)
+                    if let timeline {
+                        Text(timecode(model.previewTime))
+                            .font(.caption.monospacedDigit())
+                            .foregroundStyle(.secondary)
+                            .frame(width: 46, alignment: .trailing)
 
-                    Slider(value: $model.previewTime, in: 0 ... info.durationSeconds)
-                        .disabled(model.isRendering)
+                        Slider(value: $model.previewTime, in: 0 ... timeline.durationSeconds)
+                            .disabled(model.isRendering)
 
-                    Text(timecode(info.durationSeconds))
-                        .font(.caption.monospacedDigit())
-                        .foregroundStyle(.secondary)
-                        .frame(width: 46, alignment: .leading)
+                        Text(timecode(timeline.durationSeconds))
+                            .font(.caption.monospacedDigit())
+                            .foregroundStyle(.secondary)
+                            .frame(width: 46, alignment: .leading)
+                    } else {
+                        Spacer()
+                    }
 
-                    if model.previewResult != nil {
+                    if canCompare {
                         Button {
                             model.showsOriginal.toggle()
                         } label: {
@@ -257,7 +276,7 @@ struct StudioView: View {
                         }
                         .buttonStyle(.bordered)
                         .controlSize(.small)
-                        .help("Hold to compare with the untouched frame")
+                        .help("Compare with the untouched frame")
                     }
                 }
                 .padding(.horizontal, 18)
@@ -315,7 +334,8 @@ struct StudioView: View {
             Button {
                 model.export()
             } label: {
-                Label("Export Video", systemImage: "square.and.arrow.up")
+                Label(model.targetIsImage ? "Export Photo" : "Export Video",
+                      systemImage: "square.and.arrow.up")
                     .padding(.horizontal, 6)
             }
             .buttonStyle(.borderedProminent)
@@ -326,36 +346,46 @@ struct StudioView: View {
 
     private var readinessHint: String {
         if model.sourceFace == nil && model.targetURL == nil {
-            return "Add a face and a video to begin."
+            return "Add a face and a video or photo to begin."
         }
         if model.sourceFace == nil { return "Add a source face." }
-        if model.targetURL == nil { return "Add a target video." }
+        if model.targetURL == nil { return "Add a target video or photo." }
         return "Ready to export."
     }
 
     private var renderingBar: some View {
         HStack(spacing: 14) {
             VStack(alignment: .leading, spacing: 4) {
-                ProgressView(value: model.progress?.fraction ?? 0)
-                HStack(spacing: 10) {
-                    if let progress = model.progress {
-                        Text("\(progress.framesWritten) / \(progress.totalFrames) frames")
-                        if progress.framesPerSecond > 0 {
-                            Text(String(format: "%.1f fps", progress.framesPerSecond))
+                if model.targetIsImage {
+                    // One frame: a percentage would go 0 to 100 with nothing
+                    // in between.
+                    ProgressView().progressViewStyle(.linear)
+                    Text("Rendering the photo…")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                } else {
+                    ProgressView(value: model.progress?.fraction ?? 0)
+                    HStack(spacing: 10) {
+                        if let progress = model.progress {
+                            Text("\(progress.framesWritten) / \(progress.totalFrames) frames")
+                            if progress.framesPerSecond > 0 {
+                                Text(String(format: "%.1f fps", progress.framesPerSecond))
+                            }
+                            if let remaining = progress.estimatedTimeRemaining {
+                                Text("\(formatDuration(remaining)) left")
+                            }
+                        } else {
+                            Text("Starting…")
                         }
-                        if let remaining = progress.estimatedTimeRemaining {
-                            Text("\(formatDuration(remaining)) left")
-                        }
-                    } else {
-                        Text("Starting…")
+                        Spacer()
                     }
-                    Spacer()
+                    .font(.caption.monospacedDigit())
+                    .foregroundStyle(.secondary)
                 }
-                .font(.caption.monospacedDigit())
-                .foregroundStyle(.secondary)
             }
             Button("Cancel", role: .cancel) { model.cancelExport() }
                 .controlSize(.large)
+                .disabled(model.targetIsImage)
         }
     }
 
@@ -368,7 +398,7 @@ struct StudioView: View {
             }
             Spacer()
             Button("Show in Finder") { model.reveal(url) }
-            Button("Play") { model.open(url) }
+            Button(model.targetIsImage ? "Open" : "Play") { model.open(url) }
                 .buttonStyle(.borderedProminent)
             Button {
                 model.dismissResult()

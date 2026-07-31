@@ -85,6 +85,27 @@ enum PixelSurface {
         return buffer
     }
 
+    /// Writes a frame out as a still image, in whichever format the file
+    /// extension names — the save panel's format popup rewrites the extension,
+    /// so following it is what makes that popup mean anything.
+    static func write(_ buffer: CVPixelBuffer, to url: URL, quality: Double = 0.95) throws {
+        guard let image = makeCGImage(from: buffer) else {
+            throw MediaError.pixelBuffer("The finished frame could not be read back.")
+        }
+        let type = UTType(filenameExtension: url.pathExtension) ?? .png
+        guard let destination = CGImageDestinationCreateWithURL(
+                url as CFURL, type.identifier as CFString, 1, nil) else {
+            throw MediaError.writerFailed(
+                "\(url.pathExtension.uppercased()) images cannot be written.")
+        }
+        CGImageDestinationAddImage(destination, image, [
+            kCGImageDestinationLossyCompressionQuality: quality,
+        ] as CFDictionary)
+        guard CGImageDestinationFinalize(destination) else {
+            throw MediaError.writerFailed("The image could not be saved.")
+        }
+    }
+
     // MARK: - Display
 
     /// Wraps a pixel buffer as an NSImage for SwiftUI, without copying pixels

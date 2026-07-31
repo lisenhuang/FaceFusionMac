@@ -26,6 +26,27 @@ final class AppModel {
         case failed(String)
     }
 
+    /// What the face is being swapped into. A photo is the same pipeline as a
+    /// video with exactly one frame, so the two differ only at the edges:
+    /// there is nothing to scrub, and the result is written by ImageIO rather
+    /// than by an encoder.
+    enum TargetMedia: Equatable {
+        case video(VideoInfo)
+        case image(size: CGSize, format: String)
+
+        var isImage: Bool {
+            if case .image = self { return true }
+            return false
+        }
+
+        var displaySize: CGSize {
+            switch self {
+            case .video(let info): return info.displaySize
+            case .image(let size, _): return size
+            }
+        }
+    }
+
     // MARK: Services
 
     let models = ModelManager()
@@ -39,7 +60,16 @@ final class AppModel {
     private(set) var sourceFaceCount = 0
 
     private(set) var targetURL: URL?
-    private(set) var targetInfo: VideoInfo?
+    private(set) var target: TargetMedia?
+
+    /// Present only for video targets, so the scrubber and the frame-count
+    /// progress simply do not appear for a photo.
+    var targetInfo: VideoInfo? {
+        if case .video(let info) = target { return info }
+        return nil
+    }
+
+    var targetIsImage: Bool { target?.isImage ?? false }
 
     /// The frame currently shown, before any swap.
     private(set) var previewFrame: CVPixelBuffer?
@@ -61,7 +91,9 @@ final class AppModel {
     var identityStrength: Double = 0.5
     var maskBlur: Double = 0.3
     var useHEVC = true
-    var faceSelection: FaceSelection = .all
+    /// One face by default. Most clips have a single subject, and replacing
+    /// every face in a crowd is the surprising outcome, not the expected one.
+    var faceSelection: FaceSelection = .largest
 
     // MARK: Job
 
@@ -126,18 +158,34 @@ final class AppModel {
         panel.allowsMultipleSelection = false
         panel.message = "Choose the face you want to use."
         panel.prompt = "Use Face"
+        panel.directoryURL = RecentLocations.shared.directory(for: .face)
         guard panel.runModal() == .OK, let url = panel.url else { return }
-        Task { await setSource(url) }
+        Task { await useSource(url) }
     }
 
     func chooseTarget() {
         let panel = NSOpenPanel()
-        panel.allowedContentTypes = [.movie, .video, .mpeg4Movie, .quickTimeMovie]
+        panel.allowedContentTypes = [.movie, .video, .mpeg4Movie, .quickTimeMovie, .image]
         panel.allowsMultipleSelection = false
-        panel.message = "Choose the video to put that face into."
-        panel.prompt = "Use Video"
+        panel.message = "Choose the video or photo to put that face into."
+        panel.prompt = "Use Media"
+        panel.directoryURL = RecentLocations.shared.directory(for: .target)
         guard panel.runModal() == .OK, let url = panel.url else { return }
-        Task { await setTarget(url) }
+        Task { await useTarget(url) }
+    }
+
+    // A file the user picked or dropped, as opposed to one supplied
+    // programmatically. Only these record where to open the next panel, so a
+    // headless run does not rewrite the user's remembered folders.
+
+    func useSource(_ url: URL) async {
+        RecentLocations.shared.remember(url, for: .face)
+        await setSource(url)
+    }
+
+    func useTarget(_ url: URL) async {
+        RecentLocations.shared.remember(url, for: .target)
+        await setTarget(url)
     }
 
     func setSource(_ url: URL) async {
@@ -172,10 +220,18 @@ final class AppModel {
     }
 
     func setTarget(_ url: URL) async {
+        if Self.isImage(url) {
+            await setImageTarget(url)
+        } else {
+            await setVideoTarget(url)
+        }
+    }
+
+    private func setVideoTarget(_ url: URL) async {
         do {
             let info = try await VideoPipeline.inspect(url)
             targetURL = url
-            targetInfo = info
+            target = .video(info)
             previewTime = min(1.0, max(0, info.durationSeconds / 4))
             statusMessage = nil
             phase = .choosingMedia
@@ -185,12 +241,52 @@ final class AppModel {
         }
     }
 
+    private func setImageTarget(_ url: URL) async {
+        do {
+            // Full resolution: unlike the source portrait — which only ever
+            // feeds a 112px crop — this is what gets written back out, so
+            // shrinking it would quietly downgrade the export.
+            let buffer = try PixelSurface.loadImage(at: url, maximumDimension: .max)
+            targetURL = url
+            target = .image(size: CGSize(width: CVPixelBufferGetWidth(buffer),
+                                         height: CVPixelBufferGetHeight(buffer)),
+                            format: url.pathExtension.uppercased())
+            previewTime = 0
+            previewFrame = buffer
+            statusMessage = nil
+            phase = .choosingMedia
+            invalidatePreviewResult()
+            await detectPreviewFaces()
+            await refreshPreview()
+        } catch {
+            statusMessage = error.localizedDescription
+        }
+    }
+
+    private static func isImage(_ url: URL) -> Bool {
+        // Fall back to the extension when the metadata cannot be read, which
+        // is exactly when the first answer is least trustworthy.
+        let declared = try? url.resourceValues(forKeys: [.contentTypeKey]).contentType
+        guard let type = declared ?? UTType(filenameExtension: url.pathExtension) else {
+            return false
+        }
+        return type.conforms(to: .image) && !type.conforms(to: .movie)
+    }
+
+    /// A drop onto the window as a whole, where the file has to speak for
+    /// itself. Videos are unambiguous; a photo could be either role, so it
+    /// fills the empty slot and otherwise replaces the face — swapping in a
+    /// different face is the far more common second move.
     func handleDrop(_ url: URL) async {
         let type = try? url.resourceValues(forKeys: [.contentTypeKey]).contentType
         if let type, type.conforms(to: .movie) || type.conforms(to: .video) {
-            await setTarget(url)
+            await useTarget(url)
         } else if let type, type.conforms(to: .image) {
-            await setSource(url)
+            if sourceBuffer != nil, target == nil {
+                await useTarget(url)
+            } else {
+                await useSource(url)
+            }
         } else {
             statusMessage = "That file type is not supported."
         }
@@ -202,7 +298,7 @@ final class AppModel {
     }
 
     func clearTarget() {
-        targetURL = nil; targetInfo = nil; previewFrame = nil
+        targetURL = nil; target = nil; previewFrame = nil
         previewFaces = []
         invalidatePreviewResult()
         phase = .choosingMedia
@@ -222,7 +318,9 @@ final class AppModel {
     }
 
     private func loadPreviewFrame() async {
-        guard let url = targetURL else { return }
+        // A photo target has no timeline: its single frame is decoded once,
+        // when it is chosen.
+        guard let url = targetURL, !targetIsImage else { return }
         do {
             let time = CMTime(seconds: previewTime, preferredTimescale: 600)
             let frame = try await VideoPipeline.frame(at: time, in: url)
@@ -305,19 +403,23 @@ final class AppModel {
     // MARK: - Export
 
     func export() {
-        guard let source = sourceURL, let target = targetURL, sourceFace != nil else { return }
-        _ = source
+        guard let targetURL, sourceFace != nil else { return }
+        let isImage = targetIsImage
 
         let panel = NSSavePanel()
-        panel.allowedContentTypes = [.mpeg4Movie]
-        panel.nameFieldStringValue = suggestedFileName(for: target)
-        panel.message = "Choose where to save the finished video."
+        panel.allowedContentTypes = isImage ? [.png, .jpeg] : [.mpeg4Movie]
+        panel.nameFieldStringValue = suggestedFileName(for: targetURL, isImage: isImage)
+        panel.message = isImage
+            ? "Choose where to save the finished photo."
+            : "Choose where to save the finished video."
         panel.prompt = "Export"
+        panel.directoryURL = RecentLocations.shared.directory(for: .export)
         guard panel.runModal() == .OK, let destination = panel.url else { return }
+        RecentLocations.shared.remember(destination, for: .export)
 
         phase = .rendering
         progress = ExportProgress(framesWritten: 0,
-                                  totalFrames: targetInfo?.estimatedFrameCount ?? 0,
+                                  totalFrames: isImage ? 1 : (targetInfo?.estimatedFrameCount ?? 0),
                                   framesPerSecond: 0,
                                   facesSwappedInLastFrame: 0)
         statusMessage = nil
@@ -325,12 +427,16 @@ final class AppModel {
         exportTask = Task { [weak self] in
             guard let self else { return }
             do {
-                let request = VideoPipeline.ExportRequest(source: target,
-                                                          destination: destination,
-                                                          options: self.swapOptions,
-                                                          useHEVC: self.useHEVC)
-                try await VideoPipeline.export(request, engine: self.engine) { update in
-                    self.progress = update
+                if isImage {
+                    try await self.exportStillImage(to: destination)
+                } else {
+                    let request = VideoPipeline.ExportRequest(source: targetURL,
+                                                              destination: destination,
+                                                              options: self.swapOptions,
+                                                              useHEVC: self.useHEVC)
+                    try await VideoPipeline.export(request, engine: self.engine) { update in
+                        self.progress = update
+                    }
                 }
                 self.phase = .finished(destination)
             } catch is CancellationError {
@@ -343,6 +449,33 @@ final class AppModel {
         }
     }
 
+    /// The photo path. The frame is swapped again rather than reusing what the
+    /// preview produced, so the exported file always reflects the settings as
+    /// they stand now and is written at the image's own resolution.
+    ///
+    /// Not private: `--selftest` drives it directly, the same way it calls
+    /// `VideoPipeline.export` to exercise the video path without a save panel.
+    func exportStillImage(to destination: URL) async throws {
+        guard let frame = previewFrame else {
+            throw MediaError.decode("The photo is no longer loaded.")
+        }
+        let width = CVPixelBufferGetWidth(frame)
+        let height = CVPixelBufferGetHeight(frame)
+        let output = try PixelSurface.makeBuffer(width: width, height: height)
+
+        let result = try await engine.swap(try PixelSurface.surface(of: frame),
+                                           into: try PixelSurface.surface(of: output),
+                                           options: swapOptions)
+        try Task.checkCancellation()
+        try PixelSurface.write(output, to: destination)
+
+        previewResult = output
+        progress = ExportProgress(framesWritten: 1,
+                                  totalFrames: 1,
+                                  framesPerSecond: 0,
+                                  facesSwappedInLastFrame: result.facesSwapped)
+    }
+
     func cancelExport() {
         exportTask?.cancel()
         exportTask = nil
@@ -353,9 +486,11 @@ final class AppModel {
         progress = nil
     }
 
-    private func suggestedFileName(for target: URL) -> String {
+    private func suggestedFileName(for target: URL, isImage: Bool) -> String {
         let stem = target.deletingPathExtension().lastPathComponent
-        return "\(stem)-faceswap.mp4"
+        // PNG rather than the original format: a re-encoded JPEG would lose a
+        // second generation of detail. The panel still offers JPEG.
+        return "\(stem)-faceswap.\(isImage ? "png" : "mp4")"
     }
 
     func reveal(_ url: URL) {

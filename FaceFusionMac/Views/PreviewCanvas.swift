@@ -78,7 +78,7 @@ struct PreviewCanvas: View {
         VStack(spacing: 10) {
             Image(systemName: "film.stack")
                 .font(.system(size: 34, weight: .thin))
-            Text("Choose a video to see it here")
+            Text("Choose a video or photo to see it here")
                 .font(.callout)
         }
         .foregroundStyle(.white.opacity(0.35))
