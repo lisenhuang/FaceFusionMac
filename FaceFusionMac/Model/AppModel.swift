@@ -295,6 +295,13 @@ final class AppModel {
         Task { await refreshPreview() }
     }
 
+    /// Switches to single-face mode. Defaults to the largest face, which is
+    /// almost always the subject, until the user clicks a different one.
+    func selectSingleFace() {
+        faceSelection = .largest
+        Task { await refreshPreview() }
+    }
+
     // MARK: - Export
 
     func export() {

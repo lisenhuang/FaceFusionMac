@@ -45,7 +45,13 @@ struct MediaWell<Thumbnail: View>: View {
                         .fill(.quaternary.opacity(isTargeted ? 0.6 : 0.28))
 
                     if isFilled {
-                        thumbnail()
+                        // `Color.clear` accepts whatever the ZStack proposes,
+                        // which pins the overlay to the well's bounds. Without
+                        // it a `.fill` image reports its full natural size, the
+                        // ZStack grows to match, and the thumbnail spills over
+                        // its neighbours.
+                        Color.clear
+                            .overlay { thumbnail() }
                             .clipShape(.rect(cornerRadius: 11))
                     } else {
                         VStack(spacing: 7) {

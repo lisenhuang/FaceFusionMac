@@ -129,7 +129,10 @@ struct StudioView: View {
                 }
                 Picker("", selection: Binding(
                     get: { isAllSelected ? 0 : 1 },
-                    set: { $0 == 0 ? model.selectAllFaces() : () })) {
+                    set: { choice in
+                        if choice == 0 { model.selectAllFaces() }
+                        else { model.selectSingleFace() }
+                    })) {
                     Text("Every face").tag(0)
                     Text("One face").tag(1)
                 }
@@ -138,7 +141,7 @@ struct StudioView: View {
 
                 Text(isAllSelected
                      ? "Replaces every face in the frame."
-                     : "Click a face in the preview to choose it.")
+                     : "Replaces one face. Click a different face in the preview to switch.")
                     .font(.caption2)
                     .foregroundStyle(.secondary)
             }
