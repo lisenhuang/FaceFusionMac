@@ -120,7 +120,7 @@ final class ORTRuntime {
     /// owns the shared thread pools and logging sink. Constructing more than
     /// one per process is unsupported and misbehaves, so all runtimes share it.
     private static let sharedEnv: Result<ORTEnv, Error> = {
-        do { return .success(try ORTEnv(loggingLevel: .warning)) }
+        do { return .success(try ORTEnv(loggingLevel: ProcessInfo.processInfo.arguments.contains("--profile") ? .verbose : .warning)) }
         catch { return .failure(error) }
     }()
 
@@ -144,7 +144,8 @@ final class ORTRuntime {
     }
 
     /// Loads a model, reusing the existing session when the path is unchanged.
-    func load(_ id: ModelID, path: String, compute: ComputePolicy, cacheDirectory: String) throws {
+    func load(_ id: ModelID, path: String, compute: ComputePolicy,
+              cacheDirectory: String, tuning: EngineTuning = EngineTuning()) throws {
         guard FileManager.default.fileExists(atPath: path) else {
             throw makeEngineNSError(.modelMissing, underlying: "missing \(id.rawValue) at \(path)")
         }
@@ -152,34 +153,37 @@ final class ORTRuntime {
 
         let options = try ORTSessionOptions()
         try options.setGraphOptimizationLevel(.all)
-        try options.setLogSeverityLevel(.warning)
+        try options.setLogSeverityLevel(tuning.profileComputePlan ? .verbose : .warning)
+        if tuning.intraOpThreads > 0 {
+            try options.setIntraOpNumThreads(Int32(tuning.intraOpThreads))
+        }
 
         if compute != .cpu, ORTIsCoreMLExecutionProviderAvailable() {
             // The V2 dictionary API is the only way to reach MLComputeUnits,
             // the MLProgram format and the on-disk compile cache. Core ML
             // compiles each ONNX subgraph the first time it sees it; caching
             // that turns a slow first launch into a fast every-other launch.
-            let computeUnits: String
-            switch compute {
-            case .automatic: computeUnits = "ALL"
-            case .gpu:       computeUnits = "CPUAndGPU"
-            case .cpu:       computeUnits = "CPUOnly"
-            }
-            let providerOptions: [String: String] = [
-                "MLComputeUnits": computeUnits,
-                "ModelFormat": "MLProgram",
+            var providerOptions: [String: String] = [
+                "MLComputeUnits": compute.mlComputeUnits,
+                "ModelFormat": tuning.modelFormat,
                 "ModelCacheDirectory": cacheDirectory,
-                "RequireStaticInputShapes": "0",
+                // Every graph here has fully static shapes. Saying so lets the
+                // EP absorb regions it would otherwise leave on the CPU.
+                "RequireStaticInputShapes": tuning.requireStaticInputShapes ? "1" : "0",
                 "AllowLowPrecisionAccumulationOnGPU": "1",
             ]
+            if tuning.profileComputePlan {
+                providerOptions["ProfileComputePlan"] = "1"
+            }
             do {
                 try options.appendCoreMLExecutionProvider(withOptionsV2: providerOptions)
                 coreMLActive = true
-                providerDescription = "Core ML (\(computeUnits))"
+                providerDescription = "Core ML (\(compute.mlComputeUnits))"
             } catch {
                 // A graph Core ML will not take is not fatal; ORT's CPU kernels
                 // still produce a correct result, just slower.
-                NSLog("[engine] Core ML EP unavailable for \(id.rawValue): \(error.localizedDescription)")
+                EngineLog.engine.error(
+                    "Core ML EP unavailable for \(id.rawValue, privacy: .public): \(error.localizedDescription, privacy: .public)")
             }
         }
 

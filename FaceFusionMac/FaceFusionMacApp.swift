@@ -15,6 +15,12 @@ struct FaceFusionMacApp: App {
                 .environment(model)
                 .frame(minWidth: 940, minHeight: 620)
                 .task {
+                    if Benchmark.isProfileRequested {
+                        await Benchmark.profile(model: model)
+                    }
+                    if Benchmark.isRequested {
+                        await Benchmark.run(model: model)
+                    }
                     if SelfTest.isRequested {
                         await SelfTest.run(model: model)
                     }

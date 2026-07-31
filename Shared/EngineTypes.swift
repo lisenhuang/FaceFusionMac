@@ -52,10 +52,46 @@ public enum ModelID: String, Codable, CaseIterable, Sendable, CodingKeyRepresent
 public enum ComputePolicy: String, Codable, Sendable {
     /// Core ML picks between ANE, GPU and CPU.
     case automatic
-    /// Excludes the Neural Engine; sometimes more accurate for fp32 graphs.
+    /// Excludes the Neural Engine; sometimes better for fp32 graphs.
     case gpu
+    /// Prefers the Neural Engine, falling back to CPU.
+    case neuralEngine
     /// Reference path. Slow, but never depends on Core ML op coverage.
     case cpu
+
+    /// The string the Core ML execution provider expects.
+    public var mlComputeUnits: String {
+        switch self {
+        case .automatic:    return "ALL"
+        case .gpu:          return "CPUAndGPU"
+        case .neuralEngine: return "CPUAndNeuralEngine"
+        case .cpu:          return "CPUOnly"
+        }
+    }
+}
+
+/// Lower-level execution knobs. Defaults are what ships; the benchmark mode
+/// sweeps them to find what actually helps on a given machine.
+public struct EngineTuning: Codable, Sendable, Equatable {
+    /// Every model here has fully static shapes, and telling Core ML so lets
+    /// it take graph regions it would otherwise leave to the CPU.
+    public var requireStaticInputShapes: Bool
+    /// "MLProgram" or "NeuralNetwork".
+    public var modelFormat: String
+    /// Logs which unit each operator landed on. Expensive; diagnostics only.
+    public var profileComputePlan: Bool
+    /// 0 leaves ORT's default.
+    public var intraOpThreads: Int
+
+    public init(requireStaticInputShapes: Bool = true,
+                modelFormat: String = "MLProgram",
+                profileComputePlan: Bool = false,
+                intraOpThreads: Int = 0) {
+        self.requireStaticInputShapes = requireStaticInputShapes
+        self.modelFormat = modelFormat
+        self.profileComputePlan = profileComputePlan
+        self.intraOpThreads = intraOpThreads
+    }
 }
 
 public struct EngineConfiguration: Codable, Sendable {
@@ -64,13 +100,16 @@ public struct EngineConfiguration: Codable, Sendable {
     /// Where Core ML may cache the models it compiles from the ONNX graphs.
     public var modelCacheDirectory: String
     public var compute: ComputePolicy
+    public var tuning: EngineTuning
 
     public init(modelPaths: [ModelID: String],
                 modelCacheDirectory: String,
-                compute: ComputePolicy = .automatic) {
+                compute: ComputePolicy = .automatic,
+                tuning: EngineTuning = EngineTuning()) {
         self.modelPaths = modelPaths
         self.modelCacheDirectory = modelCacheDirectory
         self.compute = compute
+        self.tuning = tuning
     }
 }
 
@@ -168,14 +207,53 @@ public struct SwapOptions: Codable, Sendable {
     }
 }
 
+/// Per-stage cost of one frame, in seconds. Used by the benchmark and the
+/// engine's periodic timing log.
+public struct StageSeconds: Codable, Sendable {
+    public var detect: Double = 0
+    public var landmarks: Double = 0
+    public var swap: Double = 0
+    public var paste: Double = 0
+    public var enhance: Double = 0
+    public var total: Double = 0
+
+    public init() {}
+
+    public static func + (a: StageSeconds, b: StageSeconds) -> StageSeconds {
+        var out = StageSeconds()
+        out.detect = a.detect + b.detect
+        out.landmarks = a.landmarks + b.landmarks
+        out.swap = a.swap + b.swap
+        out.paste = a.paste + b.paste
+        out.enhance = a.enhance + b.enhance
+        out.total = a.total + b.total
+        return out
+    }
+
+    public func scaled(by factor: Double) -> StageSeconds {
+        var out = StageSeconds()
+        out.detect = detect * factor
+        out.landmarks = landmarks * factor
+        out.swap = swap * factor
+        out.paste = paste * factor
+        out.enhance = enhance * factor
+        out.total = total * factor
+        return out
+    }
+}
+
 public struct SwapResult: Codable, Sendable {
     public var facesFound: Int
     public var facesSwapped: Int
     public var inferenceSeconds: Double
-    public init(facesFound: Int, facesSwapped: Int, inferenceSeconds: Double) {
+    public var stages: StageSeconds
+
+    public init(facesFound: Int, facesSwapped: Int,
+                inferenceSeconds: Double, stages: StageSeconds = StageSeconds()) {
         self.facesFound = facesFound
         self.facesSwapped = facesSwapped
         self.inferenceSeconds = inferenceSeconds
+        self.stages = stages
     }
 }
 

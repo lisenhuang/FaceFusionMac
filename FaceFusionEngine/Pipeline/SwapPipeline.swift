@@ -38,7 +38,9 @@ final class SwapPipeline {
 
         // A changed model set or compute policy invalidates every session.
         if let existing = configuration,
-           existing.modelPaths != config.modelPaths || existing.compute != config.compute {
+           existing.modelPaths != config.modelPaths
+            || existing.compute != config.compute
+            || existing.tuning != config.tuning {
             runtime.unloadAll()
             detector = nil; landmarker = nil; recognizer = nil
             swapper = nil; enhancer = nil
@@ -54,7 +56,8 @@ final class SwapPipeline {
                 throw makeEngineNSError(.modelMissing, underlying: "no path for \(id.rawValue)")
             }
             try runtime.load(id, path: path, compute: config.compute,
-                             cacheDirectory: config.modelCacheDirectory)
+                             cacheDirectory: config.modelCacheDirectory,
+                             tuning: config.tuning)
         }
         // Optional models: absence degrades quality, not correctness.
         for id in [ModelID.faceLandmarker, .faceEnhancer] {
@@ -62,9 +65,11 @@ final class SwapPipeline {
                   FileManager.default.fileExists(atPath: path) else { continue }
             do {
                 try runtime.load(id, path: path, compute: config.compute,
-                                 cacheDirectory: config.modelCacheDirectory)
+                                 cacheDirectory: config.modelCacheDirectory,
+                                 tuning: config.tuning)
             } catch {
-                NSLog("[engine] optional model \(id.rawValue) failed to load: \(error.localizedDescription)")
+                EngineLog.engine.error(
+                    "optional model \(id.rawValue, privacy: .public) failed to load: \(error.localizedDescription, privacy: .public)")
             }
         }
 
@@ -150,7 +155,7 @@ final class SwapPipeline {
         let started = Date()
         input.copyContents(into: output)
 
-        var timing = StageTiming()
+        var timing = StageSeconds()
         let detectStarted = Date()
         let detected = try detector.detect(in: input, scoreThreshold: Float(options.detectorScore))
             .sorted { $0.box.minX < $1.box.minX }
@@ -214,48 +219,41 @@ final class SwapPipeline {
 
         return SwapResult(facesFound: detected.count,
                           facesSwapped: chosen.count,
-                          inferenceSeconds: Date().timeIntervalSince(started))
+                          inferenceSeconds: timing.total,
+                          stages: timing)
     }
 
     // MARK: - Timing
 
-    /// Where one frame's time went. Aggregated rather than logged per frame,
-    /// which would itself distort the measurement.
-    private struct StageTiming {
-        var detect: Double = 0
-        var landmarks: Double = 0
-        var swap: Double = 0
-        var paste: Double = 0
-        var enhance: Double = 0
-        var total: Double = 0
+    /// Frames are processed concurrently, so this is shared mutable state.
+    private struct TimingAccumulator {
+        var totals = StageSeconds()
+        var frames = 0
     }
+    private let timings = OSAllocatedUnfairLock(initialState: TimingAccumulator())
 
-    private var accumulated = StageTiming()
-    private var accumulatedFrames = 0
-
-    private func record(_ timing: StageTiming) {
-        accumulated.detect += timing.detect
-        accumulated.landmarks += timing.landmarks
-        accumulated.swap += timing.swap
-        accumulated.paste += timing.paste
-        accumulated.enhance += timing.enhance
-        accumulated.total += timing.total
-        accumulatedFrames += 1
-
-        guard accumulatedFrames >= 50 else { return }
-        let n = Double(accumulatedFrames)
+    private func record(_ timing: StageSeconds) {
+        let snapshot: (StageSeconds, Int)? = timings.withLock { state in
+            state.totals = state.totals + timing
+            state.frames += 1
+            guard state.frames >= 50 else { return nil }
+            let result = (state.totals, state.frames)
+            state.totals = StageSeconds()
+            state.frames = 0
+            return result
+        }
+        guard let (accumulated, frames) = snapshot else { return }
+        let n = Double(frames)
         EngineLog.inference.notice(
             """
-            \(self.accumulatedFrames) frames, mean ms — \
-            detect \(self.accumulated.detect / n * 1000, format: .fixed(precision: 1)) \
-            landmarks \(self.accumulated.landmarks / n * 1000, format: .fixed(precision: 1)) \
-            swap \(self.accumulated.swap / n * 1000, format: .fixed(precision: 1)) \
-            paste \(self.accumulated.paste / n * 1000, format: .fixed(precision: 1)) \
-            enhance \(self.accumulated.enhance / n * 1000, format: .fixed(precision: 1)) \
-            total \(self.accumulated.total / n * 1000, format: .fixed(precision: 1))
+            \(frames) frames, mean ms — \
+            detect \(accumulated.detect / n * 1000, format: .fixed(precision: 1)) \
+            landmarks \(accumulated.landmarks / n * 1000, format: .fixed(precision: 1)) \
+            swap \(accumulated.swap / n * 1000, format: .fixed(precision: 1)) \
+            paste \(accumulated.paste / n * 1000, format: .fixed(precision: 1)) \
+            enhance \(accumulated.enhance / n * 1000, format: .fixed(precision: 1)) \
+            total \(accumulated.total / n * 1000, format: .fixed(precision: 1))
             """)
-        accumulated = StageTiming()
-        accumulatedFrames = 0
     }
 
     // MARK: - Helpers

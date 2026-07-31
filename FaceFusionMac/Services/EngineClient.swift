@@ -84,12 +84,14 @@ final class EngineClient {
 
     func prepare(modelPaths: [ModelID: String],
                  cacheDirectory: URL,
-                 compute: ComputePolicy) async throws {
+                 compute: ComputePolicy,
+                 tuning: EngineTuning = EngineTuning()) async throws {
         state = .preparing
         do {
             let config = EngineConfiguration(modelPaths: modelPaths,
                                              modelCacheDirectory: cacheDirectory.path,
-                                             compute: compute)
+                                             compute: compute,
+                                             tuning: tuning)
             let payload = try EngineJSON.encode(config)
             let result: EnginePreparation = try await call { engine, reply in
                 engine.prepare(configJSON: payload, withReply: reply)

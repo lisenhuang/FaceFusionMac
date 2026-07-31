@@ -14,15 +14,26 @@ import os
 final class EngineService: NSObject, FaceFusionEngineProtocol {
 
     private let pipeline = SwapPipeline()
-    /// ORT sessions tolerate concurrent inference, but the pipeline holds
-    /// mutable state (the cached source identity), so calls are serialised.
+
+    /// Concurrent, with barriers for anything that mutates engine state.
+    ///
+    /// ONNX Runtime allows concurrent `Run` calls on one session, and the
+    /// stages of a frame land on different hardware — the swapper and enhancer
+    /// on the GPU, the surrounding pixel work on the CPU. Letting several
+    /// frames overlap keeps those units busy at the same time instead of
+    /// leaving each idle while the other works.
+    ///
+    /// `prepare`, `analyzeSource` and `unloadModels` replace the loaded models
+    /// or the cached source identity, so they run as barriers: no swap can be
+    /// in flight while the ground shifts under it.
     private let queue = DispatchQueue(label: "com.lisenhuang.FaceFusionMac.engine",
-                                      qos: .userInitiated)
+                                      qos: .userInitiated,
+                                      attributes: .concurrent)
 
     // MARK: - Lifecycle
 
     func prepare(configJSON: Data, withReply reply: @escaping (Data?, Error?) -> Void) {
-        queue.async {
+        queue.async(flags: .barrier) {
             do {
                 let config = try EngineJSON.decode(EngineConfiguration.self, from: configJSON)
                 EngineLog.engine.info("preparing with \(config.modelPaths.count) model(s), compute=\(config.compute.rawValue, privacy: .public)")
@@ -38,7 +49,7 @@ final class EngineService: NSObject, FaceFusionEngineProtocol {
     }
 
     func unloadModels(withReply reply: @escaping () -> Void) {
-        queue.async {
+        queue.async(flags: .barrier) {
             self.pipeline.unloadAll()
             reply()
         }
@@ -47,7 +58,7 @@ final class EngineService: NSObject, FaceFusionEngineProtocol {
     // MARK: - Analysis
 
     func analyzeSource(surface: IOSurface, withReply reply: @escaping (Data?, Error?) -> Void) {
-        queue.async {
+        queue.async(flags: .barrier) {
             do {
                 let analysis = try BGRAImage.withSurface(surface, readOnly: true) { image in
                     try self.pipeline.analyzeSource(image)

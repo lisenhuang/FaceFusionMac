@@ -138,6 +138,15 @@ enum VideoPipeline {
         var useHEVC: Bool = true
         /// Roughly 0.2 bits per pixel per frame at 1x.
         var qualityMultiplier: Double = 1.0
+        /// How many frames may be inside the engine at once.
+        ///
+        /// A frame alternates between the GPU (four model invocations) and the
+        /// CPU (warps, masking, compositing), and decode and encode sit either
+        /// side of it. Processed strictly one at a time, whichever unit is not
+        /// currently busy sits idle. Overlapping a few frames keeps them all
+        /// fed. Beyond about four the units are saturated and the only effect
+        /// is more resident frame buffers.
+        var concurrentFrames: Int = 3
     }
 
     /// Reads every frame, hands it to `transform`, and writes the result.
@@ -248,41 +257,39 @@ enum VideoPipeline {
         var lastReport = Date()
         var framesSinceReport = 0
         var throughput: Double = 0
-        var outputBuffer: CVPixelBuffer?
+
+        // Frames in the engine, oldest first. Submitting several keeps the GPU
+        // and CPU stages of different frames overlapping; draining in FIFO
+        // order keeps what reaches the writer strictly monotonic in time,
+        // which AVAssetWriter requires.
+        struct InFlight {
+            var task: Task<SwapResult, Error>
+            var output: CVPixelBuffer
+            var time: CMTime
+            /// Retained so the decoder cannot recycle the input underneath us.
+            var sample: CMSampleBuffer
+        }
+        var inFlight: [InFlight] = []
+        let depth = max(1, request.concurrentFrames)
 
         defer {
+            // On cancellation or a thrown error, stop the decoder and let go of
+            // any frames still inside the engine.
+            for item in inFlight { item.task.cancel() }
             if reader.status == .reading { reader.cancelReading() }
         }
 
-        while let sample = videoOutput.copyNextSampleBuffer() {
-            try Task.checkCancellation()
-
-            guard let input = CMSampleBufferGetImageBuffer(sample) else { continue }
-            let presentationTime = CMSampleBufferGetPresentationTimeStamp(sample)
-
-            let width = CVPixelBufferGetWidth(input)
-            let height = CVPixelBufferGetHeight(input)
-
-            // One reusable output buffer: the engine fully overwrites it each
-            // frame, and the adaptor copies on append.
-            if outputBuffer == nil
-                || CVPixelBufferGetWidth(outputBuffer!) != width
-                || CVPixelBufferGetHeight(outputBuffer!) != height {
-                outputBuffer = try PixelSurface.makeBuffer(width: width, height: height)
-            }
-            guard let output = outputBuffer else { break }
-
-            let inputSurface = try PixelSurface.surface(of: input)
-            let outputSurface = try PixelSurface.surface(of: output)
-
-            let result = try await engine.swap(inputSurface, into: outputSurface,
-                                               options: request.options)
+        /// Waits for the oldest frame and writes it.
+        func drainOldest() async throws {
+            guard !inFlight.isEmpty else { return }
+            let item = inFlight.removeFirst()
+            let result = try await item.task.value
 
             while !writerInput.isReadyForMoreMediaData {
                 try Task.checkCancellation()
                 try await Task.sleep(nanoseconds: 2_000_000)
             }
-            if !adaptor.append(output, withPresentationTime: presentationTime) {
+            if !adaptor.append(item.output, withPresentationTime: item.time) {
                 throw MediaError.writerFailed(writer.error?.localizedDescription
                                               ?? "A frame could not be encoded.")
             }
@@ -305,6 +312,53 @@ enum VideoPipeline {
                                               facesSwappedInLastFrame: result.facesSwapped)
                 await MainActor.run { progress(snapshot) }
             }
+        }
+
+        while let sample = videoOutput.copyNextSampleBuffer() {
+            try Task.checkCancellation()
+
+            guard let input = CMSampleBufferGetImageBuffer(sample) else { continue }
+            let presentationTime = CMSampleBufferGetPresentationTimeStamp(sample)
+
+            let width = CVPixelBufferGetWidth(input)
+            let height = CVPixelBufferGetHeight(input)
+
+            // Each in-flight frame needs its own destination.
+            //
+            // These come from the adaptor's own pool rather than being
+            // recycled by hand: `append` retains the buffer and the encoder
+            // reads it asynchronously, so a buffer handed straight back to the
+            // engine gets overwritten while it is still being encoded. The
+            // pool only vends a buffer once the encoder has released it.
+            let output: CVPixelBuffer
+            if let pool = adaptor.pixelBufferPool {
+                var pooled: CVPixelBuffer?
+                let status = CVPixelBufferPoolCreatePixelBuffer(kCFAllocatorDefault, pool, &pooled)
+                guard status == kCVReturnSuccess, let pooled else {
+                    throw MediaError.pixelBuffer("The encoder ran out of frame buffers.")
+                }
+                output = pooled
+            } else {
+                output = try PixelSurface.makeBuffer(width: width, height: height)
+            }
+
+            let inputSurface = try PixelSurface.surface(of: input)
+            let outputSurface = try PixelSurface.surface(of: output)
+            let options = request.options
+
+            let task = Task { try await engine.swap(inputSurface, into: outputSurface,
+                                                    options: options) }
+            inFlight.append(InFlight(task: task, output: output,
+                                     time: presentationTime, sample: sample))
+
+            if inFlight.count >= depth {
+                try await drainOldest()
+            }
+        }
+
+        while !inFlight.isEmpty {
+            try Task.checkCancellation()
+            try await drainOldest()
         }
 
         if reader.status == .failed {

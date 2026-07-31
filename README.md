@@ -93,25 +93,82 @@ swap faces of people who have agreed to it.
 
 ## Measured performance
 
-Apple Silicon, Release build, 640×338 video, one face per frame, all models
-loaded via the Core ML execution provider:
+Apple Silicon, Release build, 640×338 video, one face per frame. A 270-frame
+export takes **97s** (~2.8 fps), down from 177s before tuning.
+
+Per-frame stage cost, measured with `--benchmark`:
 
 | Stage | ms/frame |
 |---|---|
-| Detect (`yoloface_8n`) | 14 |
-| Landmarks (`2dfan4`) | 87 |
-| Swap (`inswapper_128`) | 102 |
+| Detect (`yoloface_8n`) | 10 |
+| Landmarks (`2dfan4`) | 47 |
+| Swap (`inswapper_128`) | 126 |
 | Composite | 2 |
-| Restore (`gfpgan_1.4`) | 340 |
-| **Total** | **545** (~1.9 fps) |
+| Restore (`gfpgan_1.4`) | 280 |
+| **Total** | **465** |
 
-Turning off *Enhance detail* roughly doubles throughput to ~3.9 fps. The time is
-dominated by model inference, not by the surrounding code — Core ML compiles and
-caches all five graphs (~1.7 GB of compiled artefacts) on first launch, and
-reuses them afterwards.
+Turning off *Enhance detail* removes the largest single cost.
 
-Note that a Debug build is ~2.5× slower (0.7 fps): the pixel loops are scalar
-Swift and depend on optimisation. Measure in Release.
+### What the execution-provider sweep showed
+
+Same frame, same models, only the Core ML settings varied:
+
+| Configuration | ms/frame | |
+|---|---|---|
+| `ALL` + static shapes | **465** | shipping default |
+| `ALL` + dynamic shapes | 627 | 35% slower |
+| `CPUAndGPU` | 763 | |
+| `CPUAndNeuralEngine` | 7,859 | 17× slower |
+| `NeuralNetwork` format | 14,995 | 32× slower |
+| CPU only | 18,657 | 40× slower |
+
+Two results are worth keeping in mind before "optimising":
+
+**Declaring static input shapes is a free 35% win.** Every graph here has fully
+static shapes; telling the EP so lets it absorb regions it otherwise leaves on
+the CPU. This was originally set to `0` and was simply wrong.
+
+**Forcing the Neural Engine is catastrophic, not faster.** Pinning these graphs
+to `CPUAndNeuralEngine` is 17× *slower* than letting Core ML choose — they are
+convolutional generators that the ANE largely rejects, so the run degenerates
+into constant fallback. `ALL` is correct: Core ML places most work on the GPU.
+
+Core ML is doing the heavy lifting either way — the CPU-only baseline is 40×
+slower.
+
+### Concurrency
+
+The export keeps `ExportRequest.concurrentFrames` (default 3) frames inside the
+engine at once. The four models are four independent `ORTSession`s with
+independent locks, so while one frame is in the enhancer another can be in the
+detector, and decode/encode overlap both. Measured 1.8× end to end.
+
+Destination buffers come from `AVAssetWriterInputPixelBufferAdaptor`'s own pool.
+This matters: `append` retains the buffer and the encoder reads it
+asynchronously, so hand-recycling a buffer straight back into the engine
+overwrites a frame that has not been encoded yet — which showed up as the output
+being shifted by exactly the pool depth.
+
+Note a Debug build is ~2.5× slower: the pixel loops are scalar Swift and depend
+on optimisation. Always measure in Release.
+
+### Tools
+
+```sh
+Release/FaceFusionMac.app/Contents/MacOS/FaceFusionMac --benchmark  # sweep EP settings
+Release/FaceFusionMac.app/Contents/MacOS/FaceFusionMac --profile    # Core ML compute plan
+```
+
+### Known remaining headroom
+
+- **Explicit stage pipelining.** Frame-level concurrency overlaps stages only
+  incidentally. Running each stage as its own pipeline step, with the enhancer
+  session replicated and pinned to the GPU, is estimated at 2.4–2.7× over the
+  serial baseline versus the 1.8× measured here. Not implemented.
+- **Graph partitioning is unmeasured.** 126 ms for a 128×128 swapper suggests
+  Core ML is cutting the graph into many subgraphs, each with a round trip. ORT
+  logs this at verbose severity on stderr, which does not escape an XPC service
+  — confirming it needs a standalone harness that loads the models in-process.
 
 ## Building
 

@@ -13,13 +13,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		AA00000000000000000023 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0FAF5B9B301C2AB6008C84DC /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = AA00000000000000000010;
-			remoteInfo = FaceFusionEngine;
-		};
 		0FAF5BB1301C2AB8008C84DC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0FAF5B9B301C2AB6008C84DC /* Project object */;
@@ -34,66 +27,14 @@
 			remoteGlobalIDString = 0FAF5BA2301C2AB6008C84DC;
 			remoteInfo = FaceFusionMac;
 		};
+		AA00000000000000000023 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0FAF5B9B301C2AB6008C84DC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AA00000000000000000010;
+			remoteInfo = FaceFusionEngine;
+		};
 /* End PBXContainerItemProxy section */
-
-/* Begin PBXFileReference section */
-		AA00000000000000000011 /* FaceFusionEngine.xpc */ = {isa = PBXFileReference; explicitFileType = "wrapper.xpc-service"; includeInIndex = 0; path = FaceFusionEngine.xpc; sourceTree = BUILT_PRODUCTS_DIR; };
-		0FAF5BA3301C2AB6008C84DC /* FaceFusionMac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FaceFusionMac.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		0FAF5BB0301C2AB8008C84DC /* FaceFusionMacTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FaceFusionMacTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		0FAF5BBA301C2AB8008C84DC /* FaceFusionMacUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FaceFusionMacUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-/* End PBXFileReference section */
-
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		AA00000000000000000003 /* Exceptions for "FaceFusionEngine" folder in "FaceFusionEngine" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Info.plist,
-				FaceFusionEngine.entitlements,
-			);
-			target = AA00000000000000000010 /* FaceFusionEngine */;
-		};
-		AA00000000000000000004 /* Exceptions for "FaceFusionEngine" folder in "FaceFusionMacTests" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Info.plist,
-				FaceFusionEngine.entitlements,
-				main.swift,
-			);
-			target = 0FAF5BAF301C2AB8008C84DC /* FaceFusionMacTests */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
-/* Begin PBXFileSystemSynchronizedRootGroup section */
-		AA00000000000000000001 /* Shared */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = Shared;
-			sourceTree = "<group>";
-		};
-		AA00000000000000000002 /* FaceFusionEngine */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				AA00000000000000000003 /* Exceptions for "FaceFusionEngine" folder in "FaceFusionEngine" target */,
-				AA00000000000000000004 /* Exceptions for "FaceFusionEngine" folder in "FaceFusionMacTests" target */,
-			);
-			path = FaceFusionEngine;
-			sourceTree = "<group>";
-		};
-		0FAF5BA5301C2AB6008C84DC /* FaceFusionMac */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = FaceFusionMac;
-			sourceTree = "<group>";
-		};
-		0FAF5BB3301C2AB8008C84DC /* FaceFusionMacTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = FaceFusionMacTests;
-			sourceTree = "<group>";
-		};
-		0FAF5BBD301C2AB8008C84DC /* FaceFusionMacUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = FaceFusionMacUITests;
-			sourceTree = "<group>";
-		};
-/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		AA00000000000000000020 /* Embed XPC Services */ = {
@@ -109,15 +50,64 @@
 		};
 /* End PBXCopyFilesBuildPhase section */
 
-/* Begin PBXFrameworksBuildPhase section */
-		AA00000000000000000013 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				AA00000000000000000032 /* onnxruntime in Frameworks */,
+/* Begin PBXFileReference section */
+		0FAF5BA3301C2AB6008C84DC /* FaceFusionMac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FaceFusionMac.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0FAF5BB0301C2AB8008C84DC /* FaceFusionMacTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FaceFusionMacTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		0FAF5BBA301C2AB8008C84DC /* FaceFusionMacUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FaceFusionMacUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA00000000000000000011 /* FaceFusionEngine.xpc */ = {isa = PBXFileReference; explicitFileType = "wrapper.xpc-service"; includeInIndex = 0; path = FaceFusionEngine.xpc; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		AA00000000000000000003 /* Exceptions for "FaceFusionEngine" folder in "FaceFusionEngine" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			target = AA00000000000000000010 /* FaceFusionEngine */;
 		};
+		AA00000000000000000004 /* Exceptions for "FaceFusionEngine" folder in "FaceFusionMacTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+				main.swift,
+			);
+			target = 0FAF5BAF301C2AB8008C84DC /* FaceFusionMacTests */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		0FAF5BA5301C2AB6008C84DC /* FaceFusionMac */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = FaceFusionMac;
+			sourceTree = "<group>";
+		};
+		0FAF5BB3301C2AB8008C84DC /* FaceFusionMacTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = FaceFusionMacTests;
+			sourceTree = "<group>";
+		};
+		0FAF5BBD301C2AB8008C84DC /* FaceFusionMacUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = FaceFusionMacUITests;
+			sourceTree = "<group>";
+		};
+		AA00000000000000000001 /* Shared */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		AA00000000000000000002 /* FaceFusionEngine */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				AA00000000000000000003 /* Exceptions for "FaceFusionEngine" folder in "FaceFusionEngine" target */,
+				AA00000000000000000004 /* Exceptions for "FaceFusionEngine" folder in "FaceFusionMacTests" target */,
+			);
+			path = FaceFusionEngine;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
 		0FAF5BA0301C2AB6008C84DC /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -137,6 +127,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA00000000000000000013 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA00000000000000000032 /* onnxruntime in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -169,30 +167,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		AA00000000000000000010 /* FaceFusionEngine */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = AA00000000000000000015 /* Build configuration list for PBXNativeTarget "FaceFusionEngine" */;
-			buildPhases = (
-				AA00000000000000000012 /* Sources */,
-				AA00000000000000000013 /* Frameworks */,
-				AA00000000000000000014 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			fileSystemSynchronizedGroups = (
-				AA00000000000000000002 /* FaceFusionEngine */,
-				AA00000000000000000001 /* Shared */,
-			);
-			name = FaceFusionEngine;
-			packageProductDependencies = (
-				AA00000000000000000031 /* onnxruntime */,
-			);
-			productName = FaceFusionEngine;
-			productReference = AA00000000000000000011 /* FaceFusionEngine.xpc */;
-			productType = "com.apple.product-type.xpc-service";
-		};
 		0FAF5BA2301C2AB6008C84DC /* FaceFusionMac */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0FAF5BC4301C2AB8008C84DC /* Build configuration list for PBXNativeTarget "FaceFusionMac" */;
@@ -233,8 +207,8 @@
 			);
 			fileSystemSynchronizedGroups = (
 				0FAF5BB3301C2AB8008C84DC /* FaceFusionMacTests */,
-				AA00000000000000000002 /* FaceFusionEngine */,
 				AA00000000000000000001 /* Shared */,
+				AA00000000000000000002 /* FaceFusionEngine */,
 			);
 			name = FaceFusionMacTests;
 			packageProductDependencies = (
@@ -267,6 +241,30 @@
 			productReference = 0FAF5BBA301C2AB8008C84DC /* FaceFusionMacUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		AA00000000000000000010 /* FaceFusionEngine */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AA00000000000000000015 /* Build configuration list for PBXNativeTarget "FaceFusionEngine" */;
+			buildPhases = (
+				AA00000000000000000012 /* Sources */,
+				AA00000000000000000013 /* Frameworks */,
+				AA00000000000000000014 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				AA00000000000000000001 /* Shared */,
+				AA00000000000000000002 /* FaceFusionEngine */,
+			);
+			name = FaceFusionEngine;
+			packageProductDependencies = (
+				AA00000000000000000031 /* onnxruntime */,
+			);
+			productName = FaceFusionEngine;
+			productReference = AA00000000000000000011 /* FaceFusionEngine.xpc */;
+			productType = "com.apple.product-type.xpc-service";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -284,12 +282,12 @@
 						CreatedOnToolsVersion = 26.6;
 						TestTargetID = 0FAF5BA2301C2AB6008C84DC;
 					};
-					AA00000000000000000010 = {
-						CreatedOnToolsVersion = 26.6;
-					};
 					0FAF5BB9301C2AB8008C84DC = {
 						CreatedOnToolsVersion = 26.6;
 						TestTargetID = 0FAF5BA2301C2AB6008C84DC;
+					};
+					AA00000000000000000010 = {
+						CreatedOnToolsVersion = 26.6;
 					};
 				};
 			};
@@ -302,10 +300,10 @@
 			);
 			mainGroup = 0FAF5B9A301C2AB6008C84DC;
 			minimizedProjectReferenceProxies = 1;
-			preferredProjectObjectVersion = 77;
 			packageReferences = (
 				AA00000000000000000030 /* XCRemoteSwiftPackageReference "onnxruntime-swift-package-manager" */,
 			);
+			preferredProjectObjectVersion = 77;
 			productRefGroup = 0FAF5BA4301C2AB6008C84DC /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -319,13 +317,6 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		AA00000000000000000014 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		0FAF5BA1301C2AB6008C84DC /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -347,16 +338,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-/* End PBXResourcesBuildPhase section */
-
-/* Begin PBXSourcesBuildPhase section */
-		AA00000000000000000012 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
+		AA00000000000000000014 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
 		0FAF5B9F301C2AB6008C84DC /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -378,14 +369,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AA00000000000000000012 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		AA00000000000000000022 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = AA00000000000000000010 /* FaceFusionEngine */;
-			targetProxy = AA00000000000000000023 /* PBXContainerItemProxy */;
-		};
 		0FAF5BB2301C2AB8008C84DC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 0FAF5BA2301C2AB6008C84DC /* FaceFusionMac */;
@@ -396,75 +389,14 @@
 			target = 0FAF5BA2301C2AB6008C84DC /* FaceFusionMac */;
 			targetProxy = 0FAF5BBB301C2AB8008C84DC /* PBXContainerItemProxy */;
 		};
+		AA00000000000000000022 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AA00000000000000000010 /* FaceFusionEngine */;
+			targetProxy = AA00000000000000000023 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
-/* Begin XCRemoteSwiftPackageReference section */
-		AA00000000000000000030 /* XCRemoteSwiftPackageReference "onnxruntime-swift-package-manager" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/microsoft/onnxruntime-swift-package-manager";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.24.2;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		AA00000000000000000031 /* onnxruntime */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = AA00000000000000000030 /* XCRemoteSwiftPackageReference "onnxruntime-swift-package-manager" */;
-			productName = onnxruntime;
-		};
-		AA00000000000000000041 /* onnxruntime */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = AA00000000000000000030 /* XCRemoteSwiftPackageReference "onnxruntime-swift-package-manager" */;
-			productName = onnxruntime;
-		};
-/* End XCSwiftPackageProductDependency section */
-
 /* Begin XCBuildConfiguration section */
-		AA00000000000000000016 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = FaceFusionEngine/FaceFusionEngine.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = HPL74FCW8E;
-				ENABLE_HARDENED_RUNTIME = YES;
-				GENERATE_INFOPLIST_FILE = NO;
-				INFOPLIST_FILE = FaceFusionEngine/Info.plist;
-				MACOSX_DEPLOYMENT_TARGET = 26.5;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.lisenhuang.FaceFusionMac.Engine;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_DEFAULT_ACTOR_ISOLATION = nonisolated;
-				SWIFT_VERSION = 5.0;
-			};
-			name = Debug;
-		};
-		AA00000000000000000017 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = FaceFusionEngine/FaceFusionEngine.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = HPL74FCW8E;
-				ENABLE_HARDENED_RUNTIME = YES;
-				GENERATE_INFOPLIST_FILE = NO;
-				INFOPLIST_FILE = FaceFusionEngine/Info.plist;
-				MACOSX_DEPLOYMENT_TARGET = 26.5;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.lisenhuang.FaceFusionMac.Engine;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_DEFAULT_ACTOR_ISOLATION = nonisolated;
-				SWIFT_VERSION = 5.0;
-			};
-			name = Release;
-		};
 		0FAF5BC2301C2AB8008C84DC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -590,11 +522,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = FaceFusionMac/FaceFusionMac.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = HPL74FCW8E;
-				CODE_SIGN_ENTITLEMENTS = FaceFusionMac/FaceFusionMac.entitlements;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -621,11 +553,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = FaceFusionMac/FaceFusionMac.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = HPL74FCW8E;
-				CODE_SIGN_ENTITLEMENTS = FaceFusionMac/FaceFusionMac.entitlements;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -658,10 +590,10 @@
 				MACOSX_DEPLOYMENT_TARGET = 26.5;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.lisenhuang.FaceFusionMacTests;
-				SWIFT_DEFAULT_ACTOR_ISOLATION = nonisolated;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = nonisolated;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
@@ -680,10 +612,10 @@
 				MACOSX_DEPLOYMENT_TARGET = 26.5;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.lisenhuang.FaceFusionMacTests;
-				SWIFT_DEFAULT_ACTOR_ISOLATION = nonisolated;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = nonisolated;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
@@ -729,18 +661,51 @@
 			};
 			name = Release;
 		};
+		AA00000000000000000016 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = FaceFusionEngine/FaceFusionEngine.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = HPL74FCW8E;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = FaceFusionEngine/Info.plist;
+				MACOSX_DEPLOYMENT_TARGET = 26.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lisenhuang.FaceFusionMac.Engine;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = nonisolated;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		AA00000000000000000017 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = FaceFusionEngine/FaceFusionEngine.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = HPL74FCW8E;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = FaceFusionEngine/Info.plist;
+				MACOSX_DEPLOYMENT_TARGET = 26.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lisenhuang.FaceFusionMac.Engine;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = nonisolated;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		AA00000000000000000015 /* Build configuration list for PBXNativeTarget "FaceFusionEngine" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				AA00000000000000000016 /* Debug */,
-				AA00000000000000000017 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		0FAF5B9E301C2AB6008C84DC /* Build configuration list for PBXProject "FaceFusionMac" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -777,7 +742,40 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		AA00000000000000000015 /* Build configuration list for PBXNativeTarget "FaceFusionEngine" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA00000000000000000016 /* Debug */,
+				AA00000000000000000017 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		AA00000000000000000030 /* XCRemoteSwiftPackageReference "onnxruntime-swift-package-manager" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/microsoft/onnxruntime-swift-package-manager";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.24.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		AA00000000000000000031 /* onnxruntime */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AA00000000000000000030 /* XCRemoteSwiftPackageReference "onnxruntime-swift-package-manager" */;
+			productName = onnxruntime;
+		};
+		AA00000000000000000041 /* onnxruntime */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AA00000000000000000030 /* XCRemoteSwiftPackageReference "onnxruntime-swift-package-manager" */;
+			productName = onnxruntime;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 0FAF5B9B301C2AB6008C84DC /* Project object */;
 }
