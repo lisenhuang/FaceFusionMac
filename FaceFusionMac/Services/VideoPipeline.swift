@@ -243,6 +243,11 @@ enum VideoPipeline {
         }
         writer.add(writerInput)
 
+        // Every input must be attached before writing starts — `AVAssetWriter`
+        // refuses `add(_:)` afterwards. The samples are pumped later, once the
+        // frames are done.
+        let audio = try await AudioPassthrough.attach(to: writer, from: asset)
+
         guard writer.startWriting() else {
             throw MediaError.writerFailed(writer.error?.localizedDescription
                                           ?? "The encoder refused to start.")
@@ -273,10 +278,21 @@ enum VideoPipeline {
         var inFlight: [InFlight] = []
         let depth = max(1, request.concurrentFrames)
 
+        // The audio has to be fed *alongside* the frames, not after them.
+        // AVAssetWriter applies backpressure across all of its inputs together:
+        // an input that has been added but never fed eventually stops its
+        // siblings from accepting data, and the frame loop below would then
+        // wait on `isReadyForMoreMediaData` forever. Each input is fed by its
+        // own task, so neither can starve the other.
+        let audioTask: Task<Void, Error>? = audio.map { passthrough in
+            Task { try await passthrough.copy() }
+        }
+
         defer {
             // On cancellation or a thrown error, stop the decoder and let go of
             // any frames still inside the engine.
             for item in inFlight { item.task.cancel() }
+            audioTask?.cancel()
             if reader.status == .reading { reader.cancelReading() }
         }
 
@@ -368,9 +384,9 @@ enum VideoPipeline {
         }
         writerInput.markAsFinished()
 
-        // Audio is copied afterwards with its own reader, which sidesteps the
-        // interleaving rules a single reader with two outputs imposes.
-        try await copyAudio(from: asset, into: writer)
+        // Usually finished long ago — audio passthrough is far cheaper than
+        // the frames — but its failures still have to surface here.
+        try await audioTask?.value
 
         await writer.finishWriting()
         if writer.status == .failed {
@@ -385,32 +401,81 @@ enum VideoPipeline {
         await MainActor.run { progress(finalProgress) }
     }
 
-    /// Passes the original audio through untouched — no decode, no re-encode.
-    private static func copyAudio(from asset: AVURLAsset, into writer: AVAssetWriter) async throws {
-        guard let track = try await asset.loadTracks(withMediaType: .audio).first else { return }
-        guard let formatDescription = try await track.load(.formatDescriptions).first else { return }
+    /// Carries the original audio track across untouched — no decode, no
+    /// re-encode, so it costs almost nothing and loses nothing.
+    ///
+    /// Split into attach-then-copy for a reason that is easy to get wrong:
+    /// `AVAssetWriter` accepts inputs only before `startWriting()`, and
+    /// afterwards `canAdd` simply returns false. Creating the audio input at
+    /// the point the samples are written — which is necessarily after the video
+    /// frames — means it is never added at all, and the export silently comes
+    /// out mute. `attach` therefore runs alongside the video input, and `copy`
+    /// runs at the end.
+    ///
+    /// The samples come from a reader of its own. One reader feeding both a
+    /// video and an audio output would impose interleaving requirements the
+    /// frame loop cannot meet while it keeps several frames in flight.
+    private struct AudioPassthrough {
+        let reader: AVAssetReader
+        let output: AVAssetReaderTrackOutput
+        let input: AVAssetWriterInput
 
-        let reader = try AVAssetReader(asset: asset)
-        let output = AVAssetReaderTrackOutput(track: track, outputSettings: nil)
-        guard reader.canAdd(output) else { return }
-        reader.add(output)
-
-        let input = AVAssetWriterInput(mediaType: .audio,
-                                       outputSettings: nil,
-                                       sourceFormatHint: formatDescription)
-        input.expectsMediaDataInRealTime = false
-        guard writer.canAdd(input) else { return }
-        writer.add(input)
-
-        guard reader.startReading() else { return }
-        while let sample = output.copyNextSampleBuffer() {
-            try Task.checkCancellation()
-            while !input.isReadyForMoreMediaData {
-                try await Task.sleep(nanoseconds: 2_000_000)
+        /// Returns nil when the source has no audio; throws when it has audio
+        /// that cannot be carried, which is worth saying out loud rather than
+        /// discovering on playback.
+        static func attach(to writer: AVAssetWriter,
+                           from asset: AVURLAsset) async throws -> AudioPassthrough? {
+            guard let track = try await asset.loadTracks(withMediaType: .audio).first else {
+                return nil
             }
-            if !input.append(sample) { break }
+            guard let formatDescription = try await track.load(.formatDescriptions).first else {
+                return nil
+            }
+
+            let reader = try AVAssetReader(asset: asset)
+            let output = AVAssetReaderTrackOutput(track: track, outputSettings: nil)
+            guard reader.canAdd(output) else {
+                throw MediaError.readerFailed("This video's audio track could not be read.")
+            }
+            reader.add(output)
+
+            let input = AVAssetWriterInput(mediaType: .audio,
+                                           outputSettings: nil,
+                                           sourceFormatHint: formatDescription)
+            input.expectsMediaDataInRealTime = false
+            guard writer.canAdd(input) else {
+                let codec = VideoPipeline.fourCCString(
+                    CMFormatDescriptionGetMediaSubType(formatDescription))
+                throw MediaError.writerFailed(
+                    "This video's \(codec) audio cannot be stored in an MP4.")
+            }
+            writer.add(input)
+
+            return AudioPassthrough(reader: reader, output: output, input: input)
         }
-        input.markAsFinished()
-        if reader.status == .reading { reader.cancelReading() }
+
+        func copy() async throws {
+            defer { input.markAsFinished() }
+
+            guard reader.startReading() else {
+                throw MediaError.readerFailed(reader.error?.localizedDescription
+                                              ?? "The audio track could not be read.")
+            }
+            while let sample = output.copyNextSampleBuffer() {
+                try Task.checkCancellation()
+                while !input.isReadyForMoreMediaData {
+                    try Task.checkCancellation()
+                    try await Task.sleep(nanoseconds: 2_000_000)
+                }
+                guard input.append(sample) else {
+                    throw MediaError.writerFailed("The audio could not be written.")
+                }
+            }
+            if reader.status == .failed {
+                throw MediaError.readerFailed(reader.error?.localizedDescription
+                                              ?? "Reading the audio stopped unexpectedly.")
+            }
+            if reader.status == .reading { reader.cancelReading() }
+        }
     }
 }

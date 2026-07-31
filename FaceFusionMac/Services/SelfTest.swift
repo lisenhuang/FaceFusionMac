@@ -127,6 +127,15 @@ enum SelfTest {
         guard written.estimatedFrameCount > 1 else {
             fail("the exported video has \(written.estimatedFrameCount) frame(s)")
         }
+        // The export used to come out mute and nothing noticed, because the
+        // fixture had no sound to lose. Assert the carry-over explicitly, and
+        // say so loudly when the fixture cannot test it.
+        if info.hasAudio {
+            guard written.hasAudio else { fail("the exported video lost its audio track") }
+        } else {
+            emit("SELFTEST NOTE  target.mp4 has no audio track, so audio carry-over is untested."
+                 + " Stage a fixture with sound to cover it.")
+        }
 
         emit(String(format: "SELFTEST OK  %.1fs  %@  %dx%d  %.1fs of video  audio=%@",
                      elapsed, ByteCountFormatter.string(fromByteCount: size, countStyle: .file),
