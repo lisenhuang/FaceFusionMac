@@ -83,6 +83,37 @@ final class EngineService: NSObject, FaceFusionEngineProtocol {
         }
     }
 
+    func analyzeFaces(surface: IOSurface,
+                      optionsJSON: Data,
+                      withReply reply: @escaping (Data?, Error?) -> Void) {
+        queue.async {
+            do {
+                let options = try EngineJSON.decode(AnalysisOptions.self, from: optionsJSON)
+                let analysis = try BGRAImage.withSurface(surface, readOnly: true) { image in
+                    try self.pipeline.analyzeFaces(in: image, options: options)
+                }
+                reply(try EngineJSON.encode(analysis), nil)
+            } catch {
+                reply(nil, Self.transportable(error))
+            }
+        }
+    }
+
+    /// A barrier: the set it replaces is read by every in-flight swap.
+    func setReferenceFaces(setJSON: Data, withReply reply: @escaping (Error?) -> Void) {
+        queue.async(flags: .barrier) {
+            do {
+                let set = try EngineJSON.decode(ReferenceFaceSet.self, from: setJSON)
+                EngineLog.engine.info(
+                    "reference faces: generation \(set.generation) with \(set.identities.count) identity(s)")
+                self.pipeline.setReferenceFaces(set)
+                reply(nil)
+            } catch {
+                reply(Self.transportable(error))
+            }
+        }
+    }
+
     // MARK: - Swapping
 
     func swap(surface: IOSurface,

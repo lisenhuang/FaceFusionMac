@@ -118,6 +118,21 @@ final class EngineClient {
         }
     }
 
+    func analyzeFaces(_ surface: IOSurface,
+                      options: AnalysisOptions) async throws -> FrameAnalysis {
+        let payload = try EngineJSON.encode(options)
+        return try await call { engine, reply in
+            engine.analyzeFaces(surface: surface, optionsJSON: payload, withReply: reply)
+        }
+    }
+
+    func setReferenceFaces(_ set: ReferenceFaceSet) async throws {
+        let payload = try EngineJSON.encode(set)
+        try await callVoid { engine, reply in
+            engine.setReferenceFaces(setJSON: payload, withReply: reply)
+        }
+    }
+
     func swap(_ surface: IOSurface,
               into output: IOSurface,
               options: SwapOptions) async throws -> SwapResult {
@@ -166,6 +181,35 @@ final class EngineClient {
                     }
                     do { finish(.success(try EngineJSON.decode(T.self, from: data))) }
                     catch { finish(.failure(error)) }
+                }
+            } catch {
+                finish(.failure(error))
+            }
+        }
+    }
+
+    /// The same bridging for calls that answer with nothing but success or
+    /// failure. Separate rather than generic because XPC reply blocks are
+    /// concretely typed, so `(Error?) -> Void` cannot be fed to the decoding
+    /// version above.
+    private func callVoid(
+        _ body: (FaceFusionEngineProtocol, @escaping (Error?) -> Void) -> Void
+    ) async throws {
+        try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
+            let resumed = OSAllocatedUnfairLock(initialState: false)
+            func finish(_ result: Result<Void, Error>) {
+                let alreadyResumed = resumed.withLock { done -> Bool in
+                    defer { done = true }
+                    return done
+                }
+                guard !alreadyResumed else { return }
+                continuation.resume(with: result)
+            }
+
+            do {
+                let engine = try proxy(onError: { error in finish(.failure(error)) })
+                body(engine) { error in
+                    if let error { finish(.failure(error)) } else { finish(.success(())) }
                 }
             } catch {
                 finish(.failure(error))

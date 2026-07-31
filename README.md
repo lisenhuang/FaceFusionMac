@@ -75,6 +75,40 @@ feeds a 112 px crop, whereas a target photo is what gets written back out.
 The export re-runs the swap rather than saving what the preview produced, so
 the file always matches the settings as they stand when Export is pressed.
 
+### Choosing which faces get replaced
+
+*Every face* and *One face* are geometric: replace all of them, or replace the
+one nearest a point you clicked. *Choose* is not, and the difference matters
+for video.
+
+Faces are re-detected independently on every frame, and detection order is
+left-to-right within a single frame — so "the second face" stops naming the
+same person the moment two people cross, and a fixed point stops naming anyone
+as soon as the subject moves. Neither survives a clip.
+
+So *Choose* matches on identity instead. The app samples up to 48 frames across
+the duration, asks the engine for an ArcFace embedding per face, and groups
+those vectors into people by cosine distance — a running mean per person, so
+one badly-timed frame cannot define someone for the rest of the video. Ticking
+a person sends their 512-d identity to the engine, which then keeps only the
+detections within `matchDistance` of one of them. This is FaceFusion's
+`reference` face-selector mode, arrived at for the same reason.
+
+Two consequences worth knowing:
+
+- The reference set is pushed once per change, not per frame, and carries a
+  generation number. A swap naming a generation the engine no longer holds is
+  refused rather than run against a stale set — silently swapping the wrong
+  person is a worse failure than a visible error.
+- Sampling can miss someone who is only briefly on screen. Clicking their face
+  in the preview adds them, which is why that gesture toggles rather than
+  re-selects while *Choose* is active.
+
+Matching costs one extra 112 px recognizer pass per detected face per frame,
+and only in this mode — and it is free when *Resemblance* is below 100%, since
+that already encodes each target face. It shows up as the `match` column in
+`--benchmark`.
+
 ### One deliberate divergence
 
 Aligning a 1024 px portrait to ArcFace's 112 px input is a ~6.7× reduction. The

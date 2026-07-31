@@ -58,7 +58,7 @@ final class ORTModel {
             let byteCount = tensor.values.count * MemoryLayout<Float>.size
             let data = NSMutableData(length: byteCount)!
             tensor.values.withUnsafeBytes { src in
-                memcpy(data.mutableBytes, src.baseAddress!, byteCount)
+                _ = memcpy(data.mutableBytes, src.baseAddress!, byteCount)
             }
             retained.append(data)
             ortInputs[name] = try ORTValue(tensorData: data,
@@ -95,7 +95,7 @@ final class ORTModel {
         if info.elementType == .float {
             var out = [Float](repeating: 0, count: elementCount)
             out.withUnsafeMutableBytes { dst in
-                memcpy(dst.baseAddress!, data.bytes, min(data.length, elementCount * 4))
+                _ = memcpy(dst.baseAddress!, data.bytes, min(data.length, elementCount * 4))
             }
             return FloatTensor(shape: shape, values: out)
         }
@@ -103,9 +103,9 @@ final class ORTModel {
         if info.elementType.rawValue == onnxFloat16 {
             var halves = [UInt16](repeating: 0, count: elementCount)
             halves.withUnsafeMutableBytes { dst in
-                memcpy(dst.baseAddress!, data.bytes, min(data.length, elementCount * 2))
+                _ = memcpy(dst.baseAddress!, data.bytes, min(data.length, elementCount * 2))
             }
-            return FloatTensor(shape: shape, values: halves.map { Float(Float16(bitPattern: $0)) })
+            return FloatTensor(shape: shape, values: halves.map { Float(float16Bits: $0) })
         }
 
         throw makeEngineNSError(.inferenceFailed,

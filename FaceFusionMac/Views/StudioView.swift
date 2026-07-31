@@ -133,23 +133,24 @@ struct StudioView: View {
                     Text("Which face").font(.callout)
                     Spacer()
                 }
-                Picker("", selection: Binding(
-                    get: { isAllSelected ? 0 : 1 },
-                    set: { choice in
-                        if choice == 0 { model.selectAllFaces() }
-                        else { model.selectSingleFace() }
-                    })) {
-                    Text("Every face").tag(0)
-                    Text("One face").tag(1)
+                Picker("", selection: Binding(get: { model.faceMode },
+                                              set: { model.setFaceMode($0) })) {
+                    Text("Every").tag(AppModel.FaceMode.everyFace)
+                    Text("One").tag(AppModel.FaceMode.oneFace)
+                    Text("Choose").tag(AppModel.FaceMode.chosen)
                 }
                 .pickerStyle(.segmented)
                 .labelsHidden()
 
-                Text(isAllSelected
-                     ? "Replaces every face in the frame."
-                     : "Replaces one face. Click a different face in the preview to switch.")
+                Text(faceModeHint)
                     .font(.caption2)
                     .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+
+                if model.faceMode == .chosen {
+                    FacePicker()
+                        .padding(.top, 4)
+                }
             }
 
             VStack(alignment: .leading, spacing: 4) {
@@ -209,9 +210,17 @@ struct StudioView: View {
         }
     }
 
-    private var isAllSelected: Bool {
-        if case .all = model.faceSelection { return true }
-        return false
+    private var faceModeHint: String {
+        switch model.faceMode {
+        case .everyFace:
+            return "Replaces every face in the frame."
+        case .oneFace:
+            return "Replaces one face. Click a different face in the preview to switch."
+        case .chosen:
+            return model.targetIsImage
+                ? "Replaces only the faces you tick."
+                : "Replaces only the people you tick, wherever they appear in the video."
+        }
     }
 
     private var engineBadge: some View {
@@ -350,6 +359,11 @@ struct StudioView: View {
         }
         if model.sourceFace == nil { return "Add a source face." }
         if model.targetURL == nil { return "Add a target video or photo." }
+        if model.faceMode == .chosen && model.checkedPeople.isEmpty {
+            return model.people.isEmpty
+                ? "Find the faces in the target, then tick the ones to replace."
+                : "Tick at least one face to replace."
+        }
         return "Ready to export."
     }
 

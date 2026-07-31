@@ -110,22 +110,23 @@ enum VideoPipeline {
         generator.maximumSize = .zero
 
         let (cgImage, _) = try await generator.image(at: time)
+        return try PixelSurface.makeBuffer(from: cgImage)
+    }
 
-        let buffer = try PixelSurface.makeBuffer(width: cgImage.width, height: cgImage.height)
-        CVPixelBufferLockBaseAddress(buffer, [])
-        defer { CVPixelBufferUnlockBaseAddress(buffer, []) }
-        guard let base = CVPixelBufferGetBaseAddress(buffer),
-              let context = CGContext(data: base,
-                                      width: cgImage.width, height: cgImage.height,
-                                      bitsPerComponent: 8,
-                                      bytesPerRow: CVPixelBufferGetBytesPerRow(buffer),
-                                      space: CGColorSpaceCreateDeviceRGB(),
-                                      bitmapInfo: CGImageAlphaInfo.premultipliedFirst.rawValue
-                                                | CGBitmapInfo.byteOrder32Little.rawValue) else {
-            throw MediaError.pixelBuffer("Could not draw the video frame.")
-        }
-        context.draw(cgImage, in: CGRect(x: 0, y: 0, width: cgImage.width, height: cgImage.height))
-        return buffer
+    /// A generator tuned for the face scan rather than for display.
+    ///
+    /// The scan is deciding who is in the video, not rendering anything, so it
+    /// can accept the nearest frame the decoder already has and a bounded size.
+    /// Exact seeks at full resolution across dozens of samples is most of the
+    /// difference between a scan that takes seconds and one that takes minutes.
+    static func makeScanGenerator(for url: URL, maximumDimension: Int) -> AVAssetImageGenerator {
+        let generator = AVAssetImageGenerator(asset: AVURLAsset(url: url))
+        generator.appliesPreferredTrackTransform = true
+        let tolerance = CMTime(seconds: 0.5, preferredTimescale: 600)
+        generator.requestedTimeToleranceBefore = tolerance
+        generator.requestedTimeToleranceAfter = tolerance
+        generator.maximumSize = CGSize(width: maximumDimension, height: maximumDimension)
+        return generator
     }
 
     // MARK: Export
