@@ -1,0 +1,23 @@
+# Build output
+build/
+dist/
+DerivedData/
+.spm-cache/
+*.xcarchive
+*.dmg
+*.zip
+
+# Xcode user state
+xcuserdata/
+*.xcuserdatastate
+*.xcscmblueprint
+
+# Signing material - never commit these
+*.p12
+*.p8
+*.cer
+*.provisionprofile
+ExportOptions.plist
+
+# macOS
+.DS_Store

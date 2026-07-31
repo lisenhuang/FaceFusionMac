@@ -1,0 +1,397 @@
+name: Build & Release DMG
+
+# Push / PR  -> builds, verifies, uploads the .app + .dmg as a workflow artifact.
+# Tag v*     -> additionally publishes a GitHub Release with the DMG attached.
+#
+# Works today with ZERO secrets configured (mode: adhoc).
+# Add the secrets listed at the bottom of this file and the SAME workflow turns
+# into a Developer ID signed + notarized + stapled release pipeline (mode: notarized).
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version to stamp (no leading v)"
+        required: false
+        default: "0.0.0-dev"
+
+permissions:
+  contents: write          # gh release create
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref_type != 'tag' }}
+
+jobs:
+  build:
+    runs-on: macos-26      # pinned on purpose: macos-latest will roll to macos-27
+    timeout-minutes: 90
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # ---------------------------------------------------------------- mode --
+      # `secrets` is not a legal context in a step-level `if:`, so read every
+      # secret once here and gate later steps on these outputs instead.
+      - name: Detect available signing secrets
+        id: caps
+        env:
+          P12: ${{ secrets.APPLE_CERTIFICATE_P12_BASE64 }}
+          P12_PW: ${{ secrets.APPLE_CERTIFICATE_P12_PASSWORD }}
+          KEY_P8: ${{ secrets.APPLE_API_KEY_P8_BASE64 }}
+          KEY_ID: ${{ secrets.APPLE_API_KEY_ID }}
+          ISSUER: ${{ secrets.APPLE_API_ISSUER_ID }}
+        run: |
+          set -eo pipefail
+          HAS_CERT=false; HAS_KEY=false
+          if [ -n "${P12:-}" ] && [ -n "${P12_PW:-}" ]; then HAS_CERT=true; fi
+          if [ -n "${KEY_P8:-}" ] && [ -n "${KEY_ID:-}" ]; then HAS_KEY=true; fi
+          if   $HAS_CERT && $HAS_KEY; then MODE=notarized
+          elif $HAS_CERT;             then MODE=signed
+          else                             MODE=adhoc
+          fi
+          echo "has_cert=$HAS_CERT" >> "$GITHUB_OUTPUT"
+          echo "has_key=$HAS_KEY"   >> "$GITHUB_OUTPUT"
+          echo "mode=$MODE"         >> "$GITHUB_OUTPUT"
+          echo "### Release mode: \`$MODE\`" >> "$GITHUB_STEP_SUMMARY"
+          case "$MODE" in
+            adhoc)  echo "::warning title=No signing secrets::Building an ad-hoc signed DMG. It installs and runs, but every downloader must run 'xattr -dr com.apple.quarantine /Applications/FaceFusionMac.app'. Add APPLE_CERTIFICATE_P12_BASE64 + APPLE_CERTIFICATE_P12_PASSWORD + APPLE_API_KEY_P8_BASE64 + APPLE_API_KEY_ID + APPLE_API_ISSUER_ID for a notarized build." ;;
+            signed) echo "::warning title=No notarization key::Developer ID signed but NOT notarized. Add APPLE_API_KEY_P8_BASE64 / APPLE_API_KEY_ID / APPLE_API_ISSUER_ID." ;;
+          esac
+
+      - name: Resolve version
+        id: ver
+        run: |
+          set -eo pipefail
+          if [ "${GITHUB_REF_TYPE:-}" = "tag" ]; then
+            V="${GITHUB_REF_NAME#v}"
+          elif [ -n "${{ github.event.inputs.version }}" ]; then
+            V="${{ github.event.inputs.version }}"
+          else
+            V="0.0.0+$(git rev-parse --short HEAD)"
+          fi
+          echo "version=$V" >> "$GITHUB_OUTPUT"
+          echo "Version: $V"
+
+      - name: Select an Xcode with a new enough macOS SDK
+        run: |
+          set -eo pipefail
+          for v in 26.6 26.5; do
+            if [ -d "/Applications/Xcode_${v}.app" ]; then
+              sudo xcode-select -s "/Applications/Xcode_${v}.app"; break
+            fi
+          done
+          xcodebuild -version
+          SDK="$(xcrun --sdk macosx --show-sdk-version)"
+          echo "SDK $SDK on runner macOS $(sw_vers -productVersion)"
+          if [ "$(printf '%s\n26.5\n' "$SDK" | sort -V | head -1)" != "26.5" ]; then
+            echo "::error::macOS SDK $SDK is older than the 26.5 the project builds against."
+            exit 1
+          fi
+
+      # ------------------------------------------------------------ deps ------
+      - name: Cache Swift packages
+        uses: actions/cache@v4
+        with:
+          path: .spm-cache
+          key: spm-${{ hashFiles('FaceFusionMac.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved') }}
+          restore-keys: spm-
+
+      - name: Resolve packages
+        run: |
+          set -eo pipefail
+          xcodebuild -resolvePackageDependencies \
+            -project FaceFusionMac.xcodeproj \
+            -clonedSourcePackagesDirPath .spm-cache \
+            -onlyUsePackageVersionsFromResolvedFile
+
+      # ------------------------------------------------------ signing setup ---
+      - name: Import Developer ID certificate into a temporary keychain
+        if: steps.caps.outputs.has_cert == 'true'
+        env:
+          P12_BASE64: ${{ secrets.APPLE_CERTIFICATE_P12_BASE64 }}
+          P12_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_P12_PASSWORD }}
+        run: |
+          set -eo pipefail
+          CERT="$RUNNER_TEMP/dev_id.p12"
+          KC="$RUNNER_TEMP/ffm-signing.keychain-db"
+          KC_PW="$(openssl rand -base64 24)"
+          echo "::add-mask::$KC_PW"
+          echo "KEYCHAIN_PATH=$KC" >> "$GITHUB_ENV"
+
+          printf '%s' "$P12_BASE64" | base64 --decode > "$CERT"
+          security create-keychain -p "$KC_PW" "$KC"
+          security set-keychain-settings -lut 21600 "$KC"     # do not auto-lock mid-build
+          security unlock-keychain -p "$KC_PW" "$KC"
+          security import "$CERT" -k "$KC" -P "$P12_PASSWORD" -f pkcs12 \
+            -T /usr/bin/codesign -T /usr/bin/security
+          rm -f "$CERT"
+          # Without this, macOS raises a GUI "codesign wants to use key" prompt
+          # that nobody can dismiss on a headless runner and the job hangs.
+          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$KC_PW" "$KC" >/dev/null
+          security list-keychains -d user -s "$KC" $(security list-keychains -d user | sed 's/[[:space:]"]//g')
+          security default-keychain -s "$KC"
+
+          security find-identity -v -p codesigning "$KC"
+          if ! security find-identity -v -p codesigning "$KC" | grep -q "Developer ID Application"; then
+            echo "::error title=Wrong certificate::The .p12 contains no 'Developer ID Application' identity. An 'Apple Development' certificate cannot be used for distribution."
+            exit 1
+          fi
+
+      - name: Write App Store Connect API key
+        if: steps.caps.outputs.has_key == 'true'
+        env:
+          KEY_P8_BASE64: ${{ secrets.APPLE_API_KEY_P8_BASE64 }}
+          KEY_ID: ${{ secrets.APPLE_API_KEY_ID }}
+        run: |
+          set -eo pipefail
+          D="$RUNNER_TEMP/private_keys"; mkdir -p "$D"; chmod 700 "$D"
+          P="$D/AuthKey_${KEY_ID}.p8"
+          printf '%s' "$KEY_P8_BASE64" | base64 --decode > "$P"
+          chmod 600 "$P"
+          echo "ASC_KEY_PATH=$P" >> "$GITHUB_ENV"
+
+      # ------------------------------------------ signed path: archive+export --
+      - name: Archive and export (Developer ID)
+        if: steps.caps.outputs.has_cert == 'true'
+        env:
+          KEY_ID: ${{ secrets.APPLE_API_KEY_ID }}
+          ISSUER: ${{ secrets.APPLE_API_ISSUER_ID }}
+        run: |
+          # No `set -u`: the runner's /bin/bash is 3.2, where an empty array under
+          # -u aborts the step. The ${A[@]+"${A[@]}"} guard below handles it anyway.
+          set -eo pipefail
+          AUTH=()
+          if [ "${{ steps.caps.outputs.has_key }}" = "true" ]; then
+            AUTH=(-allowProvisioningUpdates
+                  -authenticationKeyPath "$ASC_KEY_PATH"
+                  -authenticationKeyID "$KEY_ID"
+                  -authenticationKeyIssuerID "$ISSUER")
+          fi
+
+          xcodebuild archive \
+            -project FaceFusionMac.xcodeproj \
+            -scheme FaceFusionMac \
+            -configuration Release \
+            -destination 'generic/platform=macOS' \
+            -archivePath "$RUNNER_TEMP/FaceFusionMac.xcarchive" \
+            -clonedSourcePackagesDirPath .spm-cache \
+            -disableAutomaticPackageResolution \
+            ${AUTH[@]+"${AUTH[@]}"} \
+            OTHER_CODE_SIGN_FLAGS="--keychain $KEYCHAIN_PATH" \
+            MARKETING_VERSION="${{ steps.ver.outputs.version }}" \
+            CURRENT_PROJECT_VERSION="${{ github.run_number }}" \
+            | xcbeautify --renderer github-actions
+
+          cat > "$RUNNER_TEMP/ExportOptions.plist" <<'PLIST'
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+            <key>method</key><string>developer-id</string>
+            <key>teamID</key><string>HPL74FCW8E</string>
+            <key>signingStyle</key><string>automatic</string>
+            <key>signingCertificate</key><string>Developer ID Application</string>
+            <key>destination</key><string>export</string>
+            <key>manageAppVersionAndBuildNumber</key><false/>
+          </dict>
+          </plist>
+          PLIST
+
+          # exportArchive is what re-signs with Developer ID, adds --timestamp and
+          # strips com.apple.security.get-task-allow. A plain `xcodebuild build`
+          # product can never be notarized, even after re-signing.
+          xcodebuild -exportArchive \
+            -archivePath "$RUNNER_TEMP/FaceFusionMac.xcarchive" \
+            -exportPath "$RUNNER_TEMP/export" \
+            -exportOptionsPlist "$RUNNER_TEMP/ExportOptions.plist" \
+            ${AUTH[@]+"${AUTH[@]}"} \
+            | xcbeautify --renderer github-actions
+          echo "APP_PATH=$RUNNER_TEMP/export/FaceFusionMac.app" >> "$GITHUB_ENV"
+
+      # --------------------------------------------- unsigned path: ad-hoc -----
+      - name: Build and ad-hoc sign (no certificate available)
+        if: steps.caps.outputs.has_cert != 'true'
+        run: |
+          set -eo pipefail
+          xcodebuild build \
+            -project FaceFusionMac.xcodeproj \
+            -scheme FaceFusionMac \
+            -configuration Release \
+            -destination 'generic/platform=macOS' \
+            -derivedDataPath DerivedData \
+            -clonedSourcePackagesDirPath .spm-cache \
+            -disableAutomaticPackageResolution \
+            CODE_SIGN_STYLE=Manual \
+            CODE_SIGN_IDENTITY="-" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=YES \
+            DEVELOPMENT_TEAM="" \
+            PROVISIONING_PROFILE_SPECIFIER="" \
+            MARKETING_VERSION="${{ steps.ver.outputs.version }}" \
+            CURRENT_PROJECT_VERSION="${{ github.run_number }}" \
+            | xcbeautify --renderer github-actions
+
+          mkdir -p "$RUNNER_TEMP/export"
+          APP="$RUNNER_TEMP/export/FaceFusionMac.app"
+          ditto DerivedData/Build/Products/Release/FaceFusionMac.app "$APP"
+
+          # Re-sign inside out. NEVER --deep: it would stamp the app's
+          # network.client entitlement onto the engine, which is deliberately
+          # offline. Passing --entitlements at every level is mandatory --
+          # omitting it silently strips the sandbox and the App Group.
+          FW="$APP/Contents/XPCServices/FaceFusionEngine.xpc/Contents/Frameworks/onnxruntime.framework"
+          if [ -d "$FW" ]; then codesign --force --sign - --options runtime "$FW"; fi
+          codesign --force --sign - --options runtime \
+            --entitlements FaceFusionEngine/FaceFusionEngine.entitlements \
+            "$APP/Contents/XPCServices/FaceFusionEngine.xpc"
+          codesign --force --sign - --options runtime \
+            --entitlements FaceFusionMac/FaceFusionMac.entitlements \
+            "$APP"
+          echo "APP_PATH=$APP" >> "$GITHUB_ENV"
+
+      # ----------------------------------------------------------- verify -----
+      - name: Verify signature, entitlements and architectures
+        run: |
+          set -eo pipefail
+          codesign --verify --deep --strict --verbose=2 "$APP_PATH"
+          echo "== app =="
+          codesign -dvvv "$APP_PATH" 2>&1 | grep -E 'Authority|TeamIdentifier|flags|Timestamp' || true
+          codesign -d --entitlements - --xml "$APP_PATH" 2>/dev/null | plutil -p -
+          echo "== engine =="
+          codesign -dvvv "$APP_PATH/Contents/XPCServices/FaceFusionEngine.xpc" 2>&1 | grep -E 'Authority|TeamIdentifier|flags' || true
+          ENG="$(codesign -d --entitlements - --xml "$APP_PATH/Contents/XPCServices/FaceFusionEngine.xpc" 2>/dev/null | plutil -p -)"
+          echo "$ENG"
+          # Load-bearing invariants for this app.
+          if ! echo "$ENG" | grep -q 'application-groups'; then
+            echo "::error::the engine lost its App Group entitlement - app and engine cannot share models"; exit 1
+          fi
+          if echo "$ENG" | grep -q 'network.client'; then
+            echo "::error::network entitlement leaked into the deliberately-offline engine (something used --deep)"; exit 1
+          fi
+          echo "== archs =="
+          lipo -archs "$APP_PATH/Contents/MacOS/FaceFusionMac"
+
+      # ------------------------------------------------------------ package ---
+      - name: Build the DMG
+        run: |
+          set -eo pipefail
+          chmod +x Tools/make-dmg.sh
+          ARGS=""
+          if [ -f Tools/dmg/DS_Store ]; then ARGS="--ds-store Tools/dmg/DS_Store"; fi
+          Tools/make-dmg.sh $ARGS \
+            -o "$RUNNER_TEMP/FaceFusionMac-${{ steps.ver.outputs.version }}.dmg" \
+            "$APP_PATH"
+          DMG="$RUNNER_TEMP/FaceFusionMac-${{ steps.ver.outputs.version }}.dmg"
+          echo "DMG_PATH=$DMG" >> "$GITHUB_ENV"
+          echo "DMG_NAME=$(basename "$DMG")" >> "$GITHUB_ENV"
+          shasum -a 256 "$DMG" | tee "$DMG.sha256"
+
+      - name: Notarize and staple the DMG
+        if: steps.caps.outputs.mode == 'notarized'
+        env:
+          KEY_ID: ${{ secrets.APPLE_API_KEY_ID }}
+          ISSUER: ${{ secrets.APPLE_API_ISSUER_ID }}
+        run: |
+          set -eo pipefail
+          # One submission covers the DMG, the app, the XPC service and the
+          # embedded framework: the notary service tickets every nested bundle.
+          xcrun notarytool submit "$DMG_PATH" \
+            --key "$ASC_KEY_PATH" --key-id "$KEY_ID" --issuer "$ISSUER" \
+            --wait --timeout 45m
+          xcrun stapler staple "$DMG_PATH"
+          xcrun stapler validate "$DMG_PATH"
+          MNT="$(mktemp -d)"
+          hdiutil attach "$DMG_PATH" -nobrowse -readonly -mountpoint "$MNT"
+          spctl --assess --type exec --verbose=4 "$MNT/FaceFusionMac.app"
+          hdiutil detach "$MNT"
+          shasum -a 256 "$DMG_PATH" > "$DMG_PATH.sha256"   # stapling changed the bytes
+
+      - name: Upload DMG artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.DMG_NAME }}
+          path: |
+            ${{ env.DMG_PATH }}
+            ${{ env.DMG_PATH }}.sha256
+          if-no-files-found: error
+          retention-days: 14
+
+      # ------------------------------------------------------------ publish ---
+      - name: Create GitHub Release
+        if: github.ref_type == 'tag'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          MODE: ${{ steps.caps.outputs.mode }}
+        run: |
+          set -eo pipefail
+          N="$RUNNER_TEMP/notes.md"
+          {
+            echo "## FaceFusionMac ${{ steps.ver.outputs.version }}"
+            echo
+            echo "Open the DMG and drag **FaceFusionMac** onto the **Applications** shortcut."
+            echo
+            echo "The AI models (~900 MB) download on first launch and are SHA-256 verified."
+            echo
+            case "$MODE" in
+              notarized)
+                echo "Signed with Developer ID and notarized by Apple. It opens normally." ;;
+              signed)
+                echo "> [!WARNING]"
+                echo "> Code-signed but **not notarized**. macOS will warn on first launch." ;;
+              adhoc)
+                echo "> [!WARNING]"
+                echo "> This build is **not notarized**, so macOS Gatekeeper blocks it on first"
+                echo "> launch. After dragging it to Applications, open Terminal and run:"
+                echo '> ```'
+                echo "> xattr -dr com.apple.quarantine /Applications/FaceFusionMac.app"
+                echo '> ```'
+                echo "> (macOS 15+ removed the right-click > Open bypass. The GUI alternative is"
+                echo "> System Settings > Privacy & Security > \"Open Anyway\".)"
+                echo "> Only do this for software you trust." ;;
+            esac
+            echo
+            echo '### SHA-256'
+            echo '```'
+            cat "$DMG_PATH.sha256"
+            echo '```'
+          } > "$N"
+          PRE=""
+          if [ "$MODE" != "notarized" ]; then PRE="--prerelease"; fi
+          gh release create "$GITHUB_REF_NAME" \
+            "$DMG_PATH" "$DMG_PATH.sha256" \
+            --title "FaceFusionMac ${{ steps.ver.outputs.version }}" \
+            --notes-file "$N" $PRE
+
+      - name: Destroy the temporary keychain
+        if: always()
+        run: |
+          set +e
+          [ -n "${KEYCHAIN_PATH:-}" ] && security delete-keychain "$KEYCHAIN_PATH"
+          rm -rf "$RUNNER_TEMP/private_keys"
+          exit 0
+
+# ---------------------------------------------------------------------------
+# SECRETS THIS WORKFLOW LOOKS FOR (all optional; none needed to get a DMG)
+#
+#   APPLE_CERTIFICATE_P12_BASE64    base64 of a Developer ID Application .p12
+#                                   (Keychain Access > export cert + private key)
+#                                     base64 -i dev_id.p12 | pbcopy
+#   APPLE_CERTIFICATE_P12_PASSWORD  the password you set when exporting that .p12
+#   APPLE_API_KEY_P8_BASE64         base64 of AuthKey_XXXXXXXXXX.p8 from
+#                                   appstoreconnect.apple.com > Integrations > App Store Connect API
+#                                   (role: App Manager, so xcodebuild can also fetch profiles)
+#   APPLE_API_KEY_ID                the 10-character Key ID
+#   APPLE_API_ISSUER_ID             the issuer UUID shown above the key list.
+#                                   Required for TEAM keys; for an INDIVIDUAL key
+#                                   notarytool forbids --issuer, so leave this unset
+#                                   and drop --issuer from the notarize step.
+#
+#   cert only          -> mode=signed     (Developer ID signed, not notarized)
+#   cert + API key     -> mode=notarized  (the real thing)
+#   neither            -> mode=adhoc      (works, but users must clear quarantine)
+# ---------------------------------------------------------------------------
