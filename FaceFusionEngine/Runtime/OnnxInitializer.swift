@@ -121,9 +121,9 @@ enum OnnxInitializerReader {
                 }
                 var halves = [UInt16](repeating: 0, count: count)
                 halves.withUnsafeMutableBytes {
-                    memcpy($0.baseAddress!, buf.baseAddress! + rawData.lowerBound, expected)
+                    _ = memcpy($0.baseAddress!, buf.baseAddress! + rawData.lowerBound, expected)
                 }
-                floats = halves.map { Float(Float16(bitPattern: $0)) }
+                floats = halves.map { Float(float16Bits: $0) }
             default:
                 throw makeEngineNSError(.modelLoadFailed,
                                         underlying: "unsupported initializer dtype \(dataType)")
