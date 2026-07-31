@@ -2,23 +2,31 @@
 //  ContentView.swift
 //  FaceFusionMac
 //
-//  Created by Eason Smith on 31/07/2026.
+//  Routes between first-run model installation and the studio.
 //
 
 import SwiftUI
 
 struct ContentView: View {
+    @Environment(AppModel.self) private var model
+
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        Group {
+            if model.models.isReady {
+                StudioView()
+            } else {
+                OnboardingView()
+            }
         }
-        .padding()
+        .animation(.smooth(duration: 0.35), value: model.models.isReady)
+        .task(id: model.models.isReady) {
+            await model.startEngineIfPossible()
+        }
     }
 }
 
 #Preview {
     ContentView()
+        .environment(AppModel())
+        .frame(width: 1180, height: 760)
 }

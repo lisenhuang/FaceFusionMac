@@ -1,0 +1,52 @@
+{
+  "manifestVersion": 1,
+  "release": "models-3.0.0",
+  "note": "SHA-256 digests were computed from the published FaceFusion release assets. The app refuses any download that does not match.",
+  "models": [
+    {
+      "id": "yoloface_8n",
+      "url": "https://github.com/facefusion/facefusion-assets/releases/download/models-3.0.0/yoloface_8n.onnx",
+      "sha256": "821cdbb1e65fbbabdde7dd0933f754797a343e56fd962729c61ffcefcd135929",
+      "bytes": 12659761,
+      "required": true,
+      "vendor": "derronqi",
+      "license": "GPL-3.0"
+    },
+    {
+      "id": "arcface_w600k_r50",
+      "url": "https://github.com/facefusion/facefusion-assets/releases/download/models-3.0.0/arcface_w600k_r50.onnx",
+      "sha256": "f1f79dc3b0b79a69f94799af1fffebff09fbd78fd96a275fd8f0cbbea23270d1",
+      "bytes": 174388474,
+      "required": true,
+      "vendor": "InsightFace",
+      "license": "Non-commercial research use only"
+    },
+    {
+      "id": "inswapper_128_fp16",
+      "url": "https://github.com/facefusion/facefusion-assets/releases/download/models-3.0.0/inswapper_128_fp16.onnx",
+      "sha256": "c4eccca86ad177586c85c28bf1a64a9d9ed237e283a15818d831f7facfd3f420",
+      "bytes": 277680829,
+      "required": true,
+      "vendor": "InsightFace",
+      "license": "Non-commercial research use only"
+    },
+    {
+      "id": "2dfan4",
+      "url": "https://github.com/facefusion/facefusion-assets/releases/download/models-3.0.0/2dfan4.onnx",
+      "sha256": "678c6fa539d52335a31c980feefdf4a6e02d781d83dce00af8a894f114557285",
+      "bytes": 97904803,
+      "required": false,
+      "vendor": "breadbread1984",
+      "license": "MIT"
+    },
+    {
+      "id": "gfpgan_1.4",
+      "url": "https://github.com/facefusion/facefusion-assets/releases/download/models-3.0.0/gfpgan_1.4.onnx",
+      "sha256": "accc4757b26bdb89b32b4d3500d4f79c9dff97c1dd7c7104bf9dcb95e3311385",
+      "bytes": 340299087,
+      "required": false,
+      "vendor": "TencentARC",
+      "license": "Apache-2.0"
+    }
+  ]
+}

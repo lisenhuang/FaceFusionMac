@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!--
+	  The engine runs in its own sandbox rather than inheriting the app's.
+
+	  `com.apple.security.inherit` is for processes an app spawns itself; an
+	  XPC service is started by launchd, which cannot hand it the parent's
+	  sandbox — secinitd rejects the registration and the service traps during
+	  dyld initialisation before main() ever runs.
+
+	  A separate sandbox means a separate container, so the two processes meet
+	  in a shared App Group container instead. That is where the downloaded
+	  models and Core ML's compile cache live.
+
+	  Deliberately absent: any network entitlement. Once the models are on
+	  disk, the process performing the inference cannot reach the network at
+	  all — being offline is enforced by the sandbox, not just by good manners.
+	-->
+	<key>com.apple.security.app-sandbox</key>
+	<true/>
+	<key>com.apple.security.application-groups</key>
+	<array>
+		<string>HPL74FCW8E.com.lisenhuang.FaceFusionMac</string>
+	</array>
+</dict>
+</plist>

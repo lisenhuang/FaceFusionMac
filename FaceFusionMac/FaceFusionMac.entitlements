@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>com.apple.security.app-sandbox</key>
+	<true/>
+	<!--
+	  Needed only for the one-time model download. The XPC service that runs
+	  the actual inference has no network entitlement of its own, so once the
+	  models are on disk the face swapping is offline by construction.
+	-->
+	<key>com.apple.security.network.client</key>
+	<true/>
+	<!-- Read the chosen video and portrait; write the exported result. -->
+	<key>com.apple.security.files.user-selected.read-write</key>
+	<true/>
+	<!-- Shared with the engine: holds the models and Core ML's compile cache. -->
+	<key>com.apple.security.application-groups</key>
+	<array>
+		<string>HPL74FCW8E.com.lisenhuang.FaceFusionMac</string>
+	</array>
+</dict>
+</plist>
