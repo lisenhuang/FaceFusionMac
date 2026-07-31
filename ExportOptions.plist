@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  Export options for a Developer ID (outside the Mac App Store) build.
+
+  Used by:  xcodebuild -exportArchive -exportOptionsPlist ExportOptions.plist
+
+  This step is not optional cosmetics. A plain `xcodebuild build` product can
+  never be notarized: Release injects com.apple.security.get-task-allow (so the
+  debugger can attach) and nothing strips it afterwards. Only exportArchive
+  re-signs with the Developer ID certificate, adds the secure timestamp, and
+  drops that entitlement.
+-->
+<plist version="1.0">
+<dict>
+  <key>method</key>
+  <string>developer-id</string>
+
+  <key>teamID</key>
+  <string>HPL74FCW8E</string>
+
+  <key>signingStyle</key>
+  <string>automatic</string>
+
+  <key>signingCertificate</key>
+  <string>Developer ID Application</string>
+
+  <key>destination</key>
+  <string>export</string>
+
+  <!-- Versions come from the command line so a tag build leaves the tree clean:
+       xcodebuild ... MARKETING_VERSION=1.2.3 CURRENT_PROJECT_VERSION=42 -->
+  <key>manageAppVersionAndBuildNumber</key>
+  <false/>
+</dict>
+</plist>

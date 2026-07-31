@@ -17,7 +17,10 @@ xcuserdata/
 *.p8
 *.cer
 *.provisionprofile
-ExportOptions.plist
+
+# ExportOptions.plist is deliberately NOT ignored: it holds no secret (a team ID
+# is public, it appears in every signed binary) and the documented export
+# command refers to it by name.
 
 # macOS
 .DS_Store
