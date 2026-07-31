@@ -95,9 +95,16 @@ final class AppModel {
     var identityStrength: Double = 0.5
     var maskBlur: Double = 0.3
     var useHEVC = true
-    /// One face by default. Most clips have a single subject, and replacing
-    /// every face in a crowd is the surprising outcome, not the expected one.
-    var faceSelection: FaceSelection = .largest
+    /// *Choose* by default: it is the only mode that names a **person** rather
+    /// than a position, and so the only one that survives a cut, a crossing, or
+    /// the subject walking across frame. The other two are there for when that
+    /// precision is not wanted.
+    ///
+    /// Generation 0 is deliberately one nobody has pushed, so a swap cannot run
+    /// against it by accident. `startEngineIfPossible` replaces it with a real
+    /// generation the moment there is an engine to push to.
+    var faceSelection: FaceSelection = .reference(generation: 0,
+                                                  maxDistance: defaultFaceMatchDistance)
 
     // MARK: Choosing faces
 
@@ -382,6 +389,10 @@ final class AppModel {
             invalidatePreviewResult()
             await detectPreviewFaces()
             await refreshPreview()
+            // The same rule as entering the mode by hand: a photo is one frame,
+            // so finding its people is instant and asking for a button press
+            // would be ceremony. A video stays a deliberate act.
+            if faceMode == .chosen, !hasScanned { scanTargetForPeople() }
         } catch {
             statusMessage = error.localizedDescription
         }
@@ -430,8 +441,13 @@ final class AppModel {
     }
 
     /// Identities are only meaningful against the target they were collected
-    /// from, so a new target starts over — including dropping out of "choose
-    /// faces" mode, which would otherwise point at people who are not there.
+    /// from, so a new target starts over.
+    ///
+    /// Starting over means an empty set under a *new* generation, not leaving
+    /// the mode. Dropping back to one-face here would mean a new target
+    /// silently changed what the app is about to do — and since *Choose* is the
+    /// default, it would be impossible to keep. The empty set is what stops the
+    /// old identities being matched against people who are not in this video.
     private func resetPeople() {
         scanTask?.cancel()
         scanTask = nil
@@ -440,7 +456,9 @@ final class AppModel {
         previewIdentities = []
         scanProgress = nil
         hasScanned = false
-        if case .reference = faceSelection { faceSelection = .largest }
+        if case .reference = faceSelection {
+            Task { await applyCheckedFaces() }
+        }
     }
 
     // MARK: - Preview

@@ -1,5 +1,34 @@
 # Working agreements
 
+## Every code change
+
+**Bump the version, then build.** Both, every time — not just when it feels
+significant.
+
+1. **Bump.** Raise `MARKETING_VERSION` in
+   `FaceFusionMac.xcodeproj/project.pbxproj`: patch for a fix (`1.0.3` →
+   `1.0.4`), minor for a new feature. Raise `CURRENT_PROJECT_VERSION` by one
+   alongside it. Each appears **8 times** — once per target per configuration —
+   so change every occurrence or the app and the engine disagree about what
+   they are.
+
+2. **Build.** Not "it should compile":
+
+   ```sh
+   xcodebuild -project FaceFusionMac.xcodeproj -scheme FaceFusionMac \
+              -configuration Release -destination 'generic/platform=macOS' build
+   ```
+
+   Use `-scheme`, never `-target`: SPM module maps are only generated for
+   scheme builds. `generic/platform=macOS` builds both architectures, which is
+   what ships — `arch=arm64` hides Intel-only breakage.
+
+Work that has not been built is not finished, and I do not want to hear it is
+done until it has compiled.
+
+Note that a tag build in CI overrides both values from the git tag, so the
+number in the project is what local and untagged builds report.
+
 ## Git
 
 **Never commit on your own.** Do not run `git commit`, `git push`, `git tag`,
