@@ -32,12 +32,38 @@ struct FaceFusionMacApp: App {
 
     private var model: AppModel { delegate.model }
 
+    /// Set only when the App Store has something newer; see `UpdateChecker`.
+    @State private var availableUpdate: UpdateChecker.Update?
+    @State private var isShowingUpdate = false
+
+    /// `--selftest`, `--benchmark` and `--profile` drive the app headlessly and
+    /// report to stdout. An alert in front of them would sit there unanswered
+    /// and turn a scripted run into a hang.
+    private var isHeadless: Bool {
+        Benchmark.isRequested || Benchmark.isProfileRequested || SelfTest.isRequested
+    }
+
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environment(model)
                 .frame(minWidth: 940, minHeight: 620)
                 .task { await model.startEngineIfPossible() }
+                // Once per launch, off the main path: the result arrives long
+                // after the first frame and nothing waits on it.
+                .task {
+                    guard !isHeadless, let update = await UpdateChecker.check() else { return }
+                    availableUpdate = update
+                    isShowingUpdate = true
+                }
+                .alert("A new version is available",
+                       isPresented: $isShowingUpdate,
+                       presenting: availableUpdate) { update in
+                    Button("Update") { NSWorkspace.shared.open(update.storeURL) }
+                    Button("Not now", role: .cancel) { }
+                } message: { update in
+                    Text("Morphiqo \(update.version) is on the App Store. You have \(UpdateChecker.installedVersion).")
+                }
         }
         .windowResizability(.contentMinSize)
         .defaultSize(width: 1180, height: 760)
