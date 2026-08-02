@@ -14,7 +14,7 @@ import IOSurface
 /// Identity of the XPC service bundle embedded in the app. Must match the
 /// engine target's `PRODUCT_BUNDLE_IDENTIFIER`.
 public enum EngineServiceIdentity {
-    public static let name = "com.lisenhuang.FaceFusionMac.Engine"
+    public static let name = "com.lisenhuang.morphiqo.Engine"
 }
 
 @objc public protocol FaceFusionEngineProtocol {

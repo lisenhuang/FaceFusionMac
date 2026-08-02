@@ -10,7 +10,7 @@
 set -euo pipefail
 
 SRC="${1:?usage: stage-test-assets.sh <source-directory>}"
-DEST="$HOME/Library/Containers/com.lisenhuang.FaceFusionMac/Data/Library/Application Support/FaceFusionMac/TestAssets"
+DEST="$HOME/Library/Containers/com.lisenhuang.morphiqo/Data/Library/Application Support/FaceFusionMac/TestAssets"
 
 if [ ! -d "$SRC/models" ]; then
   echo "error: $SRC/models not found" >&2
