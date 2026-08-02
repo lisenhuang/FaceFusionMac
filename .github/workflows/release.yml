@@ -59,7 +59,7 @@ jobs:
           echo "mode=$MODE"         >> "$GITHUB_OUTPUT"
           echo "### Release mode: \`$MODE\`" >> "$GITHUB_STEP_SUMMARY"
           case "$MODE" in
-            adhoc)  echo "::warning title=No signing secrets::Building an ad-hoc signed DMG. It installs and runs, but every downloader must run 'xattr -dr com.apple.quarantine /Applications/FaceFusionMac.app'. Add APPLE_CERTIFICATE_P12_BASE64 + APPLE_CERTIFICATE_P12_PASSWORD + APPLE_API_KEY_P8_BASE64 + APPLE_API_KEY_ID + APPLE_API_ISSUER_ID for a notarized build." ;;
+            adhoc)  echo "::warning title=No signing secrets::Building an ad-hoc signed DMG. It installs and runs, but every downloader must run 'xattr -dr com.apple.quarantine /Applications/Morphiqo.app'. Add APPLE_CERTIFICATE_P12_BASE64 + APPLE_CERTIFICATE_P12_PASSWORD + APPLE_API_KEY_P8_BASE64 + APPLE_API_KEY_ID + APPLE_API_ISSUER_ID for a notarized build." ;;
             signed) echo "::warning title=No notarization key::Developer ID signed but NOT notarized. Add APPLE_API_KEY_P8_BASE64 / APPLE_API_KEY_ID / APPLE_API_ISSUER_ID." ;;
           esac
 
@@ -175,10 +175,10 @@ jobs:
 
           xcodebuild archive \
             -project FaceFusionMac.xcodeproj \
-            -scheme FaceFusionMac \
+            -scheme Morphiqo \
             -configuration Release \
             -destination 'generic/platform=macOS' \
-            -archivePath "$RUNNER_TEMP/FaceFusionMac.xcarchive" \
+            -archivePath "$RUNNER_TEMP/Morphiqo.xcarchive" \
             -clonedSourcePackagesDirPath .spm-cache \
             -disableAutomaticPackageResolution \
             ${AUTH[@]+"${AUTH[@]}"} \
@@ -206,12 +206,12 @@ jobs:
           # strips com.apple.security.get-task-allow. A plain `xcodebuild build`
           # product can never be notarized, even after re-signing.
           xcodebuild -exportArchive \
-            -archivePath "$RUNNER_TEMP/FaceFusionMac.xcarchive" \
+            -archivePath "$RUNNER_TEMP/Morphiqo.xcarchive" \
             -exportPath "$RUNNER_TEMP/export" \
             -exportOptionsPlist "$RUNNER_TEMP/ExportOptions.plist" \
             ${AUTH[@]+"${AUTH[@]}"} \
             | xcbeautify --renderer github-actions
-          echo "APP_PATH=$RUNNER_TEMP/export/FaceFusionMac.app" >> "$GITHUB_ENV"
+          echo "APP_PATH=$RUNNER_TEMP/export/Morphiqo.app" >> "$GITHUB_ENV"
 
       # --------------------------------------------- unsigned path: ad-hoc -----
       - name: Build and ad-hoc sign (no certificate available)
@@ -220,7 +220,7 @@ jobs:
           set -eo pipefail
           xcodebuild build \
             -project FaceFusionMac.xcodeproj \
-            -scheme FaceFusionMac \
+            -scheme Morphiqo \
             -configuration Release \
             -destination 'generic/platform=macOS' \
             -derivedDataPath DerivedData \
@@ -237,8 +237,8 @@ jobs:
             | xcbeautify --renderer github-actions
 
           mkdir -p "$RUNNER_TEMP/export"
-          APP="$RUNNER_TEMP/export/FaceFusionMac.app"
-          ditto DerivedData/Build/Products/Release/FaceFusionMac.app "$APP"
+          APP="$RUNNER_TEMP/export/Morphiqo.app"
+          ditto DerivedData/Build/Products/Release/Morphiqo.app "$APP"
 
           # Re-sign inside out. NEVER --deep: it would stamp the app's
           # network.client entitlement onto the engine, which is deliberately
@@ -274,7 +274,7 @@ jobs:
             echo "::error::network entitlement leaked into the deliberately-offline engine (something used --deep)"; exit 1
           fi
           echo "== archs =="
-          lipo -archs "$APP_PATH/Contents/MacOS/FaceFusionMac"
+          lipo -archs "$APP_PATH/Contents/MacOS/Morphiqo"
 
       # ------------------------------------------------------------ package ---
       - name: Build the DMG
@@ -284,9 +284,9 @@ jobs:
           ARGS=""
           if [ -f Tools/dmg/DS_Store ]; then ARGS="--ds-store Tools/dmg/DS_Store"; fi
           Tools/make-dmg.sh $ARGS \
-            -o "$RUNNER_TEMP/FaceFusionMac-${{ steps.ver.outputs.version }}.dmg" \
+            -o "$RUNNER_TEMP/Morphiqo-${{ steps.ver.outputs.version }}.dmg" \
             "$APP_PATH"
-          DMG="$RUNNER_TEMP/FaceFusionMac-${{ steps.ver.outputs.version }}.dmg"
+          DMG="$RUNNER_TEMP/Morphiqo-${{ steps.ver.outputs.version }}.dmg"
           echo "DMG_PATH=$DMG" >> "$GITHUB_ENV"
           echo "DMG_NAME=$(basename "$DMG")" >> "$GITHUB_ENV"
           shasum -a 256 "$DMG" | tee "$DMG.sha256"
@@ -307,7 +307,7 @@ jobs:
           xcrun stapler validate "$DMG_PATH"
           MNT="$(mktemp -d)"
           hdiutil attach "$DMG_PATH" -nobrowse -readonly -mountpoint "$MNT"
-          spctl --assess --type exec --verbose=4 "$MNT/FaceFusionMac.app"
+          spctl --assess --type exec --verbose=4 "$MNT/Morphiqo.app"
           hdiutil detach "$MNT"
           shasum -a 256 "$DMG_PATH" > "$DMG_PATH.sha256"   # stapling changed the bytes
 
@@ -331,9 +331,9 @@ jobs:
           set -eo pipefail
           N="$RUNNER_TEMP/notes.md"
           {
-            echo "## FaceFusionMac ${{ steps.ver.outputs.version }}"
+            echo "## Morphiqo ${{ steps.ver.outputs.version }}"
             echo
-            echo "Open the DMG and drag **FaceFusionMac** onto the **Applications** shortcut."
+            echo "Open the DMG and drag **Morphiqo** onto the **Applications** shortcut."
             echo
             echo "The AI models (~900 MB) download on first launch and are SHA-256 verified."
             echo
@@ -348,7 +348,7 @@ jobs:
                 echo "> This build is **not notarized**, so macOS Gatekeeper blocks it on first"
                 echo "> launch. After dragging it to Applications, open Terminal and run:"
                 echo '> ```'
-                echo "> xattr -dr com.apple.quarantine /Applications/FaceFusionMac.app"
+                echo "> xattr -dr com.apple.quarantine /Applications/Morphiqo.app"
                 echo '> ```'
                 echo "> (macOS 15+ removed the right-click > Open bypass. The GUI alternative is"
                 echo "> System Settings > Privacy & Security > \"Open Anyway\".)"
@@ -364,7 +364,7 @@ jobs:
           if [ "$MODE" != "notarized" ]; then PRE="--prerelease"; fi
           gh release create "$GITHUB_REF_NAME" \
             "$DMG_PATH" "$DMG_PATH.sha256" \
-            --title "FaceFusionMac ${{ steps.ver.outputs.version }}" \
+            --title "Morphiqo ${{ steps.ver.outputs.version }}" \
             --notes-file "$N" $PRE
 
       - name: Destroy the temporary keychain

@@ -1,4 +1,4 @@
-# FaceFusionMac
+# Morphiqo
 
 A local-first face-swapping app for macOS, for video and for photos. No Python,
 no FFmpeg, no Conda, no Homebrew — install the app, download the models once,
@@ -201,8 +201,8 @@ on optimisation. Always measure in Release.
 ### Tools
 
 ```sh
-Release/FaceFusionMac.app/Contents/MacOS/FaceFusionMac --benchmark  # sweep EP settings
-Release/FaceFusionMac.app/Contents/MacOS/FaceFusionMac --profile    # Core ML compute plan
+Release/Morphiqo.app/Contents/MacOS/Morphiqo --benchmark  # sweep EP settings
+Release/Morphiqo.app/Contents/MacOS/Morphiqo --profile    # Core ML compute plan
 ```
 
 ### Known remaining headroom
@@ -219,7 +219,7 @@ Release/FaceFusionMac.app/Contents/MacOS/FaceFusionMac --profile    # Core ML co
 ## Building
 
 ```sh
-xcodebuild -project FaceFusionMac.xcodeproj -scheme FaceFusionMac \
+xcodebuild -project FaceFusionMac.xcodeproj -scheme Morphiqo \
            -configuration Release -destination 'platform=macOS,arch=arm64' build
 ```
 
@@ -230,7 +230,7 @@ Swift Package Manager resolves ONNX Runtime automatically. Build via the
 
 ```sh
 # Unit tests only — no models needed.
-xcodebuild -project FaceFusionMac.xcodeproj -scheme FaceFusionMac \
+xcodebuild -project FaceFusionMac.xcodeproj -scheme Morphiqo \
            -destination 'platform=macOS,arch=arm64' \
            -only-testing:FaceFusionMacTests test
 ```
@@ -250,7 +250,7 @@ Tools/stage-test-assets.sh <dir>   # dir contains models/ media/ out/
 ### End-to-end check
 
 ```sh
-Release/FaceFusionMac.app/Contents/MacOS/FaceFusionMac --selftest
+Release/Morphiqo.app/Contents/MacOS/Morphiqo --selftest
 ```
 
 Reads `source.jpg` and `target.mp4` from `SelfTest/` in the shared container,

@@ -18,14 +18,14 @@
 			containerPortal = 0FAF5B9B301C2AB6008C84DC /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 0FAF5BA2301C2AB6008C84DC;
-			remoteInfo = FaceFusionMac;
+			remoteInfo = Morphiqo;
 		};
 		0FAF5BBB301C2AB8008C84DC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0FAF5B9B301C2AB6008C84DC /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 0FAF5BA2301C2AB6008C84DC;
-			remoteInfo = FaceFusionMac;
+			remoteInfo = Morphiqo;
 		};
 		AA00000000000000000023 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -51,7 +51,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		0FAF5BA3301C2AB6008C84DC /* FaceFusionMac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FaceFusionMac.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0FAF5BA3301C2AB6008C84DC /* Morphiqo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Morphiqo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0FAF5BB0301C2AB8008C84DC /* FaceFusionMacTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FaceFusionMacTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0FAF5BBA301C2AB8008C84DC /* FaceFusionMacUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FaceFusionMacUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA00000000000000000011 /* FaceFusionEngine.xpc */ = {isa = PBXFileReference; explicitFileType = "wrapper.xpc-service"; includeInIndex = 0; path = FaceFusionEngine.xpc; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -156,7 +156,7 @@
 		0FAF5BA4301C2AB6008C84DC /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				0FAF5BA3301C2AB6008C84DC /* FaceFusionMac.app */,
+				0FAF5BA3301C2AB6008C84DC /* Morphiqo.app */,
 				AA00000000000000000011 /* FaceFusionEngine.xpc */,
 				0FAF5BB0301C2AB8008C84DC /* FaceFusionMacTests.xctest */,
 				0FAF5BBA301C2AB8008C84DC /* FaceFusionMacUITests.xctest */,
@@ -167,9 +167,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		0FAF5BA2301C2AB6008C84DC /* FaceFusionMac */ = {
+		0FAF5BA2301C2AB6008C84DC /* Morphiqo */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 0FAF5BC4301C2AB8008C84DC /* Build configuration list for PBXNativeTarget "FaceFusionMac" */;
+			buildConfigurationList = 0FAF5BC4301C2AB8008C84DC /* Build configuration list for PBXNativeTarget "Morphiqo" */;
 			buildPhases = (
 				0FAF5B9F301C2AB6008C84DC /* Sources */,
 				0FAF5BA0301C2AB6008C84DC /* Frameworks */,
@@ -185,11 +185,11 @@
 				0FAF5BA5301C2AB6008C84DC /* FaceFusionMac */,
 				AA00000000000000000001 /* Shared */,
 			);
-			name = FaceFusionMac;
+			name = Morphiqo;
 			packageProductDependencies = (
 			);
-			productName = FaceFusionMac;
-			productReference = 0FAF5BA3301C2AB6008C84DC /* FaceFusionMac.app */;
+			productName = Morphiqo;
+			productReference = 0FAF5BA3301C2AB6008C84DC /* Morphiqo.app */;
 			productType = "com.apple.product-type.application";
 		};
 		0FAF5BAF301C2AB8008C84DC /* FaceFusionMacTests */ = {
@@ -308,7 +308,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				0FAF5BA2301C2AB6008C84DC /* FaceFusionMac */,
+				0FAF5BA2301C2AB6008C84DC /* Morphiqo */,
 				AA00000000000000000010 /* FaceFusionEngine */,
 				0FAF5BAF301C2AB8008C84DC /* FaceFusionMacTests */,
 				0FAF5BB9301C2AB8008C84DC /* FaceFusionMacUITests */,
@@ -381,12 +381,12 @@
 /* Begin PBXTargetDependency section */
 		0FAF5BB2301C2AB8008C84DC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 0FAF5BA2301C2AB6008C84DC /* FaceFusionMac */;
+			target = 0FAF5BA2301C2AB6008C84DC /* Morphiqo */;
 			targetProxy = 0FAF5BB1301C2AB8008C84DC /* PBXContainerItemProxy */;
 		};
 		0FAF5BBC301C2AB8008C84DC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 0FAF5BA2301C2AB6008C84DC /* FaceFusionMac */;
+			target = 0FAF5BA2301C2AB6008C84DC /* Morphiqo */;
 			targetProxy = 0FAF5BBB301C2AB8008C84DC /* PBXContainerItemProxy */;
 		};
 		AA00000000000000000022 /* PBXTargetDependency */ = {
@@ -525,7 +525,7 @@
 				CODE_SIGN_ENTITLEMENTS = FaceFusionMac/FaceFusionMac.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = HPL74FCW8E;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
@@ -535,7 +535,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.3;
+				MARKETING_VERSION = 1.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.lisenhuang.morphiqo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -556,7 +556,7 @@
 				CODE_SIGN_ENTITLEMENTS = FaceFusionMac/FaceFusionMac.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = HPL74FCW8E;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
@@ -566,7 +566,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.3;
+				MARKETING_VERSION = 1.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.lisenhuang.morphiqo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -584,11 +584,11 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = HPL74FCW8E;
 				GENERATE_INFOPLIST_FILE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 26.5;
-				MARKETING_VERSION = 1.0.3;
+				MARKETING_VERSION = 1.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.lisenhuang.morphiqoTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
@@ -597,7 +597,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FaceFusionMac.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/FaceFusionMac";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Morphiqo.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Morphiqo";
 			};
 			name = Debug;
 		};
@@ -606,11 +606,11 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = HPL74FCW8E;
 				GENERATE_INFOPLIST_FILE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 26.5;
-				MARKETING_VERSION = 1.0.3;
+				MARKETING_VERSION = 1.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.lisenhuang.morphiqoTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
@@ -619,7 +619,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FaceFusionMac.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/FaceFusionMac";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Morphiqo.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Morphiqo";
 			};
 			name = Release;
 		};
@@ -627,10 +627,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = HPL74FCW8E;
 				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0.3;
+				MARKETING_VERSION = 1.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.lisenhuang.morphiqoUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
@@ -638,7 +638,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TEST_TARGET_NAME = FaceFusionMac;
+				TEST_TARGET_NAME = Morphiqo;
 			};
 			name = Debug;
 		};
@@ -646,10 +646,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = HPL74FCW8E;
 				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0.3;
+				MARKETING_VERSION = 1.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.lisenhuang.morphiqoUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
@@ -657,7 +657,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TEST_TARGET_NAME = FaceFusionMac;
+				TEST_TARGET_NAME = Morphiqo;
 			};
 			name = Release;
 		};
@@ -666,13 +666,13 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = FaceFusionEngine/FaceFusionEngine.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = HPL74FCW8E;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = FaceFusionEngine/Info.plist;
 				MACOSX_DEPLOYMENT_TARGET = 26.5;
-				MARKETING_VERSION = 1.0.3;
+				MARKETING_VERSION = 1.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.lisenhuang.morphiqo.Engine;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -687,13 +687,13 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = FaceFusionEngine/FaceFusionEngine.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = HPL74FCW8E;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = FaceFusionEngine/Info.plist;
 				MACOSX_DEPLOYMENT_TARGET = 26.5;
-				MARKETING_VERSION = 1.0.3;
+				MARKETING_VERSION = 1.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.lisenhuang.morphiqo.Engine;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -715,7 +715,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		0FAF5BC4301C2AB8008C84DC /* Build configuration list for PBXNativeTarget "FaceFusionMac" */ = {
+		0FAF5BC4301C2AB8008C84DC /* Build configuration list for PBXNativeTarget "Morphiqo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0FAF5BC5301C2AB8008C84DC /* Debug */,

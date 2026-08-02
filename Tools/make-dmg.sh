@@ -1,23 +1,23 @@
 #!/bin/bash
 #
-# Tools/make-dmg.sh — build a drag-to-Applications disk image for FaceFusionMac.
+# Tools/make-dmg.sh — build a drag-to-Applications disk image for Morphiqo.
 #
 # Requires nothing but macOS + Xcode: ditto, hdiutil, codesign, xcrun, plutil.
 # No Homebrew, no Node, no create-dmg. Runs unchanged on a GitHub Actions runner.
 #
 # Usage:
-#   Tools/make-dmg.sh [options] [/path/to/FaceFusionMac.app]
+#   Tools/make-dmg.sh [options] [/path/to/Morphiqo.app]
 #
 # With no .app argument it uses the newest Release/export build it can find under
 # ./build or ~/Library/Developer/Xcode/DerivedData.
 #
 # Options:
-#   -o, --output <file.dmg>  Output path. Default dist/FaceFusionMac-<version>.dmg
-#   -n, --volname <name>     Finder volume name. Default: FaceFusionMac
+#   -o, --output <file.dmg>  Output path. Default dist/Morphiqo-<version>.dmg
+#   -n, --volname <name>     Finder volume name. Default: Morphiqo
 #   -i, --identity <id>      Codesign identity for the DMG.
 #                            Default: first "Developer ID Application" in the keychain.
 #       --dmg-identifier <s> Codesign identifier for the DMG. Must differ from every
-#                            bundle ID in the app. Default com.lisenhuang.FaceFusionMac.dmg
+#                            bundle ID in the app. Default com.lisenhuang.morphiqo.dmg
 #       --no-sign            Do not sign the DMG.
 #       --ds-store <file>    Pre-baked .DS_Store for the window layout (headless, CI-safe).
 #       --background <png>   Background image (pair with --layout, or with a --ds-store
@@ -37,12 +37,12 @@
 
 set -euo pipefail
 
-APP=""; OUTPUT=""; VOLNAME="FaceFusionMac"; IDENTITY=""; DO_SIGN=1
+APP=""; OUTPUT=""; VOLNAME="Morphiqo"; IDENTITY=""; DO_SIGN=1
 BACKGROUND=""; DS_STORE_IN=""; DS_STORE_CAPTURE=""; DO_LAYOUT=0
 ICON_SIZE=128; WIN_W=660; WIN_H=400
 APP_X=180; APP_Y=185; LINK_X=480; LINK_Y=185
 ZLIB_LEVEL=9; NOTARY_PROFILE=""
-DMG_IDENTIFIER="com.lisenhuang.FaceFusionMac.dmg"
+DMG_IDENTIFIER="com.lisenhuang.morphiqo.dmg"
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
@@ -96,15 +96,15 @@ if [ -z "$APP" ]; then
     [ -d "$d" ] && DIRS+=("$d")
   done
   if [ ${#DIRS[@]} -gt 0 ]; then
-    APP="$(/usr/bin/find "${DIRS[@]}" -maxdepth 6 -type d -name 'FaceFusionMac.app' \
+    APP="$(/usr/bin/find "${DIRS[@]}" -maxdepth 6 -type d -name 'Morphiqo.app' \
              \( -path '*/Build/Products/Release/*' -o -path '*/export/*' \) -print 2>/dev/null |
            while IFS= read -r p; do printf '%s\t%s\n' "$(/usr/bin/stat -f%m "$p")" "$p"; done |
            /usr/bin/sort -rn | /usr/bin/head -1 | /usr/bin/cut -f2-)"
   fi
-  [ -n "$APP" ] || die "no Release FaceFusionMac.app found. Build one first:
-    xcodebuild archive -project FaceFusionMac.xcodeproj -scheme FaceFusionMac \\
+  [ -n "$APP" ] || die "no Release Morphiqo.app found. Build one first:
+    xcodebuild archive -project FaceFusionMac.xcodeproj -scheme Morphiqo \\
       -configuration Release -destination 'generic/platform=macOS' \\
-      -archivePath build/FaceFusionMac.xcarchive"
+      -archivePath build/Morphiqo.xcarchive"
 fi
 APP="$(cd "$(dirname "$APP")" && pwd)/$(basename "$APP")"
 [ -d "$APP/Contents" ] || die "not an app bundle: $APP"
@@ -169,7 +169,7 @@ esac
 if [ "$NOTARIZABLE" -eq 0 ]; then
   banner <<EOF
 This app cannot be notarized as it stands, so anyone who DOWNLOADS the DMG will
-be blocked by Gatekeeper ("Apple could not verify FaceFusionMac is free of
+be blocked by Gatekeeper ("Apple could not verify Morphiqo is free of
 malware"). Reasons:
 $REASONS
 
