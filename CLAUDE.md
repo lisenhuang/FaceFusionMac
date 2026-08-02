@@ -1,1 +1,94 @@
-@CLAUDE.md
+# Working agreements
+
+<!-- AGENTS.md is a symlink to this file: one file, two names. Never write an
+     `@CLAUDE.md` import into either of them — it resolves to itself and wipes
+     this content. It has happened twice. -->
+
+## Every code change
+
+**Bump the version, then build.** Both, every time — not just when it feels
+significant.
+
+1. **Bump.** Raise `MARKETING_VERSION` in
+   `FaceFusionMac.xcodeproj/project.pbxproj`: patch for a fix (`1.0.4` →
+   `1.0.5`), minor for a new feature. Raise `CURRENT_PROJECT_VERSION` by one
+   alongside it. Each appears **8 times** — once per target per configuration —
+   so change every occurrence or the app and the engine disagree about what
+   they are.
+
+2. **Build.** Not "it should compile":
+
+   ```sh
+   xcodebuild -project FaceFusionMac.xcodeproj -scheme Morphiqo \
+              -configuration Release -destination 'generic/platform=macOS' build
+   ```
+
+   Use `-scheme`, never `-target`: SPM module maps are only generated for
+   scheme builds. `generic/platform=macOS` builds both architectures, which is
+   what ships — `arch=arm64` hides Intel-only breakage.
+
+Work that has not been built is not finished, and I do not want to hear it is
+done until it has compiled.
+
+Note that a tag build in CI overrides both values from the git tag, so the
+number in the project is what local and untagged builds report.
+
+## Things that are load-bearing
+
+- **The target and scheme are `Morphiqo`; the folders and the `.xcodeproj` are
+  still `FaceFusionMac`.** `-project FaceFusionMac.xcodeproj -scheme Morphiqo`
+  is the correct pairing, not a mistake to tidy up. The app ships as
+  `Morphiqo.app` with bundle ID `com.lisenhuang.morphiqo`.
+- **`EngineServiceIdentity.name` must equal the engine target's
+  `PRODUCT_BUNDLE_IDENTIFIER`** (`com.lisenhuang.morphiqo.Engine`). A mismatch
+  fails at runtime when the XPC connection is made, not at build time, so
+  nothing catches it for you.
+- **Renaming the product breaks the release pipeline in silence.**
+  `.github/workflows/release.yml` and `Tools/make-dmg.sh` both refer to the app
+  by name — the scheme, the archive path, `Contents/MacOS/<name>`, the DMG
+  volume and filename. Change one, grep for the rest.
+
+## Git
+
+**Never commit on your own.** Do not run `git commit`, `git push`, `git tag`,
+or anything else that writes to history unless I ask for it in that same turn.
+Finishing a task, getting a green test run, or updating docs is not a request
+to commit — leave the work in the tree and tell me what changed. Ask if you
+think a commit is warranted; do not assume.
+
+### The commit is mine, and so is the name on it
+
+When I ask you to commit, **the author and the committer are me, not you.** Take
+the identity from the repository's own configuration — `git config user.name`
+and `git config user.email`, currently `Ethan <lisen8018@gmail.com>` — and do
+nothing that changes it:
+
+- **Do not pass `--author`.** Do not set `GIT_AUTHOR_NAME`, `GIT_AUTHOR_EMAIL`,
+  `GIT_COMMITTER_NAME` or `GIT_COMMITTER_EMAIL`.
+- **Never put an assistant, bot or tool address in either field.**
+  `noreply@anthropic.com`, `claude@…`, `bot@…`, `*@users.noreply.github.com`
+  and anything similar are all wrong, in the author field and the committer
+  field alike.
+- **No `Co-Authored-By:` trailer for an AI**, and no second author of any kind.
+- **No "Generated with Claude Code", "🤖", or any tool named anywhere** in the
+  subject, body or trailers.
+
+If `user.name` or `user.email` is unset, stop and ask me. Do not guess, and do
+not let git fall back to the `user@hostname` identity it derives on its own —
+a commit authored by `easonsmith@Mac.local` is as wrong as one authored by a
+model.
+
+After committing, check it actually landed as me:
+
+```sh
+git log -1 --format='%an <%ae> | %cn <%ce>'
+```
+
+This holds however the commit is made — the CLI, the VS Code Source Control
+panel, or a generated message — and it holds for pull request titles and bodies,
+issue comments and release notes too. Write the message in my voice: what
+changed and why, no AI attribution.
+
+`.vscode/git-commit-instructions.md` is the standard this repository holds
+commit messages to; follow it when you write one, so a message you draft and one
+the editor generates read the same.
