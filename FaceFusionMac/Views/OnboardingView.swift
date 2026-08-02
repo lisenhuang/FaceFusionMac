@@ -59,7 +59,7 @@ struct OnboardingView: View {
             }
             .padding(.bottom, 4)
 
-            Text("Set up FaceFusion")
+            Text("Set up Morphiqo")
                 .font(.system(size: 26, weight: .semibold))
 
             Text("The app needs its AI models before it can run. This is a one‑time download — afterwards face swapping works entirely on this Mac, with no internet connection.")
@@ -132,7 +132,7 @@ struct OnboardingView: View {
     private var disclosure: some View {
         VStack(alignment: .leading, spacing: 10) {
             Label {
-                Text("Downloaded from the FaceFusion model repository and verified against a checksum before use.")
+                Text("Every file is verified against a checksum before use, and anything that does not match is discarded.")
             } icon: {
                 Image(systemName: "checkmark.shield")
             }
