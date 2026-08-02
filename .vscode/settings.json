@@ -1,0 +1,44 @@
+{
+  // Checked into the repository on purpose: the commit-message standard should
+  // travel with the code, so every clone generates messages the same way rather
+  // than each machine having its own private idea of what a commit looks like.
+
+  // What the "Generate Commit Message" (sparkle) button in the Source Control
+  // panel is told before it writes anything. Kept in a file rather than inline
+  // so the standard can be as long as it needs to be, and so it can be reviewed
+  // in a diff like any other document.
+  "github.copilot.chat.commitMessageGeneration.instructions": [
+    { "file": ".vscode/git-commit-instructions.md" }
+  ],
+
+  // Pull request titles and descriptions answer to the same rules — the
+  // authorship section especially, since that is where attribution lines
+  // usually creep back in.
+  "github.copilot.chat.pullRequestDescriptionGeneration.instructions": [
+    { "file": ".vscode/git-commit-instructions.md" }
+  ],
+
+  // The commit box nags at 50/72 by default, which quietly teaches everyone to
+  // stop writing at the first warning. The subject ruler stays — 72 is a real
+  // limit for `git log --oneline` — but the body is meant to be long, so its
+  // limit is lifted rather than left to imply that four lines is plenty.
+  "git.inputValidation": true,
+  "git.inputValidationSubjectLength": 72,
+  "git.inputValidationLength": 10000,
+
+  // Xcode owns the build. These stop the editor fighting it over whitespace in
+  // files Xcode also writes.
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": true,
+  "[swift]": {
+    "editor.tabSize": 4,
+    "editor.insertSpaces": true
+  },
+
+  "files.exclude": {
+    "**/.DS_Store": true,
+    "**/xcuserdata": true,
+    "dist": true
+  }
+}
