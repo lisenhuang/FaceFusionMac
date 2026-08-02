@@ -1,8 +1,8 @@
 # Working agreements
 
-<!-- AGENTS.md is a symlink to this file: one file, two names. Never write an
-     `@CLAUDE.md` import into either of them — it resolves to itself and wipes
-     this content. It has happened twice. -->
+<!-- AGENTS.md sits next to this file and contains only `@CLAUDE.md`. They are
+     two separate files: editing one no longer changes the other. The rules
+     themselves live here, not there. -->
 
 ## Every code change
 
