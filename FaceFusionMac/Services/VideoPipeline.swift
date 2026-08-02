@@ -204,6 +204,14 @@ enum VideoPipeline {
         }
         let writer = try AVAssetWriter(outputURL: request.destination, fileType: .mp4)
 
+        // An export must not say what made it. Empty is already the default, so
+        // this asserts the invariant rather than changing behaviour: it is the
+        // line that has to be deleted before a title, an author or a "created
+        // with" tag could ever reach a file that leaves this Mac. Nothing is
+        // carried over from the source asset's metadata either — the reader
+        // hands over samples, not the container it found them in.
+        writer.metadata = []
+
         let pixelCount = Double(displaySize.width * displaySize.height)
         let frameRate = nominalRate > 0 ? Double(nominalRate) : 30
         let bitrate = Int(pixelCount * frameRate * 0.15 * request.qualityMultiplier)
