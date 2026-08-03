@@ -24,10 +24,33 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             if SelfTest.isRequested { await SelfTest.run(model: model) }
         }
     }
+
+    /// Closing the window quits the app.
+    ///
+    /// App Review rejected the previous behaviour: the app kept running after
+    /// its only window was closed, with no menu command and no Dock action that
+    /// brought the window back. For a single-window app Apple accepts either a
+    /// reopen command or quitting on close, and quitting is the right one here —
+    /// the XPC engine holds roughly 900 MB of loaded models for as long as the
+    /// app lives, which is a lot to keep resident for a process with nothing on
+    /// screen.
+    ///
+    /// Stated explicitly rather than left to the `Window` scene, which happens
+    /// to terminate today. This is the behaviour a reviewer tests, so it should
+    /// not rest on an emergent default that a future SwiftUI release could
+    /// quietly change.
+    func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
+        // A headless run has no window to close and must not be killed by this.
+        !Benchmark.isRequested && !Benchmark.isProfileRequested && !SelfTest.isRequested
+    }
 }
 
 @main
 struct FaceFusionMacApp: App {
+    /// Identifies the single window scene, for `openWindow(id:)` and for the
+    /// Window-menu item SwiftUI derives from it.
+    static let mainWindowID = "main"
+
     @NSApplicationDelegateAdaptor(AppDelegate.self) private var delegate
 
     private var model: AppModel { delegate.model }
@@ -43,8 +66,22 @@ struct FaceFusionMacApp: App {
         Benchmark.isRequested || Benchmark.isProfileRequested || SelfTest.isRequested
     }
 
+    /// Tracks the one update lookup per launch, so reopening the window after
+    /// closing it does not ask the App Store again — or prompt again.
+    @State private var hasCheckedForUpdate = false
+
     var body: some Scene {
-        WindowGroup {
+        // `Window`, not `WindowGroup`. There is one model, one engine and one
+        // document at a time, so a second window would be two views fighting
+        // over one pipeline.
+        //
+        // It is also half of the fix for the App Review rejection. A
+        // `WindowGroup` can only be reopened through File ▸ New Window, which
+        // this app removes below — so closing the window left a running app
+        // with no way back to it. A single `Window` plus
+        // `applicationShouldTerminateAfterLastWindowClosed` above means closing
+        // the window ends the app instead of stranding it.
+        Window("Morphiqo", id: Self.mainWindowID) {
             ContentView()
                 .environment(model)
                 .frame(minWidth: 940, minHeight: 620)
@@ -52,7 +89,9 @@ struct FaceFusionMacApp: App {
                 // Once per launch, off the main path: the result arrives long
                 // after the first frame and nothing waits on it.
                 .task {
-                    guard !isHeadless, let update = await UpdateChecker.check() else { return }
+                    guard !isHeadless, !hasCheckedForUpdate else { return }
+                    hasCheckedForUpdate = true
+                    guard let update = await UpdateChecker.check() else { return }
                     availableUpdate = update
                     isShowingUpdate = true
                 }
@@ -68,6 +107,9 @@ struct FaceFusionMacApp: App {
         .windowResizability(.contentMinSize)
         .defaultSize(width: 1180, height: 760)
         .commands {
+            // No File ▸ New Window: a `Window` scene has exactly one window, so
+            // the command would have nothing to make. The Window menu's
+            // "Morphiqo" item is what reopens it.
             CommandGroup(replacing: .newItem) { }
             CommandGroup(after: .newItem) {
                 Button("Open Face Image…") { model.chooseSource() }
