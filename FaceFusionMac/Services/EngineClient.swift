@@ -142,11 +142,43 @@ final class EngineClient {
         }
     }
 
+    /// Closes every ONNX session in the engine process and waits for it to be
+    /// done.
+    ///
+    /// This is the one call that makes deleting a model file safe. The engine
+    /// runs `unloadAll` on its barrier queue and replies only afterwards, so by
+    /// the time this returns no session — and therefore no mapping of any
+    /// weight file — is left in that process. Deleting first and unloading
+    /// afterwards would leave the engine reading from an unlinked inode, which
+    /// keeps the disk space the user asked for back and hands the next swap
+    /// weights that no longer exist.
+    ///
+    /// The error handler is not decoration. Without it a connection that dies
+    /// between the proxy being fetched and the reply arriving means no reply
+    /// ever comes, and the removal that awaited this would hang forever with
+    /// the user's models still on disk.
     func unloadModels() async {
+        defer {
+            // The sessions are gone, so `ready` — and the summary of loaded
+            // models behind it — is no longer true. Leaving it would show a
+            // green engine badge over an engine holding nothing, and let
+            // `startEngineIfPossible` return early on the way back up.
+            state = .idle
+        }
         guard connection != nil else { return }
         await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
-            guard let engine = try? proxy() else { return continuation.resume() }
-            engine.unloadModels { continuation.resume() }
+            let resumed = OSAllocatedUnfairLock(initialState: false)
+            func finish() {
+                let alreadyResumed = resumed.withLock { done -> Bool in
+                    defer { done = true }
+                    return done
+                }
+                guard !alreadyResumed else { return }
+                continuation.resume()
+            }
+
+            guard let engine = try? proxy(onError: { _ in finish() }) else { return finish() }
+            engine.unloadModels { finish() }
         }
     }
 

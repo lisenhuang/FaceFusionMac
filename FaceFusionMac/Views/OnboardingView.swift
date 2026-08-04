@@ -112,6 +112,18 @@ struct OnboardingView: View {
                     .font(.caption)
                     .foregroundStyle(.secondary)
                 }
+            } else if manager.isPreparingLibrary {
+                // The launch pass can still be hashing a model it is about to
+                // adopt, and until it is done "Download 903 MB" is an offer to
+                // re-fetch weights that are already on this Mac. `install`
+                // refuses to start while the pass is running anyway, so leaving
+                // the button up would only make it look broken.
+                HStack(spacing: 10) {
+                    ProgressView().controlSize(.small)
+                    Text("Checking the models already on this Mac…")
+                        .font(.callout)
+                        .foregroundStyle(.secondary)
+                }
             } else {
                 Button {
                     manager.install(selectedModels)
@@ -159,7 +171,7 @@ private struct ModelRow: View {
 
             VStack(alignment: .leading, spacing: 2) {
                 HStack(spacing: 6) {
-                    Text(descriptor.modelID?.displayName ?? descriptor.id)
+                    Text(descriptor.displayName)
                         .font(.callout.weight(.medium))
                     if !descriptor.required {
                         Text("Optional")
@@ -168,7 +180,7 @@ private struct ModelRow: View {
                             .background(.quaternary, in: .capsule)
                     }
                 }
-                Text(descriptor.modelID?.purpose ?? "")
+                Text(descriptor.purpose)
                     .font(.caption)
                     .foregroundStyle(.secondary)
                     .lineLimit(1)
@@ -189,7 +201,7 @@ private struct ModelRow: View {
             Image(systemName: "checkmark.circle.fill").foregroundStyle(.green)
         case .failed:
             Image(systemName: "exclamationmark.triangle.fill").foregroundStyle(.orange)
-        case .downloading, .verifying:
+        case .downloading, .verifying, .checking:
             ProgressView().controlSize(.small)
         case .missing:
             Image(systemName: "arrow.down.circle").foregroundStyle(.secondary)
@@ -204,6 +216,8 @@ private struct ModelRow: View {
                 .foregroundStyle(.secondary)
         case .verifying:
             Text("Verifying…").font(.caption).foregroundStyle(.secondary)
+        case .checking:
+            Text("Checking…").font(.caption).foregroundStyle(.secondary)
         case .installed:
             Text("Installed").font(.caption).foregroundStyle(.secondary)
         case .failed:

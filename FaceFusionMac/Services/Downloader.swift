@@ -14,7 +14,7 @@ import Foundation
 
 actor Downloader {
 
-    /// Resume payloads from cancelled downloads, keyed by the model id.
+    /// Resume payloads from cancelled downloads, keyed by the caller's key.
     private var resumeData: [String: Data] = [:]
     private var activeTasks: [String: URLSessionDownloadTask] = [:]
 
@@ -22,7 +22,20 @@ actor Downloader {
 
     func discardResumeData(for key: String) { resumeData[key] = nil }
 
+    /// Every key this downloader still has work for.
+    ///
+    /// That is more than the transfers someone is currently awaiting: a resume
+    /// payload waiting to be picked up is a download in progress from the
+    /// library's point of view. `ModelManager` asks before its sweep deletes
+    /// anything, because a staging file belonging to one of these is not litter.
+    func activeKeys() -> Set<String> {
+        Set(activeTasks.keys).union(resumeData.keys)
+    }
+
     /// Downloads `url` to a caller-owned location.
+    /// - Parameter key: identifies the transfer, and is what a resume payload
+    ///   is filed under. It carries the manifest digest, so a payload from an
+    ///   older generation can never be `Range`-resumed against a new URL.
     /// - Parameter onProgress: called with (bytesWritten, totalBytes); total is
     ///   -1 when the server does not advertise a length.
     func download(key: String,

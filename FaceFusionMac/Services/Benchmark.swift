@@ -28,6 +28,7 @@ enum Benchmark {
 
     @MainActor
     static func profile(model: AppModel) async -> Never {
+        await model.models.waitUntilLibraryPrepared()
         guard model.models.isReady else {
             emit("PROFILE FAILED: models not installed")
             exit(2)
@@ -101,6 +102,7 @@ enum Benchmark {
             emit("BENCH FAILED: fixtures missing in \(SelfTest.directory.path)")
             exit(2)
         }
+        await model.models.waitUntilLibraryPrepared()
         guard model.models.isReady else {
             emit("BENCH FAILED: models not installed")
             exit(2)

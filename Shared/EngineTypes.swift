@@ -11,7 +11,12 @@ import Foundation
 
 /// The models the engine knows how to load. Raw values match the file stem of
 /// the corresponding FaceFusion asset, and are the keys used in `models.json`.
-public enum ModelID: String, Codable, CaseIterable, Sendable, CodingKeyRepresentable {
+///
+/// `nonisolated` because the app target defaults its types to the main actor
+/// and the engine target does not, and this one is read from both sides of the
+/// XPC link — including the app's model library pass, which runs off the main
+/// actor. The engine already saw it this way; this only says so out loud.
+public nonisolated enum ModelID: String, Codable, CaseIterable, Sendable, CodingKeyRepresentable {
     case faceDetector   = "yoloface_8n"
     case faceLandmarker = "2dfan4"
     case faceRecognizer = "arcface_w600k_r50"

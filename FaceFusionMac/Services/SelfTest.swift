@@ -53,6 +53,11 @@ enum SelfTest {
             fail("missing \(target.path)")
         }
 
+        // Nothing may read an install state until the launch pass has adopted
+        // whatever is already on disk, or a legacy library reads as empty and
+        // this run re-downloads 900 MB it already has.
+        await model.models.waitUntilLibraryPrepared()
+
         // Exercises the real first-run path: download, checksum, install.
         if !model.models.isReady {
             let missing = model.models.missingRequired

@@ -12,7 +12,12 @@
 import Foundation
 import os
 
-public enum EngineLog {
+/// `nonisolated` because the app target defaults its types to the main actor
+/// and the engine target does not. A `Logger` is `Sendable` and logging is not
+/// UI work, so anything ought to be able to write a line — including the model
+/// library's reconcile pass, which runs off the main actor precisely so that
+/// hashing 900 MB does not block the screen.
+public nonisolated enum EngineLog {
     public static let subsystem = "com.lisenhuang.FaceFusionMac"
 
     /// Model loading and execution-provider selection.

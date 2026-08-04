@@ -85,7 +85,12 @@ struct FaceFusionMacApp: App {
             ContentView()
                 .environment(model)
                 .frame(minWidth: 940, minHeight: 620)
-                .task { await model.startEngineIfPossible() }
+                // No engine start here. `ContentView` owns it, keyed on the set
+                // of models that are actually installed, and a second
+                // unconditional starter alongside it only races the first into
+                // a duplicate `prepare` on the launches where the library was
+                // already decided before the window appeared.
+                //
                 // Once per launch, off the main path: the result arrives long
                 // after the first frame and nothing waits on it.
                 .task {
@@ -117,6 +122,22 @@ struct FaceFusionMacApp: App {
                 Button("Open Video or Photo…") { model.chooseTarget() }
                     .keyboardShortcut("o", modifiers: [.command, .shift])
             }
+        }
+
+        // A `Settings` scene rather than a window of our own: it is what puts
+        // "Settings…" in the app menu under ⌘, without a line of menu code, and
+        // menu access to important commands is exactly what App Review rejected
+        // an earlier build for lacking. It is also the only place the ~900 MB
+        // model library can be seen or reclaimed — before this, deleting the
+        // Group Container in Finder was the user's only recourse.
+        //
+        // A second scene does not undo the single-window decision above: this
+        // one is opened by the system, has no File ▸ New counterpart, and
+        // `applicationShouldTerminateAfterLastWindowClosed` still ends the app
+        // once the last of them is closed.
+        Settings {
+            SettingsView()
+                .environment(model)
         }
     }
 }

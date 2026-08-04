@@ -239,6 +239,13 @@ final class AppModel {
     }
 
     /// Options the engine should use, assembled from the UI state.
+    ///
+    /// Both optional models are asked for by name here rather than assumed,
+    /// because either can be absent — never downloaded, or removed from
+    /// Settings to reclaim the disk. Asking for one that is gone would have the
+    /// pipeline silently fall back for the target frames while the source
+    /// portrait had already been encoded the other way, which puts a floor
+    /// under every identity distance the matcher computes.
     var swapOptions: SwapOptions {
         SwapOptions(selection: faceSelection,
                     identityStrength: identityStrength,
@@ -246,22 +253,35 @@ final class AppModel {
                     enhancementBlend: 0.8,
                     maskBlur: maskBlur,
                     detectorScore: 0.5,
-                    // Kept on for both source and target. The source identity is
-                    // encoded once at selection time, so flipping this per job
-                    // would align the two differently and weaken the match.
-                    refineLandmarks: true)
+                    // Kept the same for both source and target. The source
+                    // identity is encoded once at selection time, so flipping
+                    // this per job would align the two differently and weaken
+                    // the match.
+                    refineLandmarks: models.isInstalledModel(.faceLandmarker))
     }
 
     // MARK: - Engine lifecycle
 
     func startEngineIfPossible() async {
-        guard models.isReady else {
+        // `loadableModels`, not `isReady`: it is nil until the launch pass has
+        // finished, and a library already in the digest-named scheme reads as
+        // complete before that pass has run. Starting the engine there would set
+        // a second process compiling Core ML graphs into the very directory the
+        // pass may still empty.
+        guard let wanted = models.loadableModels else {
             EngineLog.client.notice(
                 "engine not started: manifest=\(self.models.manifest == nil ? "missing" : "loaded", privacy: .public) required=\(self.models.requiredModels.count) missing=\(self.models.missingRequired.map(\.id).joined(separator: ","), privacy: .public) dir=\(ModelManager.modelsDirectory.path, privacy: .public)")
             return
         }
         EngineLog.client.notice("starting engine with \(self.models.installedPaths().count) model(s)")
-        if case .ready = engine.state { return }
+        // Being ready is not on its own a reason to stop. The set on disk moves
+        // under a live engine now that Settings can delete a model and download
+        // it back, and a session built without the enhancer or the landmarker
+        // does not fail when asked for one — the pipeline skips the stage. So
+        // the question is not "is there an engine" but "is it running the models
+        // that are actually installed"; when it is not, prepare again.
+        if case .ready(let summary) = engine.state,
+           Set(summary.loadedModels.compactMap(ModelID.init(rawValue:))) == wanted { return }
         do {
             try await engine.prepare(modelPaths: models.installedPaths(),
                                      cacheDirectory: ModelManager.compileCacheDirectory,
@@ -277,6 +297,70 @@ final class AppModel {
             EngineLog.client.error("engine prepare failed: \(error.localizedDescription, privacy: .public)")
             statusMessage = error.localizedDescription
         }
+    }
+
+    // MARK: - Removing models
+
+    /// Deletes models and leaves the engine in a state that matches what is
+    /// left on disk.
+    ///
+    /// The order is the whole of the correctness here, and it is harder than it
+    /// looks because the engine is a *separate process* that has these files
+    /// memory-mapped. `unloadModels` crosses XPC, runs as a barrier over there
+    /// so no frame is part-way through a session, and replies only once every
+    /// session is closed — so nothing is unlinked until the second process has
+    /// let go. Deleting first would leave that process holding an inode with no
+    /// name: the disk is not reclaimed, the user is told it was, and the engine
+    /// keeps serving weights that no longer exist.
+    ///
+    /// Afterwards the engine is either brought back without the removed models
+    /// or left idle, which `unloadModels` has already made it. A required model
+    /// gone means `isReady` is false, `ContentView` swaps the studio for the
+    /// download screen, and there is nothing to start.
+    ///
+    /// The identities collected from the target go too, and they go *first*.
+    /// They came out of the old recognizer session and — if the landmark
+    /// refiner is what was removed — out of a different alignment, so comparing
+    /// them against anything the new session produces would be comparing vectors
+    /// from two different graphs. Dropping them before the unload rather than
+    /// after also cancels a scan that is still running, which would otherwise
+    /// spend the rest of its frames asking an engine that has just let go of
+    /// every session and reporting the failure as if the user had caused it.
+    ///
+    /// Nothing may be deleted while the launch pass is running either: it is
+    /// renaming these very files from another task, and an unlink landing
+    /// between its `moveItem` and its verdict would publish a model as installed
+    /// with no file behind it.
+    func removeModels(_ descriptors: [ModelDescriptor]) async {
+        guard !descriptors.isEmpty, !models.isWorking, !models.isPreparingLibrary else { return }
+        resetPeople()
+        await engine.unloadModels()
+        for descriptor in descriptors { models.remove(descriptor) }
+        await restartEngineAfterRemoval()
+    }
+
+    /// Reclaims the whole library, compiled graphs included.
+    func removeAllModels() async {
+        guard !models.isWorking, !models.isPreparingLibrary else { return }
+        resetPeople()
+        await engine.unloadModels()
+        models.removeAll()
+        await restartEngineAfterRemoval()
+    }
+
+    /// Brings the engine back on whatever survived.
+    ///
+    /// `engine.unloadModels` has already put the state back to idle, so this
+    /// either loads what is left or does nothing at all. Clearing `sourceFace`
+    /// is what makes the portrait be re-encoded: new sessions hold no projected
+    /// source identity, and `startEngineIfPossible` only re-encodes when it is
+    /// nil — so leaving it set would bring the engine back with no source while
+    /// the studio still said "Face ready." and left Export enabled, and the
+    /// next render would fail on its first frame.
+    private func restartEngineAfterRemoval() async {
+        sourceFace = nil
+        invalidatePreviewResult()
+        await startEngineIfPossible()
     }
 
     // MARK: - Choosing media

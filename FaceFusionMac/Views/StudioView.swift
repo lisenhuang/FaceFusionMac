@@ -236,8 +236,17 @@ struct StudioView: View {
                 Image(systemName: "exclamationmark.triangle.fill").foregroundStyle(.orange)
                 Text(message).lineLimit(2)
             case .idle:
-                Image(systemName: "moon.zzz").foregroundStyle(.secondary)
-                Text("Engine idle")
+                // The library pass runs before the engine is allowed to start,
+                // so on a launch that has models to adopt this badge is idle for
+                // a few seconds. Saying why beats saying "idle" at someone
+                // waiting for the app to come up.
+                if model.models.isPreparingLibrary {
+                    ProgressView().controlSize(.small)
+                    Text("Checking models…")
+                } else {
+                    Image(systemName: "moon.zzz").foregroundStyle(.secondary)
+                    Text("Engine idle")
+                }
             }
             Spacer(minLength: 0)
         }
