@@ -612,13 +612,6 @@ final class AppModel {
         guard sourceFace != nil, let frame = previewFrame, !isRendering else { return }
         guard case .ready = engine.state else { return }
 
-        // Free users can load and inspect video frames, but a video swap is a
-        // Pro feature. Images remain available as the free preview path.
-        guard targetIsImage || purchases.isPro else {
-            statusMessage = "Video swapping is a Pro feature. Upgrade to preview the swap."
-            return
-        }
-
         previewSwapTask?.cancel()
         let options = swapOptions
         previewSwapTask = Task { [weak self] in
