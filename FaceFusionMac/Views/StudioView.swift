@@ -11,6 +11,8 @@ import UniformTypeIdentifiers
 
 struct StudioView: View {
     @Environment(AppModel.self) private var model
+    @Environment(StoreManager.self) private var purchases
+    @State private var showsPaywall = false
 
     var body: some View {
         @Bindable var model = model
@@ -38,6 +40,12 @@ struct StudioView: View {
             }
             return true
         }
+        .sheet(isPresented: $showsPaywall) {
+            PaywallView()
+        }
+        .onChange(of: purchases.isPro) { _, isPro in
+            if isPro { Task { await model.refreshPreview() } }
+        }
     }
 
     // MARK: - Sidebar
@@ -47,6 +55,15 @@ struct StudioView: View {
 
         return ScrollView {
             VStack(alignment: .leading, spacing: 20) {
+                if !purchases.isPro {
+                    Button { showsPaywall = true } label: {
+                        Label("Unlock Pro", systemImage: "crown.fill")
+                            .frame(maxWidth: .infinity)
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .controlSize(.large)
+                }
+
                 MediaWell(title: "SOURCE FACE",
                           systemImage: "person.crop.square",
                           hint: "Drop a photo\nor click to choose",
@@ -350,7 +367,11 @@ struct StudioView: View {
             }
             Spacer()
             Button {
-                model.export()
+                if purchases.isPro {
+                    model.export()
+                } else {
+                    showsPaywall = true
+                }
             } label: {
                 Label(model.targetIsImage ? "Export Photo" : "Export Video",
                       systemImage: "square.and.arrow.up")
@@ -442,5 +463,6 @@ struct StudioView: View {
 #Preview {
     StudioView()
         .environment(AppModel())
+        .environment(StoreManager.shared)
         .frame(width: 1180, height: 760)
 }

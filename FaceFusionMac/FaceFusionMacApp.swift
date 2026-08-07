@@ -15,7 +15,15 @@ import AppKit
 /// there with no output and no clue as to why.
 @MainActor
 final class AppDelegate: NSObject, NSApplicationDelegate {
-    let model = AppModel()
+    let purchases: StoreManager
+    let model: AppModel
+
+    override init() {
+        let purchases = StoreManager.shared
+        self.purchases = purchases
+        self.model = AppModel(purchases: purchases)
+        super.init()
+    }
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         Task { @MainActor in
@@ -54,6 +62,7 @@ struct FaceFusionMacApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) private var delegate
 
     private var model: AppModel { delegate.model }
+    private var purchases: StoreManager { delegate.purchases }
 
     /// Set only when the App Store has something newer; see `UpdateChecker`.
     @State private var availableUpdate: UpdateChecker.Update?
@@ -84,6 +93,7 @@ struct FaceFusionMacApp: App {
         Window("Morphiqo", id: Self.mainWindowID) {
             ContentView()
                 .environment(model)
+                .environment(purchases)
                 .frame(minWidth: 940, minHeight: 620)
                 // No engine start here. `ContentView` owns it, keyed on the set
                 // of models that are actually installed, and a second

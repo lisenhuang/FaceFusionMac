@@ -51,6 +51,11 @@ final class AppModel {
 
     let models = ModelManager()
     let engine = EngineClient()
+    let purchases: StoreManager
+
+    init(purchases: StoreManager? = nil) {
+        self.purchases = purchases ?? .shared
+    }
 
     // MARK: Media
 
@@ -607,6 +612,13 @@ final class AppModel {
         guard sourceFace != nil, let frame = previewFrame, !isRendering else { return }
         guard case .ready = engine.state else { return }
 
+        // Free users can load and inspect video frames, but a video swap is a
+        // Pro feature. Images remain available as the free preview path.
+        guard targetIsImage || purchases.isPro else {
+            statusMessage = "Video swapping is a Pro feature. Upgrade to preview the swap."
+            return
+        }
+
         previewSwapTask?.cancel()
         let options = swapOptions
         previewSwapTask = Task { [weak self] in
@@ -836,6 +848,11 @@ final class AppModel {
     func export() {
         guard let targetURL, sourceFace != nil else { return }
         let isImage = targetIsImage
+
+        guard purchases.isPro else {
+            statusMessage = "Exporting is a Pro feature. Upgrade to continue."
+            return
+        }
 
         let panel = NSSavePanel()
         panel.allowedContentTypes = isImage ? [.png, .jpeg] : [.mpeg4Movie]
