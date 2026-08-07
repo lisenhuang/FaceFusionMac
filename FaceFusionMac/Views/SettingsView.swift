@@ -25,6 +25,7 @@ import SwiftUI
 
 struct SettingsView: View {
     @Environment(AppModel.self) private var model
+    @Bindable private var preferences = Preferences.shared
 
     /// What a confirmation is currently being asked about. One piece of state
     /// for all three destructive actions: they ask the same question about
@@ -42,6 +43,7 @@ struct SettingsView: View {
 
     var body: some View {
         Form {
+            languageSection
             storageSection
             requiredSection
             optionalSection
@@ -49,6 +51,7 @@ struct SettingsView: View {
         .formStyle(.grouped)
         .frame(width: 540)
         .frame(minHeight: 520)
+        .environment(\.locale, preferences.language.locale)
         .alert(confirmationTitle,
                isPresented: Binding(get: { pending != nil },
                                     set: { if !$0 { pending = nil } }),
@@ -59,6 +62,22 @@ struct SettingsView: View {
             Button("Cancel", role: .cancel) { }
         } message: { removal in
             Text(confirmationMessage(for: removal))
+        }
+    }
+
+    // MARK: - Language
+
+    private var languageSection: some View {
+        Section {
+            Picker("Language", selection: $preferences.language) {
+                ForEach(AppLanguage.allCases) { language in
+                    Text(language.label).tag(language)
+                }
+            }
+        } header: {
+            Text("Language")
+        } footer: {
+            Text("System follows macOS. Choosing a language applies to Morphiqo and is remembered for the next launch.")
         }
     }
 

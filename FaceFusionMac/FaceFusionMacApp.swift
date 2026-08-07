@@ -63,6 +63,7 @@ struct FaceFusionMacApp: App {
 
     private var model: AppModel { delegate.model }
     private var purchases: StoreManager { delegate.purchases }
+    @State private var preferences = Preferences.shared
 
     /// Set only when the App Store has something newer; see `UpdateChecker`.
     @State private var availableUpdate: UpdateChecker.Update?
@@ -94,6 +95,7 @@ struct FaceFusionMacApp: App {
             ContentView()
                 .environment(model)
                 .environment(purchases)
+                .environment(\.locale, preferences.language.locale)
                 .frame(minWidth: 940, minHeight: 620)
                 // No engine start here. `ContentView` owns it, keyed on the set
                 // of models that are actually installed, and a second
@@ -148,6 +150,7 @@ struct FaceFusionMacApp: App {
         Settings {
             SettingsView()
                 .environment(model)
+                .environment(\.locale, preferences.language.locale)
         }
     }
 }

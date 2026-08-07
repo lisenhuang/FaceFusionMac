@@ -3772,6 +3772,24 @@
           }
         }
       }
+    },
+    "Language" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "new", "value" : "Language" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "言語" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "언어" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "语言" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "語言" } }
+      }
+    },
+    "System follows macOS. Choosing a language applies to Morphiqo and is remembered for the next launch." : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "new", "value" : "System follows macOS. Choosing a language applies to Morphiqo and is remembered for the next launch." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "システムは macOS に従います。言語を選択すると Morphiqo に適用され、次回の起動時にも保持されます。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "시스템은 macOS 설정을 따릅니다. 언어를 선택하면 Morphiqo에 적용되며 다음 실행에도 유지됩니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "系统选项跟随 macOS。选择语言后会应用于 Morphiqo，并在下次启动时保留。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "系統選項跟隨 macOS。選擇語言後會套用至 Morphiqo，並在下次啟動時保留。" } }
+      }
     }
   },
   "version" : "1.0"
