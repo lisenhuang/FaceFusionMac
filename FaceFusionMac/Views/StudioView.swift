@@ -212,6 +212,19 @@ struct StudioView: View {
             .disabled(!model.models.isInstalledModel(.faceEnhancer))
             .onChange(of: model.enhanceFace) { Task { await model.refreshPreview() } }
 
+            Toggle(isOn: $model.maskOcclusion) {
+                VStack(alignment: .leading, spacing: 1) {
+                    Text("Keep hands and hair")
+                    Text(model.models.isInstalledModel(.faceOccluder)
+                         ? "Objects crossing the face stay in front. Slower."
+                         : "Needs the Occlusion Mask model.")
+                        .font(.caption2)
+                        .foregroundStyle(.secondary)
+                }
+            }
+            .disabled(!model.models.isInstalledModel(.faceOccluder))
+            .onChange(of: model.maskOcclusion) { Task { await model.refreshPreview() } }
+
             // Codec choice is meaningless for a photo; the save panel offers
             // PNG or JPEG there instead.
             if !model.targetIsImage {

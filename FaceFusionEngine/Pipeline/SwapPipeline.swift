@@ -22,6 +22,7 @@ final class SwapPipeline {
     private var recognizer: FaceRecognizer?
     private var swapper: FaceSwapper?
     private var enhancer: FaceEnhancer?
+    private var occluder: FaceOccluder?
 
     /// Identity of the user's chosen source face, projected into the swapper's
     /// conditioning space once and reused for every frame.
@@ -47,7 +48,7 @@ final class SwapPipeline {
             || existing.tuning != config.tuning {
             runtime.unloadAll()
             detector = nil; landmarker = nil; recognizer = nil
-            swapper = nil; enhancer = nil
+            swapper = nil; enhancer = nil; occluder = nil
             sourceEmbedding = nil; projectedSource = nil
             // Reference identities came out of the old recognizer session.
             // Keeping them would compare vectors from two different graphs.
@@ -67,7 +68,7 @@ final class SwapPipeline {
                              tuning: config.tuning)
         }
         // Optional models: absence degrades quality, not correctness.
-        for id in [ModelID.faceLandmarker, .faceEnhancer] {
+        for id in [ModelID.faceLandmarker, .faceEnhancer, .faceOccluder] {
             guard let path = config.modelPaths[id],
                   FileManager.default.fileExists(atPath: path) else { continue }
             do {
@@ -92,6 +93,7 @@ final class SwapPipeline {
         swapper = try FaceSwapper(model: swapperModel, modelPath: swapperPath)
         landmarker = runtime.model(.faceLandmarker).map { FaceLandmarker(model: $0) }
         enhancer = runtime.model(.faceEnhancer).map { FaceEnhancer(model: $0) }
+        occluder = runtime.model(.faceOccluder).map { FaceOccluder(model: $0) }
 
         return EnginePreparation(loadedModels: runtime.loadedModels,
                                  usingCoreML: runtime.coreMLActive,
@@ -102,7 +104,7 @@ final class SwapPipeline {
     func unloadAll() {
         runtime?.unloadAll()
         detector = nil; landmarker = nil; recognizer = nil
-        swapper = nil; enhancer = nil
+        swapper = nil; enhancer = nil; occluder = nil
         sourceEmbedding = nil; projectedSource = nil
         referenceFaces = nil
         configuration = nil
@@ -246,7 +248,27 @@ final class SwapPipeline {
             timing.swap += Date().timeIntervalSince(swapStarted)
 
             let pasteStarted = Date()
-            let mask = FaceMasker.boxMask(size: FaceSwapper.inputSize, blur: options.maskBlur)
+            var mask = FaceMasker.boxMask(size: FaceSwapper.inputSize, blur: options.maskBlur)
+            if options.maskOcclusion, let occluder {
+                do {
+                    // Computed on the *input* frame with the swap's own
+                    // transform, so the mask sees the hand exactly where the
+                    // patch is about to land. The combine is an element-wise
+                    // minimum, the reference's `numpy.minimum.reduce`, and the
+                    // mutation copies the cached box mask rather than editing
+                    // it in place.
+                    let occlusion = try occluder.occlusionMask(image: input,
+                                                               transform: transform,
+                                                               cropSize: FaceSwapper.inputSize)
+                    mask.intersect(with: occlusion)
+                    mask.clamp01()
+                } catch {
+                    // A face still gets swapped without its occlusion mask —
+                    // quality degrades to the box mask rather than the frame
+                    // failing.
+                    EngineLog.inference.error("occlusion mask skipped: \(error.localizedDescription, privacy: .public)")
+                }
+            }
             output.pasteBack(patch: crop, mask: mask, transform: transform)
             timing.paste += Date().timeIntervalSince(pasteStarted)
             swappedLandmarks.append(landmarks)
@@ -261,7 +283,8 @@ final class SwapPipeline {
                     try enhancer.enhance(image: output,
                                          landmarks: landmarks,
                                          maskBlur: options.maskBlur,
-                                         blend: options.enhancementBlend)
+                                         blend: options.enhancementBlend,
+                                         occluder: options.maskOcclusion ? occluder : nil)
                 } catch {
                     EngineLog.inference.error("enhancement skipped: \(error.localizedDescription, privacy: .public)")
                 }

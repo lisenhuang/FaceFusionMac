@@ -47,6 +47,15 @@
       "required": false,
       "vendor": "TencentARC",
       "license": "Apache-2.0"
+    },
+    {
+      "id": "dfl_xseg",
+      "url": "https://github.com/facefusion/facefusion-assets/releases/download/models-3.0.0/dfl_xseg.onnx",
+      "sha256": "af105ae257170fdbc6a03460327b88d5c0b9a659aa4384fb8686ceead7294ad8",
+      "bytes": 70343569,
+      "required": false,
+      "vendor": "iperov",
+      "license": "GPL-3.0"
     }
   ]
 }
