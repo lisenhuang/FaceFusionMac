@@ -125,26 +125,64 @@ final class SwapPipeline {
     /// - Parameter refineLandmarks: must match the setting used for target
     ///   frames — aligning the source and target differently shifts the
     ///   identity vector away from what the swapper was trained on.
-    func analyzeSource(_ image: BGRAImage, refineLandmarks: Bool = true) throws -> SourceAnalysis {
+    /// - Parameter index: which of the detected faces to encode, in the
+    ///   left-to-right order this call returns, or `nil` for the largest —
+    ///   the behaviour every caller had before a choice existed.
+    func analyzeSource(_ image: BGRAImage,
+                       refineLandmarks: Bool = true,
+                       selecting index: Int? = nil) throws -> SourceAnalysis {
         guard let detector, let recognizer, let swapper else {
             throw makeEngineNSError(.notPrepared)
         }
 
+        // Sorted left to right so the index a picker clicks names the same face
+        // when the portrait is re-encoded later — detection order is whatever
+        // the detector's grid happened to produce, and is not a contract.
         let faces = try detector.detect(in: image, scoreThreshold: 0.5)
-        guard let best = faces.max(by: { $0.box.width * $0.box.height < $1.box.width * $1.box.height }) else {
-            sourceEmbedding = nil
-            projectedSource = nil
-            throw makeEngineNSError(.noSourceFace)
+            .sorted { $0.box.minX < $1.box.minX }
+
+        let chosenIndex: Int
+        if let index {
+            // Refusing beats guessing: an index the detection no longer holds
+            // means the caller and the engine disagree about what is in the
+            // portrait, and quietly encoding someone else is worse than
+            // failing the call.
+            guard faces.indices.contains(index) else {
+                sourceEmbedding = nil
+                projectedSource = nil
+                throw makeEngineNSError(.noSourceFace,
+                                        underlying: "chosen face \(index) not among the \(faces.count) detected")
+            }
+            chosenIndex = index
+        } else {
+            guard let largest = faces.indices.max(by: {
+                faces[$0].box.width * faces[$0].box.height < faces[$1].box.width * faces[$1].box.height
+            }) else {
+                sourceEmbedding = nil
+                projectedSource = nil
+                throw makeEngineNSError(.noSourceFace)
+            }
+            chosenIndex = largest
         }
 
+        let best = faces[chosenIndex]
         let landmarks = refinedLandmarks(for: best, in: image, refine: refineLandmarks)
         let embedding = try recognizer.embedding(for: image, landmarks: landmarks)
 
         sourceEmbedding = embedding
         projectedSource = swapper.projectSource(embedding)
 
-        return SourceAnalysis(face: Self.describe(best, index: 0, landmarks: landmarks),
-                              faceCount: faces.count)
+        // The chosen entry carries the refined landmarks that were actually
+        // encoded; the rest keep the detector's five points — nobody aligned
+        // them, and describing them as more than detections would be a lie.
+        var described = faces.enumerated().map { position, face in
+            Self.describe(face, index: position, landmarks: face.landmarks)
+        }
+        described[chosenIndex] = Self.describe(best, index: chosenIndex, landmarks: landmarks)
+
+        return SourceAnalysis(face: described[chosenIndex],
+                              faceCount: faces.count,
+                              faces: described)
     }
 
     /// The projected source identity, exposed so tests can compare it against

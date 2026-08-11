@@ -48,6 +48,35 @@ number in the project is what local and untagged builds report.
   by name — the scheme, the archive path, `Contents/MacOS/<name>`, the DMG
   volume and filename. Change one, grep for the rest.
 
+## The app is published
+
+Morphiqo ships as a DMG from GitHub Releases and people have it installed.
+Every change has to be one an existing install can *upgrade into*: the first
+launch after an update starts with whatever the previous version left behind,
+and "works on a clean install" is not the bar.
+
+- **The model library in the Group Container.** `models.json` is
+  content-addressed. Adding an entry is safe and costs an existing user nothing
+  until they choose to download it; changing an entry's digest makes the copy
+  they already have stale and charges them the download again. The sweep deletes
+  whatever the manifest no longer claims, so work out what a rename would
+  reclaim before renaming anything.
+- **Derived caches keyed by what you are changing.** The Core ML compile cache is
+  keyed by model file name — a change that renames model files silently spends
+  the whole compile cost on the next launch.
+- **Anything persisted or decoded.** Remembered locations, the purchase state,
+  saved settings. The `Codable` types in `Shared/` are the sharp edge: a new
+  field needs a default so an older blob still decodes.
+- **The XPC contract is the one thing that is *not* a compatibility problem.**
+  The app and the engine ship in the same bundle and are always the same build,
+  so changing `FaceFusionEngineProtocol` or the shapes it carries is free — but
+  the selector and its `setClasses` allow-list in `makeEngineInterface` must
+  change together, and a mismatch fails at runtime rather than at build time.
+
+If a change genuinely cannot be made upgrade-safe, say so and describe the
+migration it needs — do not ship something that only holds together on a Mac
+that has never run the app before.
+
 ## Git
 
 **Never commit on your own.** Do not run `git commit`, `git push`, `git tag`,
@@ -55,6 +84,16 @@ or anything else that writes to history unless I ask for it in that same turn.
 Finishing a task, getting a green test run, or updating docs is not a request
 to commit — leave the work in the tree and tell me what changed. Ask if you
 think a commit is warranted; do not assume.
+
+### Work lands on `main`
+
+When I do ask for a commit, the change belongs on `main` by the end of it:
+branch, commit, merge back with `--no-ff`, and push `main` to the remote. Do not
+leave finished work parked on a feature branch waiting for a pull request unless
+I ask for one — a branch nobody merges is a change nobody has. Push the branch
+too, so the history of how it landed survives. `main` is what the release
+workflow builds, so this is also the first real compile of anything written
+without Xcode to hand.
 
 ### The commit is mine, and so is the name on it
 

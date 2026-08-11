@@ -29,8 +29,13 @@ public enum EngineServiceIdentity {
     /// Analyzes a source portrait and caches the identity embedding used for
     /// every subsequent swap.
     /// - Parameter surface: BGRA8 image.
+    /// - Parameter selectedFace: which detected face to encode, numbered left
+    ///   to right as in the reply's `faces`, or `nil` for the largest. An
+    ///   `NSNumber` rather than an `Int` because this protocol is `@objc` and
+    ///   a Swift `Int?` has no representation there.
     /// - Parameter reply: JSON-encoded ``SourceAnalysis``.
     func analyzeSource(surface: IOSurface,
+                       selectedFace: NSNumber?,
                        withReply reply: @escaping (Data?, Error?) -> Void)
 
     /// Detects faces in a frame without modifying it. Used to drive the face
@@ -78,7 +83,7 @@ public func makeEngineInterface() -> NSXPCInterface {
     let allowed = NSSet(array: [IOSurface.self, NSNumber.self, NSData.self]) as! Set<AnyHashable>
 
     interface.setClasses(allowed,
-                         for: #selector(FaceFusionEngineProtocol.analyzeSource(surface:withReply:)),
+                         for: #selector(FaceFusionEngineProtocol.analyzeSource(surface:selectedFace:withReply:)),
                          argumentIndex: 0, ofReply: false)
     interface.setClasses(allowed,
                          for: #selector(FaceFusionEngineProtocol.detectFaces(surface:withReply:)),

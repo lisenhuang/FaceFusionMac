@@ -64,20 +64,29 @@ struct StudioView: View {
                     .controlSize(.large)
                 }
 
-                MediaWell(title: "SOURCE FACE",
-                          systemImage: "person.crop.square",
-                          hint: "Drop a photo\nor click to choose",
-                          isFilled: model.sourceBuffer != nil,
-                          caption: sourceCaption,
-                          accepted: [.image],
-                          onChoose: { model.chooseSource() },
-                          onClear: { model.clearSource() },
-                          onDrop: { url in Task { await model.useSource(url) } }) {
-                    if let buffer = model.sourceBuffer,
-                       let image = PixelSurface.makeCGImage(from: buffer) {
-                        Image(decorative: image, scale: 1)
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
+                // The strip belongs to the well above it, so the two share a
+                // tighter stack of their own rather than sitting 20pt apart as
+                // siblings of the target well.
+                VStack(alignment: .leading, spacing: 8) {
+                    MediaWell(title: "SOURCE FACE",
+                              systemImage: "person.crop.square",
+                              hint: "Drop a photo\nor click to choose",
+                              isFilled: model.sourceBuffer != nil,
+                              caption: sourceCaption,
+                              accepted: [.image],
+                              onChoose: { model.chooseSource() },
+                              onClear: { model.clearSource() },
+                              onDrop: { url in Task { await model.useSource(url) } }) {
+                        if let buffer = model.sourceBuffer,
+                           let image = PixelSurface.makeCGImage(from: buffer) {
+                            Image(decorative: image, scale: 1)
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                        }
+                    }
+
+                    if model.sourceFaces.count > 1 {
+                        sourceFaceStrip
                     }
                 }
 
@@ -110,6 +119,72 @@ struct StudioView: View {
         }
     }
 
+    /// One chip per face found in the portrait, left to right as they appear in
+    /// it. Clicking one re-encodes the source around that face; the ring marks
+    /// the identity the engine currently holds.
+    private var sourceFaceStrip: some View {
+        // Indicators shown: the strip can hold more chips than a 292pt sidebar
+        // is wide, and a scroller that gives no sign of it reads as a photo
+        // that simply lost the rest of its faces.
+        ScrollView(.horizontal) {
+            HStack(spacing: 6) {
+                ForEach(model.sourceFaces, id: \.index) { face in
+                    sourceFaceChip(face)
+                }
+            }
+        }
+        // Re-encoding the source mid-export would recondition every frame
+        // after the barrier on a different person, and a click cannot reach a
+        // pipeline whose sessions are gone. Both states are dimmed rather than
+        // only inert: `.disabled` on a plain button wrapping a bitmap changes
+        // nothing a user can see.
+        .disabled(model.isRendering || !model.isEngineReady)
+        .opacity(model.isRendering || !model.isEngineReady ? 0.45 : 1)
+    }
+
+    private func sourceFaceChip(_ face: DetectedFace) -> some View {
+        let isChosen = face.index == model.sourceFace?.index
+        let thumbnail = model.sourceFaceThumbnails.indices.contains(face.index)
+            ? model.sourceFaceThumbnails[face.index]
+            : nil
+
+        return Button {
+            Task { await model.chooseSourceFace(face.index) }
+        } label: {
+            Group {
+                if let thumbnail {
+                    Image(decorative: thumbnail, scale: 1)
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                } else {
+                    // Sized against the chip: an unsized symbol in a 40pt
+                    // circle is a speck with a lot of empty space around it.
+                    Image(systemName: "person.fill")
+                        .font(.system(size: 16))
+                        .foregroundStyle(.tertiary)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                }
+            }
+            .frame(width: 40, height: 40)
+            .clipShape(Circle())
+            .overlay {
+                // The unchosen ring is faint rather than absent: in a
+                // pointer-driven window a bare thumbnail does not read as
+                // something you can click.
+                Circle().strokeBorder(isChosen ? Color.accentColor
+                                                : Color.secondary.opacity(0.35),
+                                      lineWidth: isChosen ? 2 : 1)
+            }
+            // The whole circle is the target, not just the pixels the symbol
+            // happens to cover.
+            .contentShape(Circle())
+        }
+        .buttonStyle(.plain)
+        .help(Text("Use this face"))
+        .accessibilityLabel(Text("Face \(face.index + 1)"))
+        .accessibilityAddTraits(isChosen ? [.isSelected] : [])
+    }
+
     private var sourceCaption: String? {
         guard model.sourceBuffer != nil else { return nil }
         if model.sourceFace == nil {
@@ -118,7 +193,7 @@ struct StudioView: View {
                 : "Encoding…"
         }
         return model.sourceFaceCount > 1
-            ? "Using the largest of \(model.sourceFaceCount) faces."
+            ? "\(model.sourceFaceCount) faces found — click the one to use."
             : "Face ready."
     }
 
