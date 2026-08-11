@@ -106,9 +106,11 @@ final class EngineClient {
         }
     }
 
-    func analyzeSource(_ surface: IOSurface) async throws -> SourceAnalysis {
-        try await call { engine, reply in
-            engine.analyzeSource(surface: surface, withReply: reply)
+    func analyzeSource(_ surface: IOSurface,
+                       selecting index: Int? = nil) async throws -> SourceAnalysis {
+        let selected = index.map(NSNumber.init(value:))
+        return try await call { engine, reply in
+            engine.analyzeSource(surface: surface, selectedFace: selected, withReply: reply)
         }
     }
 

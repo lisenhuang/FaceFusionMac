@@ -57,11 +57,13 @@ final class EngineService: NSObject, FaceFusionEngineProtocol {
 
     // MARK: - Analysis
 
-    func analyzeSource(surface: IOSurface, withReply reply: @escaping (Data?, Error?) -> Void) {
+    func analyzeSource(surface: IOSurface,
+                       selectedFace: NSNumber?,
+                       withReply reply: @escaping (Data?, Error?) -> Void) {
         queue.async(flags: .barrier) {
             do {
                 let analysis = try BGRAImage.withSurface(surface, readOnly: true) { image in
-                    try self.pipeline.analyzeSource(image)
+                    try self.pipeline.analyzeSource(image, selecting: selectedFace?.intValue)
                 }
                 reply(try EngineJSON.encode(analysis), nil)
             } catch {

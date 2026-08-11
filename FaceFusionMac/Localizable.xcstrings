@@ -1269,6 +1269,34 @@
         }
       }
     },
+    "Face %lld" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "顔 %lld"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "얼굴 %lld"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "人脸 %lld"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "人臉 %lld"
+          }
+        }
+      }
+    },
     "Face ready." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -3921,6 +3949,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "系統選項跟隨 macOS。選擇語言後會套用至 Morphiqo，並在下次啟動時保留。"
+          }
+        }
+      }
+    },
+    "Use this face" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "この顔を使う"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 얼굴 사용"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用这张人脸"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用這張人臉"
           }
         }
       }

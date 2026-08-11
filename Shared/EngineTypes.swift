@@ -245,10 +245,14 @@ public struct ReferenceFaceSet: Codable, Sendable {
 }
 
 public struct SourceAnalysis: Codable, Sendable {
+    /// The face whose identity the engine is now conditioned on.
     public var face: DetectedFace?
     public var faceCount: Int
-    public init(face: DetectedFace?, faceCount: Int) {
-        self.face = face; self.faceCount = faceCount
+    /// Every face found in the portrait, left to right, so the app can offer a
+    /// choice. `face` is always one of these; its `index` says which.
+    public var faces: [DetectedFace]
+    public init(face: DetectedFace?, faceCount: Int, faces: [DetectedFace] = []) {
+        self.face = face; self.faceCount = faceCount; self.faces = faces
     }
 }
 

@@ -8,6 +8,7 @@
 import Foundation
 import Observation
 import os
+import CoreGraphics
 import CoreVideo
 import CoreMedia
 import AVFoundation
@@ -63,6 +64,14 @@ final class AppModel {
     private(set) var sourceBuffer: CVPixelBuffer?
     private(set) var sourceFace: DetectedFace?
     private(set) var sourceFaceCount = 0
+    /// Every face found in the portrait, left to right, for the picker strip.
+    private(set) var sourceFaces: [DetectedFace] = []
+    /// Thumbnails parallel to `sourceFaces`, cropped once per analysis.
+    private(set) var sourceFaceThumbnails: [CGImage?] = []
+    /// The face the user clicked, or `nil` for the default largest. Survives an
+    /// engine restart — the choice belongs to the portrait, not the session —
+    /// and resets when the portrait changes.
+    private var chosenSourceFaceIndex: Int?
 
     private(set) var targetURL: URL?
     private(set) var target: TargetMedia?
@@ -415,9 +424,16 @@ final class AppModel {
             sourceBuffer = buffer
             sourceFace = nil
             sourceFaceCount = 0
+            sourceFaces = []
+            sourceFaceThumbnails = []
+            // A new portrait invalidates the old choice by definition.
+            chosenSourceFaceIndex = nil
             statusMessage = nil
-            await analyzeSource()
+            // Invalidate before analysing: `analyzeSource` finishes with a
+            // preview refresh, and invalidating afterwards would discard the
+            // frame it just computed.
             invalidatePreviewResult()
+            await analyzeSource()
         } catch {
             statusMessage = error.localizedDescription
         }
@@ -428,15 +444,67 @@ final class AppModel {
         guard case .ready = engine.state else { return }
         do {
             let surface = try PixelSurface.surface(of: buffer)
-            let analysis = try await engine.analyzeSource(surface)
+            let analysis = try await engine.analyzeSource(surface,
+                                                          selecting: chosenSourceFaceIndex)
             sourceFace = analysis.face
             sourceFaceCount = analysis.faceCount
+            sourceFaces = analysis.faces
+            sourceFaceThumbnails = Self.thumbnails(for: analysis.faces, in: buffer)
             statusMessage = nil
             await refreshPreview()
         } catch {
+            if chosenSourceFaceIndex != nil {
+                // The choice named a face this detection no longer holds —
+                // rare, but a compute-policy switch can flip a marginal face
+                // at the score threshold. Dropping the choice and retrying
+                // once degrades to the default largest face instead of
+                // rethrowing the same stale index on every engine start.
+                chosenSourceFaceIndex = nil
+                await analyzeSource()
+                return
+            }
             sourceFace = nil
+            sourceFaceCount = 0
+            sourceFaces = []
+            sourceFaceThumbnails = []
             statusMessage = error.localizedDescription
         }
+    }
+
+    /// Re-encodes the portrait around the face the user clicked.
+    ///
+    /// The engine holds one source identity at a time and `analyzeSource` runs
+    /// as a barrier in the service, so the change lands between frames, exactly
+    /// as picking a new portrait does.
+    /// True when the engine can encode a portrait right now. The face strip
+    /// reads it so a click cannot arrive at a pipeline that has no sessions.
+    var isEngineReady: Bool {
+        if case .ready = engine.state { return true }
+        return false
+    }
+
+    func chooseSourceFace(_ index: Int) async {
+        // The strip is disabled while rendering and while the engine is down,
+        // but a disabled control is a courtesy, not a contract — an export must
+        // never have its identity swapped out from under it, and committing a
+        // choice the engine cannot act on would tear down the preview to show
+        // nothing.
+        guard !isRendering, isEngineReady else { return }
+        guard sourceFaces.indices.contains(index), index != sourceFace?.index else { return }
+        chosenSourceFaceIndex = index
+        invalidatePreviewResult()
+        await analyzeSource()
+    }
+
+    /// One full-frame conversion, then a crop per face — not a conversion per
+    /// face, which is what `FaceScanner.thumbnail` would cost if called in a
+    /// loop. Only a portrait with more than one face pays anything at all.
+    private static func thumbnails(for faces: [DetectedFace],
+                                   in buffer: CVPixelBuffer) -> [CGImage?] {
+        guard faces.count > 1, let frame = PixelSurface.makeCGImage(from: buffer) else {
+            return []
+        }
+        return faces.map { FaceScanner.crop(frame, to: $0.box) }
     }
 
     func setTarget(_ url: URL) async {
@@ -520,6 +588,7 @@ final class AppModel {
 
     func clearSource() {
         sourceURL = nil; sourceBuffer = nil; sourceFace = nil; sourceFaceCount = 0
+        sourceFaces = []; sourceFaceThumbnails = []; chosenSourceFaceIndex = nil
         invalidatePreviewResult()
     }
 
