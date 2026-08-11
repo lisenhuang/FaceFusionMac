@@ -97,6 +97,7 @@ final class AppModel {
     // MARK: Options
 
     var enhanceFace = true
+    var maskOcclusion = true
     var identityStrength: Double = 0.5
     var maskBlur: Double = 0.3
     var useHEVC = true
@@ -245,7 +246,7 @@ final class AppModel {
 
     /// Options the engine should use, assembled from the UI state.
     ///
-    /// Both optional models are asked for by name here rather than assumed,
+    /// The optional models are asked for by name here rather than assumed,
     /// because either can be absent — never downloaded, or removed from
     /// Settings to reclaim the disk. Asking for one that is gone would have the
     /// pipeline silently fall back for the target frames while the source
@@ -257,6 +258,7 @@ final class AppModel {
                     enhanceFace: enhanceFace && models.isInstalledModel(.faceEnhancer),
                     enhancementBlend: 0.8,
                     maskBlur: maskBlur,
+                    maskOcclusion: maskOcclusion && models.isInstalledModel(.faceOccluder),
                     detectorScore: 0.5,
                     // Kept the same for both source and target. The source
                     // identity is encoded once at selection time, so flipping

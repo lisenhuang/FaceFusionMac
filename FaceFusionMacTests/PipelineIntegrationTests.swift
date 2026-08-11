@@ -171,11 +171,14 @@ struct PipelineIntegrationTests {
         let frame = try assets.image("out/target_frame.png")
         let output = BGRAImage(width: frame.width, height: frame.height)
 
-        // The reference ran without landmark refinement or enhancement, so
-        // match that configuration exactly.
+        // The reference ran without landmark refinement, enhancement or
+        // occlusion masking, so match that configuration exactly — occlusion
+        // defaults on and would otherwise switch itself into this comparison
+        // the moment dfl_xseg.onnx appears in the assets directory.
         var options = SwapOptions()
         options.selection = .largest
         options.enhanceFace = false
+        options.maskOcclusion = false
         options.refineLandmarks = false
         options.identityStrength = 0.5
         options.maskBlur = 0.3

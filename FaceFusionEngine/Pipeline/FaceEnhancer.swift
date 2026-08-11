@@ -12,6 +12,7 @@
 
 import Foundation
 import CoreGraphics
+import os
 
 struct FaceEnhancer {
     static let inputSize = 512
@@ -20,10 +21,16 @@ struct FaceEnhancer {
 
     /// Enhances one face in place.
     /// - Parameter blend: 0...1 opacity of the restored face over the original.
+    /// - Parameter occluder: when present, carves hands and hair out of the
+    ///   paste mask, exactly as the swap's own paste does. The reference
+    ///   applies the occlusion mask in `face_enhancer.py` too — the restorer is
+    ///   a face-prior GAN, and left unmasked it will happily repaint the hand
+    ///   the swap just preserved.
     func enhance(image: BGRAImage,
                  landmarks: [CGPoint],
                  maskBlur: Double,
-                 blend: Double) throws {
+                 blend: Double,
+                 occluder: FaceOccluder? = nil) throws {
         let transform = Geometry.alignmentTransform(landmarks: landmarks,
                                                     template: WarpTemplate.ffhq512,
                                                     cropSize: Self.inputSize)
@@ -45,7 +52,22 @@ struct FaceEnhancer {
 
         let restored = BGRAImage.fromTensorCHW(result, order: .rgb,
                                                mean: 0.5, standardDeviation: 0.5)
-        let mask = FaceMasker.boxMask(size: Self.inputSize, blur: maskBlur)
+        var mask = FaceMasker.boxMask(size: Self.inputSize, blur: maskBlur)
+        if let occluder {
+            do {
+                // The occluder reads the composited frame through the
+                // *enhancer's* transform — its own 512px crop, not the swap's —
+                // matching the reference, which computes a fresh occlusion mask
+                // per stage.
+                let occlusion = try occluder.occlusionMask(image: image,
+                                                           transform: transform,
+                                                           cropSize: Self.inputSize)
+                mask.intersect(with: occlusion)
+                mask.clamp01()
+            } catch {
+                EngineLog.inference.error("enhancer occlusion mask skipped: \(error.localizedDescription, privacy: .public)")
+            }
+        }
 
         image.pasteBack(patch: restored,
                         mask: mask,

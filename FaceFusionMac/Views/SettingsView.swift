@@ -183,7 +183,7 @@ struct SettingsView: View {
         } footer: {
             // The sentence this whole screen exists for: nearly half the disk,
             // and the app still works afterwards.
-            Text("Almost half the library, and swapping keeps working without it. You lose steadier tracking and the sharper, more detailed result.")
+            Text("Almost half the library, and swapping keeps working without it. You lose steadier tracking, the sharper result, and hands crossing the face staying in front.")
                 .font(.caption)
                 .foregroundStyle(.secondary)
         }
@@ -295,7 +295,7 @@ struct SettingsView: View {
         case .one(let descriptor):
             return "This frees \(formatBytes(descriptor.bytes)). Swapping keeps working without it — the result is simply less refined."
         case .optional:
-            return "This frees \(formatBytes(installedOptionalBytes)). Swapping keeps working; results are less sharp and tracking less steady."
+            return "This frees \(formatBytes(installedOptionalBytes)). Swapping keeps working; results are less sharp, tracking less steady, and hands crossing the face are painted over again."
         case .all:
             return "This frees \(formatBytes(manager.installedBytes)), the compiled graphs included. Morphiqo cannot swap a face again until they are downloaded, which needs a connection."
         }

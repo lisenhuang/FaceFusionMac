@@ -197,36 +197,36 @@
         }
       }
     },
-    "Almost half the library, and swapping keeps working without it. You lose steadier tracking and the sharper, more detailed result." : {
+    "Almost half the library, and swapping keeps working without it. You lose steadier tracking, the sharper result, and hands crossing the face staying in front." : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Almost half the library, and swapping keeps working without it. You lose steadier tracking and the sharper, more detailed result."
+            "state" : "translated",
+            "value" : "Almost half the library, and swapping keeps working without it. You lose steadier tracking, the sharper result, and hands crossing the face staying in front."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ライブラリのほぼ半分を占めます。削除しても入れ替えは動作しますが、追跡の安定性と細部の鮮明さが失われます。"
+            "value" : "ライブラリのほぼ半分を占めます。削除しても入れ替えは動作しますが、追跡の安定性、細部の鮮明さ、顔の前の手や髪の保持が失われます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "라이브러리의 거의 절반입니다. 제거해도 교체는 작동하지만 추적 안정성과 디테일이 떨어집니다."
+            "value" : "라이브러리의 거의 절반입니다. 제거해도 교체는 작동하지만 추적 안정성, 디테일, 얼굴을 가리는 손과 머리카락의 보존이 사라집니다."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "模型库近一半的内容，移除后换脸仍可运行，但跟踪稳定性和细节清晰度会降低。"
+            "value" : "模型库近一半的内容，移除后换脸仍可运行，但会失去跟踪稳定性、细节清晰度，以及对遮挡面部的手和头发的保护。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "模型庫近一半的內容，移除後換臉仍可執行，但追蹤穩定性和細節清晰度會降低。"
+            "value" : "模型庫近一半的內容，移除後換臉仍可執行，但會失去追蹤穩定性、細節清晰度，以及對遮擋臉部的手和頭髮的保護。"
           }
         }
       }
@@ -1833,6 +1833,90 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "需要 Face Enhancer 模型。"
+          }
+        }
+      }
+    },
+    "Needs the Occlusion Mask model." : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Occlusion Mask モデルが必要です。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Occlusion Mask 모델이 필요합니다."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "需要 Occlusion Mask 模型。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "需要 Occlusion Mask 模型。"
+          }
+        }
+      }
+    },
+    "Keep hands and hair" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "手や髪を残す"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "손과 머리카락 유지"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保留手和头发"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保留手和頭髮"
+          }
+        }
+      }
+    },
+    "Objects crossing the face stay in front. Slower." : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "顔の前にあるものはそのまま残ります。処理は遅くなります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "얼굴 앞의 물체가 그대로 유지됩니다. 대신 느립니다."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "遮挡面部的物体会保留在前面，但速度更慢。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "遮擋臉部的物體會保留在前面，但速度更慢。"
           }
         }
       }
@@ -3775,20 +3859,70 @@
     },
     "Language" : {
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "new", "value" : "Language" } },
-        "ja" : { "stringUnit" : { "state" : "translated", "value" : "言語" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "언어" } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "语言" } },
-        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "語言" } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Language"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "言語"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "언어"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "语言"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "語言"
+          }
+        }
       }
     },
     "System follows macOS. Choosing a language applies to Morphiqo and is remembered for the next launch." : {
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "new", "value" : "System follows macOS. Choosing a language applies to Morphiqo and is remembered for the next launch." } },
-        "ja" : { "stringUnit" : { "state" : "translated", "value" : "システムは macOS に従います。言語を選択すると Morphiqo に適用され、次回の起動時にも保持されます。" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "시스템은 macOS 설정을 따릅니다. 언어를 선택하면 Morphiqo에 적용되며 다음 실행에도 유지됩니다." } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "系统选项跟随 macOS。选择语言后会应用于 Morphiqo，并在下次启动时保留。" } },
-        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "系統選項跟隨 macOS。選擇語言後會套用至 Morphiqo，並在下次啟動時保留。" } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "System follows macOS. Choosing a language applies to Morphiqo and is remembered for the next launch."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "システムは macOS に従います。言語を選択すると Morphiqo に適用され、次回の起動時にも保持されます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "시스템은 macOS 설정을 따릅니다. 언어를 선택하면 Morphiqo에 적용되며 다음 실행에도 유지됩니다."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "系统选项跟随 macOS。选择语言后会应用于 Morphiqo，并在下次启动时保留。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "系統選項跟隨 macOS。選擇語言後會套用至 Morphiqo，並在下次啟動時保留。"
+          }
+        }
       }
     }
   },
