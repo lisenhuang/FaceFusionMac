@@ -11,14 +11,15 @@
 //
 //  This is the second network request the app makes — `ModelManager` makes the
 //  first — and the only one that is not about models. It sends the app's own
-//  App Store id and nothing else: no machine identifier, no install identifier,
+//  bundle identifier and nothing else: no machine identifier, no install identifier,
 //  no usage, no media. The session is ephemeral, so the lookup leaves behind no
 //  cache, cookie or credential.
 //
-//  `entity=macSoftware` asks about the Mac listing specifically. Until the Mac
-//  build is actually on sale the lookup comes back empty, which is indis-
-//  tinguishable from "up to date" and equally silent — so this can ship before
-//  the store record exists.
+//  `entity=macSoftware` asks about the Mac listing specifically. The lookup API
+//  can still return an iOS result for a bundle-id lookup, so parsing also
+//  requires Apple's `mac-software` kind. Until the Mac build is actually on
+//  sale the lookup comes back empty, which is indistinguishable from "up to
+//  date" and equally silent — so this can ship before the store record exists.
 //
 
 import Foundation
@@ -26,9 +27,10 @@ import os
 
 enum UpdateChecker {
 
-    /// The App Store record. iOS and macOS share one listing, so they share
-    /// this identifier.
-    private static let appStoreID = "6797135085"
+    /// The Mac app's bundle identifier. Looking up by bundle ID lets Apple
+    /// return the Mac record when it exists without hard-coding the iOS app's
+    /// numeric App Store ID.
+    private static let appBundleID = "com.lisenhuang.morphiqo"
 
     /// What the store is selling, on the occasions it is ahead of us.
     struct Update: Equatable, Sendable {
@@ -80,7 +82,7 @@ enum UpdateChecker {
 
     private static func lookup(country: String?) async -> Update? {
         var components = URLComponents(string: "https://itunes.apple.com/lookup")
-        var items = [URLQueryItem(name: "id", value: appStoreID),
+        var items = [URLQueryItem(name: "bundleId", value: appBundleID),
                      URLQueryItem(name: "entity", value: "macSoftware")]
         if let country { items.append(URLQueryItem(name: "country", value: country)) }
         components?.queryItems = items
@@ -96,17 +98,21 @@ enum UpdateChecker {
         }
     }
 
-    private static func parse(_ data: Data) -> Update? {
+    static func parse(_ data: Data) -> Update? {
         struct Payload: Decodable {
             struct Entry: Decodable {
                 let version: String
                 let trackViewUrl: String
+                let bundleId: String
+                let kind: String
             }
             let results: [Entry]
         }
 
         guard let payload = try? JSONDecoder().decode(Payload.self, from: data),
-              let entry = payload.results.first,
+              let entry = payload.results.first(where: {
+                  $0.bundleId == appBundleID && $0.kind == "mac-software"
+              }),
               let url = URL(string: entry.trackViewUrl) else { return nil }
         return Update(version: entry.version, storeURL: url)
     }
