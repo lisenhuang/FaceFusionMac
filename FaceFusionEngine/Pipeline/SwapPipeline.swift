@@ -63,9 +63,21 @@ final class SwapPipeline {
             guard let path = config.modelPaths[id] else {
                 throw makeEngineNSError(.modelMissing, underlying: "no path for \(id.rawValue)")
             }
-            try runtime.load(id, path: path, compute: config.compute,
-                             cacheDirectory: config.modelCacheDirectory,
-                             tuning: config.tuning)
+            do {
+                try runtime.load(id, path: path, compute: config.compute,
+                                 cacheDirectory: config.modelCacheDirectory,
+                                 tuning: config.tuning)
+            } catch {
+                // Which model stopped the launch is the first thing anyone
+                // diagnosing this wants and the one thing the old error did not
+                // say — a required model and an optional one produced the same
+                // sentence and the same log line. The id goes in the log and in
+                // the debug description; the user still reads exactly the
+                // sentence they read before.
+                EngineLog.engine.error(
+                    "required model \(id.rawValue, privacy: .public) failed to load: \(error.localizedDescription, privacy: .public)")
+                throw Self.loadFailure(id, error)
+            }
         }
         // Optional models: absence degrades quality, not correctness.
         for id in [ModelID.faceLandmarker, .faceEnhancer, .faceOccluder] {
@@ -85,7 +97,16 @@ final class SwapPipeline {
               let recognizerModel = runtime.model(.faceRecognizer),
               let swapperModel = runtime.model(.faceSwapper),
               let swapperPath = config.modelPaths[.faceSwapper] else {
-            throw makeEngineNSError(.modelLoadFailed, underlying: "core models unavailable")
+            // Reached only when `load` returned without throwing and without a
+            // session, which should be impossible — so say which of the three
+            // is absent rather than leaving the report as "core models
+            // unavailable" for whoever has to work out how it happened.
+            let absent = ModelID.required.filter { runtime.model($0) == nil }
+                .map(\.rawValue).joined(separator: ",")
+            EngineLog.engine.error(
+                "required model(s) unavailable after loading: \(absent.isEmpty ? "none" : absent, privacy: .public)")
+            throw makeEngineNSError(.modelLoadFailed,
+                                    underlying: "unavailable after loading: \(absent.isEmpty ? "swapper path" : absent)")
         }
 
         detector = FaceDetector(model: detectorModel)
@@ -99,6 +120,28 @@ final class SwapPipeline {
                                  usingCoreML: runtime.coreMLActive,
                                  executionProvider: runtime.providerDescription,
                                  warmupSeconds: Date().timeIntervalSince(started))
+    }
+
+    /// Names the model in an error a required load threw.
+    ///
+    /// The engine's own codes are preserved — a file that is not there is
+    /// `.modelMissing`, and telling the user to reinstall is the right advice —
+    /// while anything ONNX Runtime raised becomes `.modelLoadFailed`, whose
+    /// sentence is the one this failure has always shown. Only the debug
+    /// description grows: it gains the id, the domain and the code, which is
+    /// what turns a support report into something that can be acted on.
+    private static func loadFailure(_ id: ModelID, _ error: Error) -> NSError {
+        let nsError = error as NSError
+        let code = nsError.domain == engineErrorDomain
+            ? (EngineError(rawValue: nsError.code) ?? .modelLoadFailed)
+            : .modelLoadFailed
+        var detail = "\(id.rawValue): \(nsError.domain)/\(nsError.code)"
+        if let existing = nsError.userInfo[NSDebugDescriptionErrorKey] as? String {
+            detail += " \(existing)"
+        } else {
+            detail += " \(nsError.localizedDescription)"
+        }
+        return makeEngineNSError(code, underlying: detail)
     }
 
     func unloadAll() {

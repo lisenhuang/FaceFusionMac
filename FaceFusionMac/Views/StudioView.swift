@@ -7,11 +7,15 @@
 //
 
 import SwiftUI
+import StoreKit
 import UniformTypeIdentifiers
 
 struct StudioView: View {
     @Environment(AppModel.self) private var model
     @Environment(StoreManager.self) private var purchases
+    /// Apple's in-app rating sheet. Presented in this process — it is not a
+    /// link to the App Store and must never become one.
+    @Environment(\.requestReview) private var requestReview
     @State private var showsPaywall = false
 
     var body: some View {
@@ -45,6 +49,17 @@ struct StudioView: View {
         }
         .onChange(of: purchases.isPro) { _, isPro in
             if isPro { Task { await model.refreshPreview() } }
+        }
+        // Keyed on the phase so it runs once per finished export, and — more
+        // usefully — so it is cancelled the moment the phase moves on.
+        // Dismissing the finished bar within the settle delay withdraws the
+        // question rather than asking it over an empty bar.
+        //
+        // `ReviewPrompt` owns every rule about whether this actually asks. All
+        // this knows is where a successful export lands.
+        .task(id: model.phase) {
+            guard case .finished = model.phase else { return }
+            await ReviewPrompt.requestIfEarned(requestReview)
         }
     }
 

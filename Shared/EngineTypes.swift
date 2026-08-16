@@ -57,7 +57,12 @@ public nonisolated enum ModelID: String, Codable, CaseIterable, Sendable, Coding
 
 // MARK: - Configuration
 
-public enum ComputePolicy: String, Codable, Sendable {
+/// `nonisolated` for the same reason `ModelID` is: the app target defaults its
+/// types to the main actor and the engine target does not, and both of these are
+/// read from places that are neither — the compile-cache fingerprint, which runs
+/// on the launch pass's detached task, and a default argument, which is always
+/// evaluated outside any actor.
+public nonisolated enum ComputePolicy: String, Codable, Sendable {
     /// Core ML picks between ANE, GPU and CPU.
     case automatic
     /// Excludes the Neural Engine; sometimes better for fp32 graphs.
@@ -80,7 +85,7 @@ public enum ComputePolicy: String, Codable, Sendable {
 
 /// Lower-level execution knobs. Defaults are what ships; the benchmark mode
 /// sweeps them to find what actually helps on a given machine.
-public struct EngineTuning: Codable, Sendable, Equatable {
+public nonisolated struct EngineTuning: Codable, Sendable, Equatable {
     /// Every model here has fully static shapes, and telling Core ML so lets
     /// it take graph regions it would otherwise leave to the CPU.
     public var requireStaticInputShapes: Bool
@@ -109,15 +114,73 @@ public struct EngineConfiguration: Codable, Sendable {
     public var modelCacheDirectory: String
     public var compute: ComputePolicy
     public var tuning: EngineTuning
+    /// The manifest's SHA-256 for each model, so the engine can find out
+    /// whether a file it cannot load is still the file it was verified as.
+    ///
+    /// Sent even though nothing reads it on a healthy launch: the one moment it
+    /// is wanted — preparation having already failed twice — is a moment the
+    /// engine cannot ask the app anything, because it is inside the barrier
+    /// that is holding the reply. Carrying the answer in the question costs a
+    /// few hundred bytes of JSON.
+    public var modelDigests: [ModelID: String]
 
     public init(modelPaths: [ModelID: String],
                 modelCacheDirectory: String,
                 compute: ComputePolicy = .automatic,
-                tuning: EngineTuning = EngineTuning()) {
+                tuning: EngineTuning = EngineTuning(),
+                modelDigests: [ModelID: String] = [:]) {
         self.modelPaths = modelPaths
         self.modelCacheDirectory = modelCacheDirectory
         self.compute = compute
         self.tuning = tuning
+        self.modelDigests = modelDigests
+    }
+}
+
+/// Paths around the compiled-graph cache that both processes have to agree on.
+///
+/// The cache directory itself travels in `EngineConfiguration`; this is the one
+/// piece of it that does not, because the two sides use it at times when they
+/// are not talking to each other — the engine raises the marker as it starts
+/// compiling, and the app reads it at the next launch, possibly after the
+/// engine process was killed and never got to lower it.
+public nonisolated enum CompileCache {
+
+    /// The marker held for as long as a Core ML compile may be in flight.
+    ///
+    /// ORT decides to reuse a compiled artifact by existence alone — there is
+    /// no integrity check — and an `.mlmodelc` is a directory tree written item
+    /// by item, so a process killed part-way through compilation leaves behind
+    /// something that passes ORT's only test and is not a model. The marker is
+    /// what makes that state visible: present at the next launch means a
+    /// compile did not finish, and the cache is wiped rather than trusted.
+    ///
+    /// Beside the cache directory rather than inside it, so that wiping the
+    /// cache does not also erase the evidence that it needed wiping.
+    public static func markerURL(forCacheDirectory directory: URL) -> URL {
+        directory.deletingLastPathComponent()
+            .appendingPathComponent(directory.lastPathComponent + ".compiling",
+                                    isDirectory: false)
+    }
+
+    /// The record that the cache has already been rebuilt once here and the
+    /// rebuild did not help.
+    ///
+    /// The engine's own "once" is a process-wide flag, and a process is one
+    /// launch: the service exits with the app. That closes the loop inside a
+    /// launch and nothing more, so a machine whose failure neither repair
+    /// reaches would pay a full recompile — and a full re-hash of the library —
+    /// every time the app opened, for ever. This file is that verdict written
+    /// down, and it is removed the moment the ground it was reached on moves:
+    /// by a preparation that succeeds, and by the app whenever it wipes the
+    /// cache itself or the installed model set changes.
+    ///
+    /// Beside the cache directory, like the marker, so a wipe does not erase
+    /// the reason for it.
+    public static func rebuildReceiptURL(forCacheDirectory directory: URL) -> URL {
+        directory.deletingLastPathComponent()
+            .appendingPathComponent(directory.lastPathComponent + ".rebuilt",
+                                    isDirectory: false)
     }
 }
 

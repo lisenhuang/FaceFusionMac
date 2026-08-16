@@ -45,13 +45,54 @@ final class Preferences {
     static let shared = Preferences()
 
     private let defaults = UserDefaults.standard
-    private let languageKey = "appearance.language"
+
+    private enum Key {
+        static let language = "appearance.language"
+        static let successfulSaveCount = "review.successfulSaveCount"
+        static let lastPromptedVersion = "review.lastPromptedVersion"
+    }
 
     var language: AppLanguage {
-        didSet { defaults.set(language.rawValue, forKey: languageKey) }
+        didSet { defaults.set(language.rawValue, forKey: Key.language) }
+    }
+
+    // MARK: - Review prompt
+
+    /// How many exports have actually written a file, for all time. See
+    /// `ReviewPrompt`, which is the only thing that reads it.
+    var successfulSaveCount: Int {
+        didSet { defaults.set(successfulSaveCount, forKey: Key.successfulSaveCount) }
+    }
+
+    /// The marketing version that last asked for a review, or `nil` if none
+    /// has. Deliberately not a `Bool`: "have we asked?" would be permanent, and
+    /// the point is to ask again — at most once — after the app has changed.
+    var lastPromptedVersion: String? {
+        didSet {
+            if let lastPromptedVersion {
+                defaults.set(lastPromptedVersion, forKey: Key.lastPromptedVersion)
+            } else {
+                defaults.removeObject(forKey: Key.lastPromptedVersion)
+            }
+        }
     }
 
     private init() {
-        language = AppLanguage(rawValue: defaults.string(forKey: languageKey) ?? "") ?? .system
+        // Registered rather than written, so a key nobody has touched stays
+        // absent from the store and still reads as the value intended here.
+        // This is what an install upgrading from a build that predates the
+        // review prompt lands on: zero saves so far, never prompted — rather
+        // than whatever `integer(forKey:)` invents for a missing key.
+        defaults.register(defaults: [
+            Key.language: AppLanguage.system.rawValue,
+            Key.successfulSaveCount: 0
+        ])
+        // `lastPromptedVersion` has no registered default on purpose: absent
+        // *is* the meaning, and a placeholder string would have to be compared
+        // against every real version forever.
+
+        language = AppLanguage(rawValue: defaults.string(forKey: Key.language) ?? "") ?? .system
+        successfulSaveCount = defaults.integer(forKey: Key.successfulSaveCount)
+        lastPromptedVersion = defaults.string(forKey: Key.lastPromptedVersion)
     }
 }

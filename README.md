@@ -126,6 +126,13 @@ verified against the SHA-256 digests in
 [`FaceFusionMac/Resources/models.json`](FaceFusionMac/Resources/models.json)
 before installation. A mismatch is discarded, not installed.
 
+Each entry also lists `mirrors` — further hosts carrying the identical file,
+tried in order when the first does not answer. The digest and byte count are
+stated once per model rather than per source, because they are properties of the
+file: whichever host serves it, the download is rejected unless it hashes to the
+same value. That is what makes a second source safe to add, and it is why a
+digest mismatch is never retried elsewhere.
+
 | Model | Size | Required | Licence |
 |---|---|---|---|
 | `yoloface_8n` | 12.7 MB | yes | GPL-3.0 |

@@ -300,6 +300,7 @@ final class AppModel {
            Set(summary.loadedModels.compactMap(ModelID.init(rawValue:))) == wanted { return }
         do {
             try await engine.prepare(modelPaths: models.installedPaths(),
+                                     modelDigests: models.installedDigests(),
                                      cacheDirectory: ModelManager.compileCacheDirectory,
                                      compute: .automatic)
             statusMessage = nil
@@ -311,8 +312,37 @@ final class AppModel {
             if case .reference = faceSelection { await applyCheckedFaces() }
         } catch {
             EngineLog.client.error("engine prepare failed: \(error.localizedDescription, privacy: .public)")
+            // The engine repairs what it can before giving up, and its last
+            // repair is a *deletion*: a model whose bytes no longer hash to the
+            // digest they were installed under is unlinked over there. This side
+            // is still publishing that model as installed, so re-read the
+            // library — a `stat` per model — which is what puts the download
+            // screen back in front of the user instead of a studio that cannot
+            // start. Nothing loops: a set that did not change leaves
+            // `loadableModels` where it was, and one that did is missing
+            // something required, which `startEngineIfPossible` declines.
+            models.refreshInstallStates()
             statusMessage = error.localizedDescription
         }
+    }
+
+    /// Whether the engine can actually *use* a model, as opposed to the library
+    /// owning the file.
+    ///
+    /// The two came apart the moment an optional model could fail to load: the
+    /// pipeline catches that, logs a line and carries on, so the file is on disk
+    /// and there is no session behind it. Nothing said so — the Settings row
+    /// showed a green tick over a stage that silently does nothing.
+    ///
+    /// Before the engine is ready there is nothing better than the library to go
+    /// on, and answering "installed" there is right: it is what the next
+    /// preparation will try to load. The Web app draws the same distinction
+    /// under the same name.
+    func isUsable(_ id: ModelID) -> Bool {
+        if case .ready(let summary) = engine.state {
+            return summary.loadedModels.contains(id.rawValue)
+        }
+        return models.isInstalledModel(id)
     }
 
     // MARK: - Removing models
@@ -352,6 +382,12 @@ final class AppModel {
         resetPeople()
         await engine.unloadModels()
         for descriptor in descriptors { models.remove(descriptor) }
+        // Once, after the whole set is gone rather than per file: the compiled
+        // graphs cannot be traced back to the model that produced them, so this
+        // is wholesale either way. Doing it here — while the engine is still
+        // unloaded and the user is watching the removal they asked for — is what
+        // stops the same recompile ambushing a cold launch days later.
+        models.discardCompiledGraphs()
         await restartEngineAfterRemoval()
     }
 
@@ -951,6 +987,13 @@ final class AppModel {
                     }
                 }
                 self.phase = .finished(destination)
+                // On the Mac the export *is* the save — the destination was
+                // chosen at the panel above, so reaching here means a file the
+                // user asked for now exists where they asked for it. There is
+                // no separate save step to count instead. `StudioView` decides
+                // whether that has earned a review prompt; this only records
+                // that it happened.
+                ReviewPrompt.recordSuccessfulSave()
             } catch is CancellationError {
                 self.phase = .ready
                 self.statusMessage = "Export cancelled."

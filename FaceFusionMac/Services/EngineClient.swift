@@ -82,7 +82,12 @@ final class EngineClient {
 
     // MARK: - Calls
 
+    /// - Parameter modelDigests: what each file was verified as when it was
+    ///   installed. The engine only reads them after preparation has failed
+    ///   twice, to work out which model to throw away; see
+    ///   `EngineService.discardCorruptModels`.
     func prepare(modelPaths: [ModelID: String],
+                 modelDigests: [ModelID: String] = [:],
                  cacheDirectory: URL,
                  compute: ComputePolicy,
                  tuning: EngineTuning = EngineTuning()) async throws {
@@ -91,7 +96,8 @@ final class EngineClient {
             let config = EngineConfiguration(modelPaths: modelPaths,
                                              modelCacheDirectory: cacheDirectory.path,
                                              compute: compute,
-                                             tuning: tuning)
+                                             tuning: tuning,
+                                             modelDigests: modelDigests)
             let payload = try EngineJSON.encode(config)
             let result: EnginePreparation = try await call { engine, reply in
                 engine.prepare(configJSON: payload, withReply: reply)

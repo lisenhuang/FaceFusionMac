@@ -207,6 +207,12 @@ struct SettingsView: View {
                     .font(.caption)
                     .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
+                if isNotLoaded(descriptor) {
+                    Text("Installed but not loaded: the engine could not use this file. Remove it here and download it again.")
+                        .font(.caption)
+                        .foregroundStyle(.orange)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
             }
 
             Spacer(minLength: 8)
@@ -228,9 +234,27 @@ struct SettingsView: View {
         .padding(.vertical, 2)
     }
 
+    /// Installed, and the engine did not end up with a session for it.
+    ///
+    /// Only the optional models can reach this: the pipeline loads them in a
+    /// loop that logs a failure and carries on, so an unloadable one leaves a
+    /// complete-looking library behind a stage that quietly does nothing. A
+    /// required model failing stops preparation outright, the engine never
+    /// reaches `ready`, and `isUsable` falls back to the library — which is
+    /// correct, because the download screen is already saying what is wrong.
+    ///
+    /// A manifest entry this build does not recognise has no `ModelID` and so
+    /// nothing to say about it.
+    private func isNotLoaded(_ descriptor: ModelDescriptor) -> Bool {
+        guard manager.isInstalled(descriptor), let id = descriptor.modelID else { return false }
+        return !model.isUsable(id)
+    }
+
     @ViewBuilder
     private func statusIcon(for descriptor: ModelDescriptor) -> some View {
         switch manager.states[descriptor.id] ?? .missing {
+        case .installed where isNotLoaded(descriptor):
+            Image(systemName: "exclamationmark.triangle.fill").foregroundStyle(.orange)
         case .installed:
             Image(systemName: "checkmark.circle.fill").foregroundStyle(.green)
         case .failed:
@@ -244,6 +268,8 @@ struct SettingsView: View {
 
     private func status(of descriptor: ModelDescriptor) -> String {
         switch manager.states[descriptor.id] ?? .missing {
+        case .installed where isNotLoaded(descriptor):
+            return "\(formatBytes(descriptor.bytes)) · not loaded"
         case .installed:
             return formatBytes(descriptor.bytes)
         case .missing:

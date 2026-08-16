@@ -36,6 +36,7 @@ enum Benchmark {
         do {
             try await model.engine.prepare(
                 modelPaths: model.models.installedPaths(),
+                modelDigests: model.models.installedDigests(),
                 cacheDirectory: ModelManager.compileCacheDirectory,
                 compute: .automatic,
                 tuning: EngineTuning(requireStaticInputShapes: true,
@@ -137,6 +138,7 @@ enum Benchmark {
         for configuration in sweep {
             do {
                 try await model.engine.prepare(modelPaths: model.models.installedPaths(),
+                                               modelDigests: model.models.installedDigests(),
                                                cacheDirectory: ModelManager.compileCacheDirectory,
                                                compute: configuration.compute,
                                                tuning: configuration.tuning)
