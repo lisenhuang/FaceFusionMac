@@ -55,6 +55,32 @@ Every change has to be one an existing install can *upgrade into*: the first
 launch after an update starts with whatever the previous version left behind,
 and "works on a clean install" is not the bar.
 
+- **Never remove a product id from `StoreManager.productIDs`.** People have
+  paid for these — the subscriptions and the lifetime unlock alike — and that
+  array is not a list of what to sell. It is the entitlement allowlist:
+  `refreshEntitlements()` grants Pro only when a verified transaction's
+  `productID` appears in it. Delete an id and every customer holding that
+  product loses Pro at the next launch, silently. No error, no crash, and
+  nothing Restore Purchases can recover — the transaction is still valid and
+  the app has simply stopped recognising it. A subscriber is still being
+  charged for it. **Add to that array; never subtract from it.**
+
+  This holds when a product is *retired*, which is the case that tempts you.
+  Retiring is a dashboard action: **Remove from Sale** in App Store Connect
+  stops new purchases everywhere, including in copies already installed, and
+  leaves every existing owner entitled. `Product.products(for:)` quietly omits
+  an id the store will not sell, so the paywall stops offering it on its own
+  with no code change at all. Do not delete the product in App Store Connect
+  either — removal from sale is reversible and deletion is not, and the id is
+  still doing entitlement work for the people who bought it.
+
+  The same three ids are declared in the `iOS` repository and gate the same
+  purchases: the two apps share a bundle identifier and an App Store record, so
+  one Apple ID purchase unlocks both. That is the whole reason the identifiers
+  are duplicated rather than being Mac-specific, and it means the arrays have
+  to stay in step. Dropping an id here revokes Pro on the Mac while leaving it
+  working on the iPhone — harder to notice than doing it in both.
+
 - **The model library in the Group Container.** `models.json` is
   content-addressed. Adding an entry is safe and costs an existing user nothing
   until they choose to download it; changing an entry's digest makes the copy
