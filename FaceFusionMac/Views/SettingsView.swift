@@ -22,6 +22,7 @@
 //
 
 import SwiftUI
+import AppKit
 
 struct SettingsView: View {
     @Environment(AppModel.self) private var model
@@ -32,6 +33,13 @@ struct SettingsView: View {
     /// different sets, and three booleans would let two dialogs be true at once.
     @State private var pending: Removal?
     @State private var isRemoving = false
+
+    /// What the last Check for Updates concluded, and whether its alert is up.
+    /// Held separately from the launch check in `FaceFusionMacApp`, which shows
+    /// only the one outcome worth interrupting somebody for.
+    @State private var updateOutcome: UpdateChecker.Outcome?
+    @State private var isCheckingForUpdate = false
+    @State private var isShowingUpdateResult = false
 
     private enum Removal {
         case one(ModelDescriptor)
@@ -47,6 +55,7 @@ struct SettingsView: View {
             storageSection
             requiredSection
             optionalSection
+            aboutSection
         }
         .formStyle(.grouped)
         .frame(width: 540)
@@ -62,6 +71,20 @@ struct SettingsView: View {
             Button("Cancel", role: .cancel) { }
         } message: { removal in
             Text(confirmationMessage(for: removal))
+        }
+        // Every outcome gets an alert, including the boring one. A button the
+        // user pressed that answers by doing nothing visible reads as broken.
+        .alert(updateAlertTitle,
+               isPresented: $isShowingUpdateResult,
+               presenting: updateOutcome) { outcome in
+            if case .available(let update) = outcome {
+                Button("Update") { NSWorkspace.shared.open(update.storeURL) }
+                Button("Not now", role: .cancel) { }
+            } else {
+                Button("OK", role: .cancel) { }
+            }
+        } message: { outcome in
+            updateAlertMessage(for: outcome)
         }
     }
 
@@ -282,6 +305,94 @@ struct SettingsView: View {
             return "Checking…"
         case .failed:
             return "Failed"
+        }
+    }
+
+    // MARK: - About
+
+    /// The version this build is, and a way to find out whether it is the one
+    /// the store is selling.
+    ///
+    /// The app already asks this once per launch and stays quiet unless the
+    /// answer is "yes, there is something newer" — which is right for an
+    /// unprompted check and useless to somebody who wants to know *now*.
+    ///
+    /// On this platform the honest answer is currently "could not check", and
+    /// that is deliberate: there is no Mac App Store listing to compare
+    /// against, and `UpdateChecker` refuses to answer with the iPhone app's
+    /// version number. Saying so beats the alternative, which is a button that
+    /// reports "up to date" without ever having learned anything.
+    private var aboutSection: some View {
+        Section {
+            LabeledContent("Version") {
+                Text(UpdateChecker.installedVersion)
+                    .font(.body.monospacedDigit())
+            }
+
+            HStack(spacing: 10) {
+                Button("Check for Updates") {
+                    Task { await checkForUpdate() }
+                }
+                .disabled(isCheckingForUpdate)
+
+                if isCheckingForUpdate {
+                    ProgressView().controlSize(.small)
+                    Text("Checking the App Store…")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+
+                Spacer(minLength: 0)
+            }
+        } header: {
+            Text("About")
+        } footer: {
+            Text("Checking asks the App Store for its version number and nothing else — no identifier, no machine details, and nothing about the media you have worked on.")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+        }
+    }
+
+    private func checkForUpdate() async {
+        guard !isCheckingForUpdate else { return }
+        isCheckingForUpdate = true
+        let outcome = await UpdateChecker.fetch()
+        isCheckingForUpdate = false
+        updateOutcome = outcome
+        isShowingUpdateResult = true
+    }
+
+    /// `LocalizedStringKey` rather than the `String` the confirmation titles
+    /// above use, and the difference is not cosmetic: this window follows the
+    /// language picker through `environment(\.locale:)`, which SwiftUI applies
+    /// to `LocalizedStringKey` and not to a `String` that was already resolved
+    /// before `Text` saw it.
+    private var updateAlertTitle: LocalizedStringKey {
+        switch updateOutcome {
+        case .available:
+            return "A new version is available"
+        case .current:
+            return "Morphiqo is up to date"
+        // `.none` cannot reach the screen — the alert is only raised with an
+        // outcome in hand — but a title is needed to type-check the property,
+        // and the cautious one is the right default.
+        case .unavailable, .none:
+            return "Could not check for updates"
+        }
+    }
+
+    /// Both numbers in every case, because "which version am I on" and "which
+    /// version is current" are the two questions the button is pressed to
+    /// answer, and only one of them is on the row above.
+    @ViewBuilder
+    private func updateAlertMessage(for outcome: UpdateChecker.Outcome) -> some View {
+        switch outcome {
+        case .available(let update):
+            Text("You have \(UpdateChecker.installedVersion). Version \(update.version) is on the App Store.")
+        case .current(let latest):
+            Text("You have \(UpdateChecker.installedVersion), and the App Store has \(latest).")
+        case .unavailable:
+            Text("You have \(UpdateChecker.installedVersion). The App Store did not answer, so there is nothing to compare it against — check your connection and try again.")
         }
     }
 

@@ -64,6 +64,34 @@
         }
       }
     },
+    "About" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "情報"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "정보"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "关于"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "關於"
+          }
+        }
+      }
+    },
     "Add a face and a video or photo to begin." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -328,8 +356,92 @@
         }
       }
     },
+    "Check for Updates" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アップデートを確認"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "업데이트 확인"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "检查更新"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "檢查更新"
+          }
+        }
+      }
+    },
+    "Checking asks the App Store for its version number and nothing else — no identifier, no machine details, and nothing about the media you have worked on." : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "確認の際に App Store へ問い合わせるのはバージョン番号だけです。識別子も、Macの情報も、扱ったメディアに関することも送信しません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "확인할 때 App Store에 묻는 것은 버전 번호뿐입니다. 식별자도, Mac 정보도, 작업한 미디어에 관한 정보도 보내지 않습니다."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "检查时只向 App Store 查询版本号，不发送任何标识符、本机信息，也不发送与你处理过的媒体有关的任何内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "檢查時只向 App Store 查詢版本號，不傳送任何識別碼、本機資訊，也不傳送與你處理過的媒體有關的任何內容。"
+          }
+        }
+      }
+    },
     "Checking models…" : {
 
+    },
+    "Checking the App Store…" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App Store を確認中…"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App Store 확인 중…"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正在查询 App Store…"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正在查詢 App Store…"
+          }
+        }
+      }
     },
     "Checking the models already on this Mac…" : {
       "localizations" : {
@@ -583,6 +695,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "继续"
+          }
+        }
+      }
+    },
+    "Could not check for updates" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アップデートを確認できませんでした"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "업데이트를 확인할 수 없습니다"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无法检查更新"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無法檢查更新"
           }
         }
       }
@@ -1240,6 +1380,34 @@
         }
       }
     },
+    "Face %lld" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "顔 %lld"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "얼굴 %lld"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "人脸 %lld"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "人臉 %lld"
+          }
+        }
+      }
+    },
     "Face Enhancer" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -1265,34 +1433,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "人脸增强器"
-          }
-        }
-      }
-    },
-    "Face %lld" : {
-      "localizations" : {
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "顔 %lld"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "얼굴 %lld"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "人脸 %lld"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "人臉 %lld"
           }
         }
       }
@@ -1553,6 +1693,71 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "已安装"
+          }
+        }
+      }
+    },
+    "Installed but not loaded: the engine could not use this file. Remove it here and download it again." : {
+
+    },
+    "Keep hands and hair" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "手や髪を残す"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "손과 머리카락 유지"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保留手和头发"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保留手和頭髮"
+          }
+        }
+      }
+    },
+    "Language" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Language"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "言語"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "언어"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "语言"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "語言"
           }
         }
       }
@@ -1828,6 +2033,58 @@
             "state" : "new",
             "value" : "Morphiqo %1$@ is on the App Store. You have %2$@."
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App Store に Morphiqo %1$@ があります。お使いのバージョンは %2$@ です。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App Store에 Morphiqo %1$@이(가) 있습니다. 현재 버전은 %2$@입니다."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App Store 上有 Morphiqo %1$@，你的版本是 %2$@。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App Store 上有 Morphiqo %1$@，你的版本是 %2$@。"
+          }
+        }
+      }
+    },
+    "Morphiqo is up to date" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Morphiqo は最新です"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Morphiqo가 최신 버전입니다"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Morphiqo 已是最新版本"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Morphiqo 已是最新版本"
+          }
         }
       }
     },
@@ -1889,62 +2146,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "需要 Occlusion Mask 模型。"
-          }
-        }
-      }
-    },
-    "Keep hands and hair" : {
-      "localizations" : {
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "手や髪を残す"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "손과 머리카락 유지"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "保留手和头发"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "保留手和頭髮"
-          }
-        }
-      }
-    },
-    "Objects crossing the face stay in front. Slower." : {
-      "localizations" : {
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "顔の前にあるものはそのまま残ります。処理は遅くなります。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "얼굴 앞의 물체가 그대로 유지됩니다. 대신 느립니다."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "遮挡面部的物体会保留在前面，但速度更慢。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "遮擋臉部的物體會保留在前面，但速度更慢。"
           }
         }
       }
@@ -2065,6 +2266,62 @@
     },
     "Not now" : {
 
+    },
+    "Objects crossing the face stay in front. Slower." : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "顔の前にあるものはそのまま残ります。処理は遅くなります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "얼굴 앞의 물체가 그대로 유지됩니다. 대신 느립니다."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "遮挡面部的物体会保留在前面，但速度更慢。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "遮擋臉部的物體會保留在前面，但速度更慢。"
+          }
+        }
+      }
+    },
+    "OK" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "확인"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "好"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "好"
+          }
+        }
+      }
     },
     "On disk" : {
       "localizations" : {
@@ -3347,6 +3604,40 @@
     "Swap videos and export your results with unlimited Pro access." : {
 
     },
+    "System follows macOS. Choosing a language applies to Morphiqo and is remembered for the next launch." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "System follows macOS. Choosing a language applies to Morphiqo and is remembered for the next launch."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "システムは macOS に従います。言語を選択すると Morphiqo に適用され、次回の起動時にも保持されます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "시스템은 macOS 설정을 따릅니다. 언어를 선택하면 Morphiqo에 적용되며 다음 실행에도 유지됩니다."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "系统选项跟随 macOS。选择语言后会应用于 Morphiqo，并在下次启动时保留。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "系統選項跟隨 macOS。選擇語言後會套用至 Morphiqo，並在下次啟動時保留。"
+          }
+        }
+      }
+    },
     "TARGET" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -3732,6 +4023,34 @@
         }
       }
     },
+    "Use this face" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "この顔を使う"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 얼굴 사용"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用这张人脸"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用這張人臉"
+          }
+        }
+      }
+    },
     "Verifying…" : {
       "localizations" : {
         "ja" : {
@@ -3756,6 +4075,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "正在校验…"
+          }
+        }
+      }
+    },
+    "Version" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "バージョン"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "버전"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "版本"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "版本"
           }
         }
       }
@@ -3885,98 +4232,98 @@
         }
       }
     },
-    "Language" : {
+    "You have %@, and the App Store has %@." : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Language"
+            "value" : "You have %1$@, and the App Store has %2$@."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "言語"
+            "value" : "お使いのバージョンは %1$@、App Store のバージョンは %2$@ です。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "언어"
+            "value" : "현재 버전은 %1$@이고, App Store 버전은 %2$@입니다."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "语言"
+            "value" : "你的版本是 %1$@，App Store 上的版本是 %2$@。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "語言"
+            "value" : "你的版本是 %1$@，App Store 上的版本是 %2$@。"
           }
         }
       }
     },
-    "System follows macOS. Choosing a language applies to Morphiqo and is remembered for the next launch." : {
+    "You have %@. The App Store did not answer, so there is nothing to compare it against — check your connection and try again." : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "お使いのバージョンは %@ です。App Store から応答がなかったため、比較できませんでした。接続を確認してもう一度お試しください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "현재 버전은 %@입니다. App Store에서 응답이 없어 비교할 수 없습니다. 연결을 확인한 뒤 다시 시도해 주세요."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的版本是 %@。App Store 没有响应，因此无从比较。请检查网络连接后重试。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的版本是 %@。App Store 沒有回應，因此無從比較。請檢查網路連線後重試。"
+          }
+        }
+      }
+    },
+    "You have %@. Version %@ is on the App Store." : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "System follows macOS. Choosing a language applies to Morphiqo and is remembered for the next launch."
+            "value" : "You have %1$@. Version %2$@ is on the App Store."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "システムは macOS に従います。言語を選択すると Morphiqo に適用され、次回の起動時にも保持されます。"
+            "value" : "お使いのバージョンは %1$@ です。App Store には %2$@ があります。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "시스템은 macOS 설정을 따릅니다. 언어를 선택하면 Morphiqo에 적용되며 다음 실행에도 유지됩니다."
+            "value" : "현재 버전은 %1$@입니다. App Store에는 %2$@이(가) 있습니다."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "系统选项跟随 macOS。选择语言后会应用于 Morphiqo，并在下次启动时保留。"
+            "value" : "你的版本是 %1$@，App Store 上是 %2$@。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "系統選項跟隨 macOS。選擇語言後會套用至 Morphiqo，並在下次啟動時保留。"
-          }
-        }
-      }
-    },
-    "Use this face" : {
-      "localizations" : {
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "この顔を使う"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "이 얼굴 사용"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "使用这张人脸"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "使用這張人臉"
+            "value" : "你的版本是 %1$@，App Store 上是 %2$@。"
           }
         }
       }
