@@ -135,41 +135,68 @@ follow, and the first two have already caused bugs:
 
 `Localizable.xcstrings` used to change every time the project was opened in
 Xcode and run, producing a git diff with no connection to anything you had just
-done. **`SWIFT_EMIT_LOC_STRINGS` is `NO` on every target, and that is what stops
-it.** Do not turn it back on.
+done. **Three settings hold it still and all three are load-bearing.** Do not
+change any of them without reading why.
 
-With it on, each build extracted the string literals from the source and wrote
-the result back into the catalog *in the source tree* — adding entries it found
-in code, and stamping `"extractionState": "stale"` on entries it did not. Both
-are useful facts and neither is worth a surprise diff. `xcodebuild` from the
-command line never did this, so a terminal-only session could drift for weeks
-and then dump the whole backlog the first time somebody opened the IDE.
+1. **Every entry carries `"extractionState" : "manual"`.** That state means "a
+   person put this here": Xcode's sync will not mark a manual entry stale and
+   will not delete one, whichever of its extractors ran and however little of
+   the source that extractor had managed to parse. This is the piece that
+   actually holds. Point 2 removes the *compiler's* extractor, but the IDE runs
+   a parser of its own that no build setting reaches — it wrote fresh data to
+   DerivedData at 18:10 with the setting off since 17:51 — and one sync built on
+   a half-built index marked **186 of 251 live iOS strings stale and deleted 11
+   Mac entries outright**, a catalog the compiler had verified 248/248 in sync
+   an hour earlier. A new entry added by hand must be marked manual too;
+   `Tools/check-strings.py --fix` adopts any that are not.
 
-Turning it off does **not** affect what the app ships. The catalog is still
-compiled into `.lproj/Localizable.strings` by a separate build step; verified by
-building and reading the strings back out of `Morphiqo.app`, all four languages
-present and correct. What is lost is only the automatic *authoring* of new
-entries.
+2. **`SWIFT_EMIT_LOC_STRINGS = NO` on every target.** With it on, each build
+   extracted string literals from the source and wrote the result back into the
+   catalog *in the source tree*. `xcodebuild` from the terminal never did this,
+   so a CLI-only session could drift for weeks and then dump the backlog the
+   first time somebody opened the IDE.
 
-So a new UI string has to be added to the catalog by hand, and
-`Tools/check-strings.py` is what makes that safe:
+3. **`STRING_CATALOG_GENERATE_SYMBOLS = NO` on the app target.** Manual entries
+   take part in Swift symbol generation, and several keys here collide once they
+   do: `Face swapper` against `Face Swapper`, `Remove %@` against `Remove %@?`,
+   `Remove all models` against `Remove all models?`, `SETTINGS` against
+   `Settings…`, and `%lld%%`, which yields no legal identifier at all. With
+   symbols on, point 1 fails the build outright. Nothing in either app
+   references a generated symbol, so switching them off costs nothing — but if
+   anything ever does, it is these collisions that have to be resolved first.
+
+**None of this changes what ships.** The catalog is still compiled into
+`.lproj/Localizable.strings` by a separate build step; verified by building both
+apps and reading the strings back out of `Morphiqo.app`, all four languages
+present and unchanged in count. What is lost is only the automatic *authoring*
+of new entries, and the IDE's own reporting of missing or dead strings — both of
+which move to the tool below.
+
+There was a fourth cause, and it was self-inflicted: an early version of
+`Tools/check-strings.py` consumed the following entry's indentation when
+deleting one, leaving 32 entries across the two catalogs at column 0. Nothing
+fails when that happens — it is still valid JSON, it still parses, it still
+builds, it still ships — so it survived review and got committed, and Xcode
+reformatted the file on every single sync to put it back. If a catalog diff ever
+turns out to be pure whitespace, look for that before looking anywhere else.
 
 ```sh
 Tools/check-strings.py           # report drift, exit 1 if any
-Tools/check-strings.py --fix     # delete dead entries, clear stale marks
+Tools/check-strings.py --fix     # delete dead entries, adopt entries as manual
 ```
 
-It builds into its own DerivedData path with extraction forced on and reads the
-compiler's own `.stringsdata`, so the answer is the extractor's rather than a
-guess. That matters more than it sounds: a regex over the source cannot tell
-`Text("swap")` from the word "swap" inside an identifier, and a scan that tried
-it left eight dead entries behind while deleting two live ones. Run it after
-adding or removing any user-facing string, and before a release.
+It builds into its own DerivedData path with extraction forced back on and reads
+the compiler's `.stringsdata`, so the answer is the extractor's rather than a
+guess. That matters: a regex over the source cannot tell `Text("swap")` from the
+word "swap" inside an identifier, and a scan that tried it left eight dead
+entries behind while deleting two live ones. It also ignores `.stringsdata`
+belonging to files that no longer exist — DerivedData keeps those forever, and
+they make deleted strings look alive.
 
 Two things it reports are worth acting on immediately:
 
-- **MISSING** — in the code, not in the catalog. It will render English to every
-  Japanese, Korean and Chinese reader, and nothing will fail to build.
+- **MISSING** — in the code, not in the catalog. It renders English to every
+  Japanese, Korean and Chinese reader, and nothing fails to build.
 - **missing a translation** — in the catalog with no `ja`/`ko`/`zh-Hans`/`zh-Hant`
   value. Same outcome.
 

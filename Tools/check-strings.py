@@ -105,13 +105,48 @@ def excise(text, start, end):
     A trailing comma belongs to the entry being removed. The last entry has
     none, so the comma that has to go is the one *before* it — miss that and
     the file ends `},\n  }`, which is not JSON.
+
+    Consume the newline that ended this entry and **nothing further**. An
+    earlier version skipped every following space too, which swallowed the
+    indentation of the entry underneath and left it at column 0. Nothing fails
+    when that happens — still valid JSON, still parses, still builds, still
+    ships — so it went unnoticed until thirty-two entries across the two
+    catalogs had been flattened, and Xcode reformatted the file on every sync
+    to put them back. That reformat was most of the recurring diff this tool
+    exists to stop.
     """
     if text[end] == ",":
         after = end + 1
-        while text[after] in " \n":
+        if text[after] == "\n":
             after += 1
         return text[:start] + text[after:]
     return text[:text.rfind(",", 0, start)] + text[end:]
+
+
+MANUAL = re.compile(r'^      "extractionState" : "[^"]*",?\n', re.M)
+
+
+def as_manual(body):
+    """Force one entry to carry `"extractionState" : "manual"`.
+
+    That state means "a person put this here". Xcode's sync will not mark a
+    manual entry stale and will not delete it, whichever of its extractors ran
+    and however little of the source that extractor had managed to parse — the
+    condition that once marked 186 of 251 live iOS strings stale and deleted 11
+    Mac entries outright.
+    """
+    brace = body.index("{")
+    head, rest = body[:brace + 1], body[brace + 1:]
+    found = MANUAL.search(rest)
+    if found:
+        comma = "," if found.group(0).rstrip("\n").endswith(",") else ""
+        return (head + rest[:found.start()]
+                + '      "extractionState" : "manual"' + comma + "\n"
+                + rest[found.end():])
+    close = rest.rindex("}")
+    if rest[:close].strip():
+        return head + '\n      "extractionState" : "manual",' + rest
+    return head + '\n      "extractionState" : "manual"\n    }' + rest[close + 1:]
 
 
 # ------------------------------------------------------------- the extractor --
@@ -265,19 +300,26 @@ def main():
     for key in sorted(dead, key=lambda k: -spans[k][0]):
         start, end = spans[key]
         text = excise(text, start, end)
-    # Clearing the mark rather than the entry: these are live strings that were
-    # stale for some earlier reason and are used again.
-    text = re.sub(r'\n *"extractionState" : "stale",(?=\n)', "", text)
+    # Restore the invariant on whatever is left. Anything Xcode added since the
+    # last run arrives without a state and would be the next entry it decides
+    # to mark stale; this adopts it before that can happen.
+    adopted = 0
+    for key, start, end in sorted(entries(text), key=lambda s: -s[1]):
+        body = text[start:end]
+        fixed = as_manual(body)
+        if fixed != body:
+            adopted += 1
+            text = text[:start] + fixed + text[end:]
 
     after = json.loads(text)["strings"]          # must still parse
     if set(after) != set(catalog) - set(dead):
         fail("refusing to write: the edit changed more than the dead entries")
-    if any(v.get("extractionState") == "stale" for v in after.values()):
-        fail("refusing to write: a stale mark survived")
+    if any(v.get("extractionState") != "manual" for v in after.values()):
+        fail("refusing to write: an entry is not marked manual")
 
     open(CATALOG, "w", encoding="utf-8").write(text)
-    print("\nremoved %d dead entries, cleared %d stale marks — %d entries remain"
-          % (len(dead), len(stale), len(after)))
+    print("\nremoved %d dead entries, adopted %d as manual — %d entries remain"
+          % (len(dead), adopted, len(after)))
     if missing or untranslated:
         print("Still to do by hand: %d missing, %d untranslated."
               % (len(missing), len(untranslated)))

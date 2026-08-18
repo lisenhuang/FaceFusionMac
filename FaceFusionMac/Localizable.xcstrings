@@ -2,10 +2,10 @@
   "sourceLanguage" : "en",
   "strings" : {
     "" : {
-
+      "extractionState" : "manual"
     },
     "Drop a video or photo\nor click to choose" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -40,7 +40,7 @@
       }
     },
     "Drop a photo\nor click to choose" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -75,9 +75,10 @@
       }
     },
     "%@ left" : {
-
+      "extractionState" : "manual"
     },
     "%@ of %@" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -88,6 +89,7 @@
       }
     },
     "%lld / %lld frames" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -98,9 +100,10 @@
       }
     },
     "%lld%%" : {
-
+      "extractionState" : "manual"
     },
-"About" : {
+    "About" : {
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -129,7 +132,7 @@
       }
     },
     "Add a face and a video or photo to begin." : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -164,7 +167,7 @@
       }
     },
     "Add a source face." : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -199,7 +202,7 @@
       }
     },
     "Add a target video or photo." : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -234,6 +237,7 @@
       }
     },
     "All" : {
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -262,6 +266,7 @@
       }
     },
     "Almost half the library, and swapping keeps working without it. You lose steadier tracking, the sharper result, and hands crossing the face staying in front." : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -296,7 +301,7 @@
       }
     },
     "An export is running. Models cannot be removed until it finishes." : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -331,6 +336,7 @@
       }
     },
     "Apple Neural Engine / GPU" : {
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -359,6 +365,7 @@
       }
     },
     "Cancel" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -392,10 +399,11 @@
         }
       }
     },
-"Checking models…" : {
-
+    "Checking models…" : {
+      "extractionState" : "manual"
     },
-"Checking the models already on this Mac…" : {
+    "Checking the models already on this Mac…" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -430,6 +438,7 @@
       }
     },
     "Checking…" : {
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -458,6 +467,7 @@
       }
     },
     "Choose" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -492,6 +502,7 @@
       }
     },
     "Choose a video or photo to see it here" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -526,7 +537,7 @@
       }
     },
     "Choose the face you want to use." : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -561,7 +572,7 @@
       }
     },
     "Choose the video or photo to put that face into." : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -596,6 +607,7 @@
       }
     },
     "Compare with the untouched frame" : {
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -624,6 +636,7 @@
       }
     },
     "Continue" : {
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -651,8 +664,8 @@
         }
       }
     },
-"Could not read this video's frames." : {
-      "extractionState" : "stale",
+    "Could not read this video's frames." : {
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -681,6 +694,7 @@
       }
     },
     "CPU" : {
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -709,7 +723,7 @@
       }
     },
     "detect" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -738,6 +752,7 @@
       }
     },
     "Dismiss" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -772,6 +787,7 @@
       }
     },
     "Done" : {
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -800,10 +816,10 @@
       }
     },
     "Download %@" : {
-
+      "extractionState" : "manual"
     },
     "Download missing" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -838,9 +854,10 @@
       }
     },
     "Download missing (%@)" : {
-
+      "extractionState" : "manual"
     },
-"Edge softness" : {
+    "Edge softness" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -875,7 +892,7 @@
       }
     },
     "Encoding…" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -904,6 +921,7 @@
       }
     },
     "Engine idle" : {
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -932,7 +950,7 @@
       }
     },
     "enhance" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -961,6 +979,7 @@
       }
     },
     "Enhance detail" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -995,6 +1014,7 @@
       }
     },
     "Every" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1029,13 +1049,13 @@
       }
     },
     "Every file is verified against a checksum before use, and anything that does not match is discarded." : {
-
+      "extractionState" : "manual"
     },
     "Everything here can be downloaded again. Removing it costs the wait, not the work — no face, video or setting is touched." : {
-
+      "extractionState" : "manual"
     },
     "Export" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1070,6 +1090,7 @@
       }
     },
     "Export as HEVC" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1104,7 +1125,7 @@
       }
     },
     "Export cancelled." : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -1133,6 +1154,7 @@
       }
     },
     "Export complete" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1167,6 +1189,7 @@
       }
     },
     "Export Photo" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1201,6 +1224,7 @@
       }
     },
     "Export Video" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1235,6 +1259,7 @@
       }
     },
     "Face %lld" : {
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -1263,7 +1288,7 @@
       }
     },
     "Face Enhancer" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -1292,7 +1317,7 @@
       }
     },
     "Face ready." : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -1321,6 +1346,7 @@
       }
     },
     "Face swapping needs all three. Remove one and the app returns to its download screen until it is fetched again." : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1355,6 +1381,7 @@
       }
     },
     "Failed" : {
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -1383,6 +1410,7 @@
       }
     },
     "Find faces" : {
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -1411,7 +1439,7 @@
       }
     },
     "Find the faces in the target, then tick the ones to replace." : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -1440,6 +1468,7 @@
       }
     },
     "H.264 plays anywhere." : {
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -1468,6 +1497,7 @@
       }
     },
     "Higher keeps more of the source face; lower blends toward the original." : {
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -1496,6 +1526,7 @@
       }
     },
     "Include quality extras" : {
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -1524,6 +1555,7 @@
       }
     },
     "Installed" : {
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -1552,9 +1584,10 @@
       }
     },
     "Installed but not loaded: the engine could not use this file. Remove it here and download it again." : {
-
+      "extractionState" : "manual"
     },
     "Keep hands and hair" : {
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -1583,6 +1616,7 @@
       }
     },
     "Language" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1617,12 +1651,13 @@
       }
     },
     "Lifetime access" : {
-
+      "extractionState" : "manual"
     },
     "Loading lifetime access…" : {
-
+      "extractionState" : "manual"
     },
     "Look again" : {
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -1651,6 +1686,7 @@
       }
     },
     "Look for the faces in this photo." : {
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -1679,6 +1715,7 @@
       }
     },
     "Look through the video for the people in it, then tick the ones to replace." : {
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -1707,7 +1744,7 @@
       }
     },
     "Looking…" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -1736,6 +1773,7 @@
       }
     },
     "Lower if someone is missed when they turn away; raise if the wrong person gets replaced." : {
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -1764,7 +1802,7 @@
       }
     },
     "match" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -1793,6 +1831,7 @@
       }
     },
     "Match strictness" : {
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -1821,10 +1860,10 @@
       }
     },
     "Missing someone? Click their face in the preview to add them." : {
-
+      "extractionState" : "manual"
     },
     "Models" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -1853,6 +1892,7 @@
       }
     },
     "Morphiqo" : {
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -1880,13 +1920,14 @@
         }
       }
     },
-"Morphiqo Pro" : {
-
+    "Morphiqo Pro" : {
+      "extractionState" : "manual"
     },
     "Need help? Contact support" : {
-
+      "extractionState" : "manual"
     },
     "Needs the Face Enhancer model." : {
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -1915,6 +1956,7 @@
       }
     },
     "Needs the Occlusion Mask model." : {
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -1943,7 +1985,7 @@
       }
     },
     "No face found — try a clearer, front-facing photo." : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -1972,6 +2014,7 @@
       }
     },
     "No faces found in the target." : {
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -2000,7 +2043,7 @@
       }
     },
     "No one selected — nothing will be replaced." : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -2029,6 +2072,7 @@
       }
     },
     "None" : {
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -2056,7 +2100,8 @@
         }
       }
     },
-"Objects crossing the face stay in front. Slower." : {
+    "Objects crossing the face stay in front. Slower." : {
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -2085,6 +2130,7 @@
       }
     },
     "OK" : {
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -2113,6 +2159,7 @@
       }
     },
     "On disk" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2147,6 +2194,7 @@
       }
     },
     "One" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2181,6 +2229,7 @@
       }
     },
     "Open" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2215,6 +2264,7 @@
       }
     },
     "Open Face Image…" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2249,6 +2299,7 @@
       }
     },
     "Open Video or Photo…" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2283,6 +2334,7 @@
       }
     },
     "Optional" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2317,7 +2369,7 @@
       }
     },
     "Part of the face swap pipeline." : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -2346,7 +2398,7 @@
       }
     },
     "paste" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -2375,10 +2427,10 @@
       }
     },
     "Pay once for permanent Pro access. No renewal." : {
-
+      "extractionState" : "manual"
     },
     "Photo" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2413,7 +2465,7 @@
       }
     },
     "Pipeline Component" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -2442,6 +2494,7 @@
       }
     },
     "Play" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2476,6 +2529,7 @@
       }
     },
     "Previewing…" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2510,6 +2564,7 @@
       }
     },
     "Ratings are how other people find Morphiqo. It takes one click and you stay in the app." : {
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -2538,6 +2593,7 @@
       }
     },
     "Rate Morphiqo" : {
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -2566,7 +2622,7 @@
       }
     },
     "Ready to export." : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2601,6 +2657,7 @@
       }
     },
     "Remove" : {
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -2629,9 +2686,10 @@
       }
     },
     "Remove %@" : {
-
+      "extractionState" : "manual"
     },
     "Remove all models" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2666,7 +2724,7 @@
       }
     },
     "Remove all models?" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2701,7 +2759,7 @@
       }
     },
     "Remove the optional models" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2736,10 +2794,10 @@
       }
     },
     "Remove the optional models (%@)" : {
-
+      "extractionState" : "manual"
     },
     "Remove the optional models?" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2774,6 +2832,7 @@
       }
     },
     "Remove this model from disk" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2808,6 +2867,7 @@
       }
     },
     "Rendering the photo…" : {
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -2836,7 +2896,7 @@
       }
     },
     "Replaces every face in the frame." : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -2865,7 +2925,7 @@
       }
     },
     "Replaces only the faces you tick." : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -2894,7 +2954,7 @@
       }
     },
     "Replaces only the people you tick, wherever they appear in the video." : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -2923,6 +2983,7 @@
       }
     },
     "Required" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2957,6 +3018,7 @@
       }
     },
     "Resemblance" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2991,6 +3053,7 @@
       }
     },
     "Set up Morphiqo" : {
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -3019,6 +3082,7 @@
       }
     },
     "SETTINGS" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3053,7 +3117,7 @@
       }
     },
     "Settings…" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3088,6 +3152,7 @@
       }
     },
     "Sharper results and steadier tracking. You can add these later." : {
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -3116,6 +3181,7 @@
       }
     },
     "Sharper skin and eyes. Slower." : {
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -3144,6 +3210,7 @@
       }
     },
     "Show in Finder" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3178,6 +3245,7 @@
       }
     },
     "Showing original" : {
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -3206,6 +3274,7 @@
       }
     },
     "Showing result" : {
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -3234,6 +3303,7 @@
       }
     },
     "Smaller files." : {
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -3262,7 +3332,7 @@
       }
     },
     "SOURCE FACE" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3297,6 +3367,7 @@
       }
     },
     "Starting engine…" : {
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -3325,6 +3396,7 @@
       }
     },
     "Starting…" : {
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -3353,6 +3425,7 @@
       }
     },
     "Stop" : {
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -3381,6 +3454,7 @@
       }
     },
     "Storage" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3415,10 +3489,10 @@
       }
     },
     "Subscriptions renew automatically until cancelled. You can manage or cancel them in your App Store account settings." : {
-
+      "extractionState" : "manual"
     },
     "swap" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -3447,9 +3521,10 @@
       }
     },
     "Swap videos and export your results with unlimited Pro access." : {
-
+      "extractionState" : "manual"
     },
     "System follows macOS. Choosing a language applies to Morphiqo and is remembered for the next launch." : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3484,7 +3559,7 @@
       }
     },
     "TARGET" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3519,7 +3594,7 @@
       }
     },
     "That file does not contain a video track." : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -3548,7 +3623,7 @@
       }
     },
     "That file type is not supported." : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -3577,6 +3652,7 @@
       }
     },
     "The app needs its AI models before it can run. This is a one‑time download — afterwards face swapping works entirely on this Mac, with no internet connection." : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3611,7 +3687,7 @@
       }
     },
     "The downloaded file did not match its expected checksum and was discarded." : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -3640,7 +3716,7 @@
       }
     },
     "The engine is still starting." : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -3669,7 +3745,7 @@
       }
     },
     "The photo is no longer loaded." : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -3698,7 +3774,7 @@
       }
     },
     "This video's audio track could not be read." : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -3727,7 +3803,7 @@
       }
     },
     "Tick at least one face to replace." : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -3756,9 +3832,10 @@
       }
     },
     "Unlock lifetime" : {
-
+      "extractionState" : "manual"
     },
     "Unlock Pro" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3792,11 +3869,11 @@
         }
       }
     },
-"Upgrade" : {
-
+    "Upgrade" : {
+      "extractionState" : "manual"
     },
     "Use Face" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3831,7 +3908,7 @@
       }
     },
     "Use Media" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3866,6 +3943,7 @@
       }
     },
     "Use this face" : {
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -3894,6 +3972,7 @@
       }
     },
     "Verifying…" : {
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -3922,6 +4001,7 @@
       }
     },
     "Version" : {
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -3950,7 +4030,7 @@
       }
     },
     "Video" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3985,6 +4065,7 @@
       }
     },
     "Which face" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4019,6 +4100,7 @@
       }
     },
     "Will be left alone" : {
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -4047,6 +4129,7 @@
       }
     },
     "Will be replaced" : {
+      "extractionState" : "manual",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
