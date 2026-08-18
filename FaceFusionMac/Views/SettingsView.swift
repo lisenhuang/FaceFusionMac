@@ -317,11 +317,11 @@ struct SettingsView: View {
     /// answer is "yes, there is something newer" — which is right for an
     /// unprompted check and useless to somebody who wants to know *now*.
     ///
-    /// On this platform the honest answer is currently "could not check", and
-    /// that is deliberate: there is no Mac App Store listing to compare
-    /// against, and `UpdateChecker` refuses to answer with the iPhone app's
-    /// version number. Saying so beats the alternative, which is a button that
-    /// reports "up to date" without ever having learned anything.
+    /// The number this compares against comes from the Universal Purchase
+    /// record the Mac and iOS builds share, so it is only the Mac's version in
+    /// so far as the two projects are released at the same marketing version.
+    /// `UpdateChecker` explains why there is no second number to read; keeping
+    /// the versions in step is a release rule, written down in `CLAUDE.md`.
     private var aboutSection: some View {
         Section {
             LabeledContent("Version") {

@@ -27,22 +27,35 @@
 //  no usage, no media. The session is ephemeral, so the lookup leaves behind no
 //  cache, cookie or credential.
 //
-//  `entity=macSoftware` asks about the Mac listing specifically, and does not
-//  get it. `entity` is honoured by `/search` and ignored by `/lookup`: asking
-//  `/lookup` about an iOS-only bundle id with `entity=macSoftware` returns the
-//  iOS record regardless. The `kind == "mac-software"` test in `parse` is
-//  therefore the only thing standing between this window and an alert offering
-//  the Mac the iPhone app's version number. Keep the parameter — it costs
-//  nothing and documents the intent — but do not rely on it.
+//  Finding the Mac build in the store's answer is the whole difficulty, and the
+//  obvious two ways of doing it are both wrong.
 //
-//  As of writing there is no Mac listing at all: the app ships as a DMG, and a
-//  store search for it returns nothing, so `parse` rejects the iOS record it is
-//  handed and every lookup resolves to `.unavailable`. That is the correct
-//  answer rather than a broken one, and it is why the button reports "could not
-//  check" instead of "up to date". If a Mac record ever appears, this starts
-//  working with no change here. If the DMG remains the distribution channel,
-//  the honest fix is to ask GitHub Releases for the latest tag instead of
-//  asking Apple — a different `lookup()`, and nothing else on this screen.
+//  `entity=macSoftware` does not filter. `entity` is honoured by `/search` and
+//  ignored by `/lookup`: ask `/lookup` about an iOS-only bundle id with
+//  `entity=macSoftware` and it returns the iOS record anyway. The parameter is
+//  kept because it costs nothing and states the intent, but nothing may rest
+//  on it.
+//
+//  `kind == "mac-software"` does not match us either, and for a while this file
+//  required it — which meant the Mac's update check could never succeed. That
+//  kind identifies an app with its own *separate* Mac App Store listing.
+//  Morphiqo is a Universal Purchase: one record (id 6797135085) covering
+//  iPhone, iPad, Mac and Vision, whose `kind` is `software` because the record
+//  is primarily the iOS one. There is no second record to find, and searching
+//  `entity=macSoftware` for it returns nothing.
+//
+//  What does identify us is `MacDesktop-MacDesktop` in `supportedDevices`.
+//  Checked against both neighbours it is exactly the right signal: an app with
+//  a separate Mac listing reports `kind == "mac-software"` and no `MacDesktop`
+//  entry, and an iPad app merely runnable on Apple silicon — the "Designed for
+//  iPad, not verified for macOS" case — reports `kind == "software"` and no
+//  `MacDesktop` entry either. Only a record containing a real Mac build has it.
+//
+//  So `parse` accepts either shape, and still refuses a plain iOS record. What
+//  it cannot do is tell the two platforms' *versions* apart: one record carries
+//  one public version number, and it is the iOS one. That is only harmless
+//  while the two projects are released at the same marketing version — see
+//  `CLAUDE.md`, which is where that requirement is written down.
 //
 
 import Foundation
@@ -176,13 +189,28 @@ enum UpdateChecker {
                 let trackViewUrl: String
                 let bundleId: String
                 let kind: String
+                /// Absent from a `mac-software` record, which does not need it.
+                let supportedDevices: [String]?
+
+                /// Whether this record contains a build that runs on a Mac.
+                ///
+                /// Two shapes qualify and a third must not. A separate Mac App
+                /// Store listing announces itself by `kind`. A Universal
+                /// Purchase — which is what we are — announces itself only by
+                /// carrying the Mac device in an otherwise iOS-shaped record.
+                /// An iPad app that Apple silicon merely happens to be able to
+                /// run has neither, and is the case this has to keep rejecting.
+                var includesMacBuild: Bool {
+                    kind == "mac-software"
+                        || (supportedDevices ?? []).contains("MacDesktop-MacDesktop")
+                }
             }
             let results: [Entry]
         }
 
         guard let payload = try? JSONDecoder().decode(Payload.self, from: data),
               let entry = payload.results.first(where: {
-                  $0.bundleId == appBundleID && $0.kind == "mac-software"
+                  $0.bundleId == appBundleID && $0.includesMacBuild
               }),
               let url = URL(string: entry.trackViewUrl) else { return nil }
         return Update(version: entry.version, storeURL: url)

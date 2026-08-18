@@ -35,6 +35,46 @@ struct UpdateCheckerTests {
         #expect(update.storeURL.absoluteString == "https://apps.apple.com/app/morphiqo/id1234567890")
     }
 
+    /// The shape Morphiqo actually has. One Universal Purchase record covering
+    /// iPhone, iPad, Mac and Vision: `kind` is `software`, because the record is
+    /// primarily the iOS one, and the only thing announcing the Mac build is the
+    /// device in `supportedDevices`. Requiring `kind == "mac-software"` here
+    /// meant the Mac could never find its own listing.
+    @Test("accepts the Universal Purchase record that carries the Mac build")
+    func acceptsUniversalPurchaseRecord() throws {
+        let data = try JSONSerialization.data(withJSONObject: [
+            "results": [[
+                "version": "1.9.0",
+                "trackViewUrl": "https://apps.apple.com/app/id6797135085",
+                "bundleId": "com.lisenhuang.morphiqo",
+                "kind": "software",
+                "supportedDevices": ["iPhone5s-iPhone5s", "MacDesktop-MacDesktop"]
+            ]]
+        ])
+
+        let update = try #require(UpdateChecker.parse(data))
+        #expect(update.version == "1.9.0")
+    }
+
+    /// The case that must keep being rejected: an iPad app Apple silicon merely
+    /// happens to be able to run — "Designed for iPad, not verified for macOS".
+    /// It looks exactly like the record above apart from the missing device, so
+    /// that device is the whole test.
+    @Test("ignores an iOS record with no Mac build in it")
+    func ignoresIOSOnlyRecordWithDevices() throws {
+        let data = try JSONSerialization.data(withJSONObject: [
+            "results": [[
+                "version": "9.9.9",
+                "trackViewUrl": "https://apps.apple.com/app/id6797135085",
+                "bundleId": "com.lisenhuang.morphiqo",
+                "kind": "software",
+                "supportedDevices": ["iPhone5s-iPhone5s", "iPadAir-iPadAir"]
+            ]]
+        ])
+
+        #expect(UpdateChecker.parse(data) == nil)
+    }
+
     // MARK: - What the manual check concludes
 
     private static func listing(_ version: String) -> UpdateChecker.Update {

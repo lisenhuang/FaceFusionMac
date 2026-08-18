@@ -50,7 +50,10 @@ number in the project is what local and untagged builds report.
 
 ## The app is published
 
-Morphiqo ships as a DMG from GitHub Releases and people have it installed.
+Morphiqo is on the Mac App Store — as part of the Universal Purchase record
+described below, not a listing of its own — and people have it installed. The
+DMG pipeline in `.github/workflows/release.yml` still exists and has published
+nothing; the store is the channel that reaches users.
 Every change has to be one an existing install can *upgrade into*: the first
 launch after an update starts with whatever the previous version left behind,
 and "works on a clean install" is not the bar.
@@ -102,6 +105,30 @@ and "works on a clean install" is not the bar.
 If a change genuinely cannot be made upgrade-safe, say so and describe the
 migration it needs — do not ship something that only holds together on a Mac
 that has never run the app before.
+
+## iOS and macOS ship as one App Store record
+
+Morphiqo is a **Universal Purchase**: app id `6797135085` is a single store
+record covering iPhone, iPad, Mac and Vision, not two listings. Three things
+follow, and the first two have already caused bugs:
+
+- **`itunes.apple.com/lookup` returns one result with one version number, and
+  it is the iOS one.** There is no `kind == "mac-software"` record to find —
+  that kind belongs to apps with a *separate* Mac listing. Ours is
+  `kind == "software"` with `MacDesktop-MacDesktop` in `supportedDevices`, which
+  is the only public signal that the record contains a Mac build at all. An iPad
+  app merely runnable on Apple silicon has neither, which is what makes the
+  signal usable. `UpdateChecker.parse` depends on exactly this.
+
+- **Keep `MARKETING_VERSION` identical in both projects.** Because one number is
+  published for the whole record, the Mac's Check for Updates can only be right
+  while the two platforms are released at the same version. They diverged once
+  already — iOS 1.8.1 against Mac 1.8.0 — and a Mac on 1.8.0 would have been
+  told 1.8.1 was available when no new Mac build existed. The build numbers may
+  differ; the marketing version may not.
+
+- **A purchase on either platform unlocks both**, which is why the product
+  identifiers are duplicated rather than being platform-specific.
 
 ## Git
 
