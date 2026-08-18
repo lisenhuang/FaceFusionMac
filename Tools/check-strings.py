@@ -36,7 +36,7 @@ missed eight dead entries in this very catalog — `swap`, `match` and `paste`
 all appear as substrings of ordinary identifiers.
 
     Tools/check-strings.py           report drift, exit 1 if any
-    Tools/check-strings.py --fix     delete dead entries, clear stale marks
+    Tools/check-strings.py --fix     delete dead entries, adopt the rest as manual
 
 Edits are textual. The file is rewritten by Xcode with its own pretty-printer
 and ICU-collated key order, neither of which round-trips through Python's json
@@ -254,7 +254,7 @@ def normalise(key):
 def main():
     parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     parser.add_argument("--fix", action="store_true",
-                        help="delete dead entries and clear stale marks")
+                        help="delete dead entries and adopt every entry as manual")
     args = parser.parse_args()
 
     text = open(CATALOG, encoding="utf-8").read()
@@ -292,17 +292,21 @@ def main():
         print("\nin sync — opening Xcode will not change this file")
         return 0
 
-    if not dead and not stale:
-        print("\nnothing to fix")
-        return 1 if (missing or untranslated) else 0
-
+    original = text
     spans = {k: (a, b) for k, a, b in entries(text)}
     for key in sorted(dead, key=lambda k: -spans[k][0]):
         start, end = spans[key]
         text = excise(text, start, end)
-    # Restore the invariant on whatever is left. Anything Xcode added since the
-    # last run arrives without a state and would be the next entry it decides
-    # to mark stale; this adopts it before that can happen.
+
+    # Restore the invariant on whatever is left. An entry added since the last
+    # run — by Xcode, or by hand alongside a new feature — arrives without a
+    # state, and is the next one Xcode decides to mark stale; this adopts it
+    # before that can happen.
+    #
+    # Deliberately not gated on there being something dead or stale to remove.
+    # It used to be, and that is exactly how six live entries, three in each
+    # catalog, sat unadopted through two releases: nothing was dead alongside
+    # them, so --fix printed "nothing to fix" and returned without looking.
     adopted = 0
     for key, start, end in sorted(entries(text), key=lambda s: -s[1]):
         body = text[start:end]
@@ -310,6 +314,10 @@ def main():
         if fixed != body:
             adopted += 1
             text = text[:start] + fixed + text[end:]
+
+    if text == original:
+        print("\nnothing to fix")
+        return 1 if (missing or untranslated) else 0
 
     after = json.loads(text)["strings"]          # must still parse
     if set(after) != set(catalog) - set(dead):

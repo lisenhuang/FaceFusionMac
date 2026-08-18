@@ -5,6 +5,7 @@
       "extractionState" : "manual"
     },
     "%@ / %@ frames" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -29,7 +30,7 @@
       }
     },
     "%@%%" : {
-
+      "extractionState" : "manual"
     },
     "%lld / %lld frames" : {
       "extractionState" : "manual",
@@ -1272,7 +1273,7 @@
       }
     },
     "Face %@" : {
-
+      "extractionState" : "manual"
     },
     "Face %lld" : {
       "extractionState" : "manual",
@@ -1357,6 +1358,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "人脸已就绪。"
+          }
+        }
+      }
+    },
+    "Face swapping for photos and video that runs entirely on your own device — nothing is ever uploaded." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "写真と動画の顔の入れ替えが、すべて自分のデバイス上で完結します。アップロードされることは一切ありません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "사진과 동영상의 얼굴 바꾸기를 전부 내 기기에서 처리합니다. 업로드되는 것은 전혀 없습니다."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "照片和视频换脸，全部在你自己的设备上完成，绝不会上传任何内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "照片和影片換臉，全部在你自己的裝置上完成，絕不會上傳任何內容。"
           }
         }
       }
@@ -3163,6 +3193,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "設定…"
+          }
+        }
+      }
+    },
+    "Share Morphiqo" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Morphiqo を共有"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Morphiqo 공유하기"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分享 Morphiqo"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分享 Morphiqo"
           }
         }
       }

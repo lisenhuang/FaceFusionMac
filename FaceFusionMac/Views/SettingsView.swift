@@ -314,6 +314,19 @@ struct SettingsView: View {
             } label: {
                 Label("Rate Morphiqo", systemImage: "star")
             }
+
+            // The link is the Universal Purchase record rather than a Mac-only
+            // page — there is no such page, which is the same fact that leaves
+            // this section without an update check. Whoever opens it gets the
+            // build for the device they opened it on, so a link sent from this
+            // Mac opens the iPhone app on an iPhone. `subject` is verbatim
+            // because a product name is the same in every language and does not
+            // belong in the string catalog.
+            ShareLink(item: AppStoreLink.listing,
+                      subject: Text(verbatim: "Morphiqo"),
+                      message: Text("Face swapping for photos and video that runs entirely on your own device — nothing is ever uploaded.")) {
+                Label("Share Morphiqo", systemImage: "square.and.arrow.up")
+            }
         } header: {
             Text("About")
         } footer: {

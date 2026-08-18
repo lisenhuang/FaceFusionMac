@@ -110,10 +110,6 @@ enum ReviewPrompt {
     /// Apple's number, not ours, and it is the reason this file is careful.
     private static let allowancePerYear = 3
 
-    /// Where a review can always be left, when the sheet cannot be shown.
-    private static let writeReviewURL = URL(
-        string: "https://apps.apple.com/app/id6797135085?action=write-review")!
-
     /// Whether a request now stands any chance of being shown.
     ///
     /// A guess, and unavoidably so: the system keeps the real count and never
@@ -149,7 +145,7 @@ enum ReviewPrompt {
     /// rule. Those exist to stop the app asking people who have not been asked
     /// to be asked. Someone who went into Settings and pressed this has asked.
     static func rate(_ request: RequestReviewAction) -> URL? {
-        guard hasAllowanceLeft else { return writeReviewURL }
+        guard hasAllowanceLeft else { return AppStoreLink.writeReview }
         spendAllowance()
         request()
         return nil
