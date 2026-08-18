@@ -7,48 +7,258 @@
     "%@ / %@ frames" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ / %2$@ Einzelbilder"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "%1$@ / %2$@ frames"
           }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ / %2$@ fotogramas"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ / %2$@ images"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ / %2$@ fotogrammi"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ / %2$@ quadros"
+          }
         }
       }
     },
     "%@ left" : {
-      "extractionState" : "manual"
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ übrig"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ restantes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ restant"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ rimanenti"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ restantes"
+          }
+        }
+      }
     },
     "%@ of %@" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ von %2$@"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "%1$@ of %2$@"
           }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ de %2$@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ sur %2$@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ di %2$@"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ de %2$@"
+          }
         }
       }
     },
     "%@%%" : {
-      "extractionState" : "manual"
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@%%"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@%%"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@%%"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@%%"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@%%"
+          }
+        }
+      }
     },
     "%lld / %lld frames" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld / %2$lld Einzelbilder"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "%1$lld / %2$lld frames"
           }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld / %2$lld fotogramas"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld / %2$lld images"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld / %2$lld fotogrammi"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld / %2$lld quadros"
+          }
         }
       }
     },
     "%lld%%" : {
-      "extractionState" : "manual"
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld%%"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld%%"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld%%"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld%%"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld%%"
+          }
+        }
+      }
     },
     "About" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Info"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acerca de"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "À propos"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Informazioni"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -59,6 +269,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "정보"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sobre"
           }
         },
         "zh-Hans" : {
@@ -78,10 +294,34 @@
     "Add a face and a video or photo to begin." : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Füge ein Gesicht und ein Video oder Foto hinzu, um zu beginnen."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Add a face and a video or photo to begin."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agrega un rostro y un video o una foto para comenzar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajoutez un visage et une vidéo ou une photo pour commencer."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aggiungi un volto e un video o una foto per iniziare."
           }
         },
         "ja" : {
@@ -94,6 +334,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "시작하려면 얼굴과 비디오 또는 사진을 추가하십시오."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adicione um rosto e um vídeo ou foto para começar."
           }
         },
         "zh-Hans" : {
@@ -113,10 +359,34 @@
     "Add a source face." : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Füge ein Quellgesicht hinzu."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Add a source face."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agrega un rostro de origen."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajoutez un visage source."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aggiungi un volto di origine."
           }
         },
         "ja" : {
@@ -129,6 +399,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "소스 얼굴을 추가하십시오."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adicione um rosto de origem."
           }
         },
         "zh-Hans" : {
@@ -148,10 +424,34 @@
     "Add a target video or photo." : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Füge ein Zielvideo oder -foto hinzu."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Add a target video or photo."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agrega un video o una foto de destino."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajoutez une vidéo ou une photo cible."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aggiungi un video o una foto di destinazione."
           }
         },
         "ja" : {
@@ -164,6 +464,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "대상 비디오 또는 사진을 추가하십시오."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adicione um vídeo ou foto de destino."
           }
         },
         "zh-Hans" : {
@@ -183,6 +489,30 @@
     "All" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todos"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tout"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tutti"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -193,6 +523,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "전체 선택"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todos"
           }
         },
         "zh-Hans" : {
@@ -212,10 +548,34 @@
     "Almost half the library, and swapping keeps working without it. You lose steadier tracking, the sharper result, and hands crossing the face staying in front." : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fast die Hälfte der Modelldaten, und der Gesichtstausch funktioniert auch ohne. Du verlierst die stabilere Verfolgung und das schärfere Ergebnis, und Hände vor dem Gesicht bleiben nicht mehr davor."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Almost half the library, and swapping keeps working without it. You lose steadier tracking, the sharper result, and hands crossing the face staying in front."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Casi la mitad de todo lo instalado, y el intercambio sigue funcionando sin ello. Pierdes el seguimiento más estable, el resultado más nítido y que las manos que cruzan por delante del rostro se mantengan al frente."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Presque la moitié de la bibliothèque, et l’échange continue de fonctionner sans eux. Vous perdez la stabilité du suivi, le rendu plus net, et les mains qui passent devant le visage ne restent plus au premier plan."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quasi metà della libreria dei modelli, e lo scambio continua a funzionare senza. Perdi il tracciamento più stabile, il risultato più nitido e le mani che passano davanti al volto restando in primo piano."
           }
         },
         "ja" : {
@@ -228,6 +588,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "라이브러리의 거의 절반입니다. 제거해도 교체는 작동하지만 추적 안정성, 디테일, 얼굴을 가리는 손과 머리카락의 보존이 사라집니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "É quase metade da biblioteca, e a troca de rostos continua funcionando sem ela. Você perde o rastreamento mais estável, o resultado mais nítido e a proteção das mãos que cruzam o rosto."
           }
         },
         "zh-Hans" : {
@@ -247,10 +613,34 @@
     "An export is running. Models cannot be removed until it finishes." : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ein Export läuft. Modelle können erst danach entfernt werden."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "An export is running. Models cannot be removed until it finishes."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hay una exportación en curso. No se pueden eliminar los modelos hasta que termine."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Une exportation est en cours. Les modèles ne peuvent pas être supprimés avant la fin."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "È in corso un'esportazione. Non puoi rimuovere i modelli finché non termina."
           }
         },
         "ja" : {
@@ -263,6 +653,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "내보내기가 진행 중입니다. 완료될 때까지 모델을 제거할 수 없습니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uma exportação está em andamento. Os modelos não podem ser removidos até ela terminar."
           }
         },
         "zh-Hans" : {
@@ -282,6 +678,30 @@
     "Apple Neural Engine / GPU" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apple Neural Engine / GPU"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apple Neural Engine / GPU"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apple Neural Engine / GPU"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apple Neural Engine / GPU"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -292,6 +712,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Apple 뉴럴 엔진 / GPU"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apple Neural Engine / GPU"
           }
         },
         "zh-Hans" : {
@@ -311,10 +737,34 @@
     "Cancel" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abbrechen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Cancel"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancelar"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Annuler"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Annulla"
           }
         },
         "ja" : {
@@ -327,6 +777,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "취소"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancelar"
           }
         },
         "zh-Hans" : {
@@ -344,15 +800,71 @@
       }
     },
     "Checking models…" : {
-      "extractionState" : "manual"
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modelle werden geprüft…"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Revisando modelos…"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vérification des modèles…"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Controllo dei modelli…"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conferindo modelos…"
+          }
+        }
+      }
     },
     "Checking the models already on this Mac…" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vorhandene Modelle auf diesem Mac werden geprüft…"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Checking the models already on this Mac…"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Revisando los modelos que ya están en esta Mac…"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vérification des modèles déjà présents sur ce Mac…"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Controllo dei modelli già presenti su questo Mac…"
           }
         },
         "ja" : {
@@ -365,6 +877,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "이 Mac에 이미 있는 모델 확인 중…"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conferindo os modelos já presentes neste Mac…"
           }
         },
         "zh-Hans" : {
@@ -384,6 +902,30 @@
     "Checking…" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wird geprüft…"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Revisando…"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vérification…"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Controllo…"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -394,6 +936,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "확인 중…"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conferindo…"
           }
         },
         "zh-Hans" : {
@@ -413,10 +961,34 @@
     "Choose" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Auswahl"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Choose"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elegir"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Au choix"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scegli"
           }
         },
         "ja" : {
@@ -429,6 +1001,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "선택"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escolher"
           }
         },
         "zh-Hans" : {
@@ -448,10 +1026,34 @@
     "Choose a video or photo to see it here" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wähle ein Video oder Foto, um es hier zu sehen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Choose a video or photo to see it here"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elige un video o una foto para verlo aquí"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choisissez une vidéo ou une photo pour l’afficher ici"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scegli un video o una foto per vederli qui"
           }
         },
         "ja" : {
@@ -464,6 +1066,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "여기에 표시할 비디오 또는 사진을 선택하십시오"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escolha um vídeo ou foto para ver aqui"
           }
         },
         "zh-Hans" : {
@@ -483,10 +1091,34 @@
     "Choose the face you want to use." : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wähle das Gesicht, das du verwenden möchtest."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Choose the face you want to use."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elige el rostro que quieres usar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choisissez le visage à utiliser."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scegli il volto che vuoi usare."
           }
         },
         "ja" : {
@@ -499,6 +1131,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "사용할 얼굴을 선택하십시오."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escolha o rosto que você quer usar."
           }
         },
         "zh-Hans" : {
@@ -518,10 +1156,34 @@
     "Choose the video or photo to put that face into." : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wähle das Video oder Foto, in das dieses Gesicht eingesetzt wird."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Choose the video or photo to put that face into."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elige el video o la foto donde quieres poner ese rostro."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choisissez la vidéo ou la photo où insérer ce visage."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scegli il video o la foto in cui inserire quel volto."
           }
         },
         "ja" : {
@@ -534,6 +1196,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "얼굴을 바꿀 비디오 또는 사진을 선택하십시오."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escolha o vídeo ou a foto que vai receber esse rosto."
           }
         },
         "zh-Hans" : {
@@ -553,6 +1221,30 @@
     "Compare with the untouched frame" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mit dem unveränderten Einzelbild vergleichen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comparar con el fotograma sin modificar"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comparer avec l’image d’origine"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Confronta con il fotogramma originale"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -563,6 +1255,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "원본 프레임과 비교합니다"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comparar com o quadro original"
           }
         },
         "zh-Hans" : {
@@ -582,6 +1280,30 @@
     "Continue" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Weiter"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continuar"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continuer"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continua"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -592,6 +1314,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "계속"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continuar"
           }
         },
         "zh-Hans" : {
@@ -611,6 +1339,30 @@
     "Could not read this video's frames." : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Einzelbilder dieses Videos konnten nicht gelesen werden."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se pudieron leer los fotogramas de este video."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossible de lire les images de cette vidéo."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossibile leggere i fotogrammi di questo video."
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -621,6 +1373,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "이 비디오의 프레임을 읽지 못했습니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não foi possível ler os quadros deste vídeo."
           }
         },
         "zh-Hans" : {
@@ -640,6 +1398,30 @@
     "CPU" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CPU"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CPU"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CPU"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CPU"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -647,6 +1429,12 @@
           }
         },
         "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CPU"
+          }
+        },
+        "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "CPU"
@@ -669,6 +1457,30 @@
     "detect" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "erkennen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "detectar"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "détecter"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "rileva"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -679,6 +1491,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "감지"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "detectar"
           }
         },
         "zh-Hans" : {
@@ -698,10 +1516,34 @@
     "Dismiss" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schließen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Dismiss"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cerrar"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ignorer"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ignora"
           }
         },
         "ja" : {
@@ -714,6 +1556,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "닫기"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fechar"
           }
         },
         "zh-Hans" : {
@@ -733,6 +1581,30 @@
     "Done" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fertig"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Listo"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminé"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fine"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -743,6 +1615,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "완료"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
           }
         },
         "zh-Hans" : {
@@ -760,15 +1638,71 @@
       }
     },
     "Download %@" : {
-      "extractionState" : "manual"
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ laden"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Descargar %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Télécharger %@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scarica %@"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Baixar %@"
+          }
+        }
+      }
     },
     "Download missing" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fehlende Modelle laden"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Download missing"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Descargar los faltantes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Télécharger ce qui manque"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scarica i mancanti"
           }
         },
         "ja" : {
@@ -781,6 +1715,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "누락 항목 다운로드"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Baixar o que falta"
           }
         },
         "zh-Hans" : {
@@ -798,15 +1738,71 @@
       }
     },
     "Download missing (%@)" : {
-      "extractionState" : "manual"
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fehlende Modelle laden (%@)"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Descargar los faltantes (%@)"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Télécharger ce qui manque (%@)"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scarica i mancanti (%@)"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Baixar o que falta (%@)"
+          }
+        }
+      }
     },
     "Drop a photo\nor click to choose" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Foto hierher ziehen\noder klicken zum Auswählen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Drop a photo\nor click to choose"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arrastra una foto\no haz clic para elegir"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Déposez une photo\nou cliquez pour choisir"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trascina qui una foto\no fai clic per scegliere"
           }
         },
         "ja" : {
@@ -819,6 +1815,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "사진을 놓거나\n클릭하여 선택"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arraste uma foto\nou clique para escolher"
           }
         },
         "zh-Hans" : {
@@ -838,10 +1840,34 @@
     "Drop a video or photo\nor click to choose" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Video oder Foto hierher ziehen\noder klicken zum Auswählen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Drop a video or photo\nor click to choose"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arrastra un video o una foto\no haz clic para elegir"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Déposez une vidéo ou une photo\nou cliquez pour choisir"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trascina qui un video o una foto\no fai clic per scegliere"
           }
         },
         "ja" : {
@@ -854,6 +1880,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "비디오 또는 사진을 놓거나\n클릭하여 선택"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arraste um vídeo ou foto\nou clique para escolher"
           }
         },
         "zh-Hans" : {
@@ -873,10 +1905,34 @@
     "Edge softness" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kantenweichheit"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Edge softness"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suavidad del borde"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Douceur des bords"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Morbidezza dei bordi"
           }
         },
         "ja" : {
@@ -889,6 +1945,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "가장자리 부드러움"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suavidade das bordas"
           }
         },
         "zh-Hans" : {
@@ -908,6 +1970,30 @@
     "Encoding…" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wird codiert…"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Codificando…"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Encodage…"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Codifica…"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -918,6 +2004,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "인코딩 중…"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Codificando…"
           }
         },
         "zh-Hans" : {
@@ -937,6 +2029,30 @@
     "Engine idle" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Engine inaktiv"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Motor inactivo"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Moteur inactif"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Motore inattivo"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -947,6 +2063,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "엔진 대기 중"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Motor ocioso"
           }
         },
         "zh-Hans" : {
@@ -966,6 +2088,30 @@
     "enhance" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "verbessern"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "mejorar"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "améliorer"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "migliora"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -976,6 +2122,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "개선"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "aprimorar"
           }
         },
         "zh-Hans" : {
@@ -995,10 +2147,34 @@
     "Enhance detail" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Details verbessern"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Enhance detail"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mejorar el detalle"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Améliorer les détails"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Migliora il dettaglio"
           }
         },
         "ja" : {
@@ -1011,6 +2187,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "디테일 향상"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aprimorar detalhes"
           }
         },
         "zh-Hans" : {
@@ -1030,10 +2212,34 @@
     "Every" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Every"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todos"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tous"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tutti"
           }
         },
         "ja" : {
@@ -1046,6 +2252,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "모두"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todos"
           }
         },
         "zh-Hans" : {
@@ -1063,18 +2275,106 @@
       }
     },
     "Every file is verified against a checksum before use, and anything that does not match is discarded." : {
-      "extractionState" : "manual"
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jede Datei wird vor der Verwendung anhand einer Prüfsumme überprüft; alles, was nicht übereinstimmt, wird verworfen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cada archivo se verifica con una suma de comprobación antes de usarlo, y todo lo que no coincide se descarta."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chaque fichier est vérifié par une somme de contrôle avant d’être utilisé, et tout ce qui ne correspond pas est supprimé."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ogni file viene verificato con un checksum prima dell'uso e tutto ciò che non corrisponde viene scartato."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cada arquivo é verificado por checksum antes de ser usado, e tudo que não confere é descartado."
+          }
+        }
+      }
     },
     "Everything here can be downloaded again. Removing it costs the wait, not the work — no face, video or setting is touched." : {
-      "extractionState" : "manual"
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alles hier lässt sich erneut laden. Entfernen kostet nur Wartezeit, nicht deine Arbeit — kein Gesicht, kein Video und keine Einstellung wird angerührt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todo esto se puede volver a descargar. Eliminarlo cuesta la espera, no el trabajo — no se toca ningún rostro, video ni ajuste."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tout ce qui se trouve ici peut être téléchargé à nouveau. Le supprimer coûte du temps, pas du travail — aucun visage, aucune vidéo ni aucun réglage n’est touché."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tutto quello che c'è qui può essere scaricato di nuovo. Rimuoverlo costa l'attesa, non il lavoro — nessun volto, video o impostazione viene toccato."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tudo aqui pode ser baixado de novo. Remover custa a espera, não o trabalho — nenhum rosto, vídeo ou ajuste é afetado."
+          }
+        }
+      }
     },
     "Export" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exportieren"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Export"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exportar"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exporter"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esporta"
           }
         },
         "ja" : {
@@ -1087,6 +2387,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "내보내기"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exportar"
           }
         },
         "zh-Hans" : {
@@ -1106,10 +2412,34 @@
     "Export as HEVC" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Als HEVC exportieren"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Export as HEVC"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exportar como HEVC"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exporter en HEVC"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esporta in HEVC"
           }
         },
         "ja" : {
@@ -1122,6 +2452,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "HEVC로 내보내기"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exportar como HEVC"
           }
         },
         "zh-Hans" : {
@@ -1141,6 +2477,30 @@
     "Export cancelled." : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Export abgebrochen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se canceló la exportación."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exportation annulée."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esportazione annullata."
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1151,6 +2511,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "내보내기를 취소했습니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exportação cancelada."
           }
         },
         "zh-Hans" : {
@@ -1170,10 +2536,34 @@
     "Export complete" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Export abgeschlossen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Export complete"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exportación completada"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exportation terminée"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esportazione completata"
           }
         },
         "ja" : {
@@ -1186,6 +2576,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "내보내기 완료"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exportação concluída"
           }
         },
         "zh-Hans" : {
@@ -1205,10 +2601,34 @@
     "Export Photo" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Foto exportieren"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Export Photo"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exportar foto"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exporter la photo"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esporta foto"
           }
         },
         "ja" : {
@@ -1221,6 +2641,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "사진 내보내기"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exportar Foto"
           }
         },
         "zh-Hans" : {
@@ -1240,10 +2666,34 @@
     "Export Video" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Video exportieren"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Export Video"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exportar video"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exporter la vidéo"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esporta video"
           }
         },
         "ja" : {
@@ -1256,6 +2706,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "비디오 내보내기"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exportar Vídeo"
           }
         },
         "zh-Hans" : {
@@ -1273,11 +2729,67 @@
       }
     },
     "Face %@" : {
-      "extractionState" : "manual"
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gesicht %@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rostro %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Visage %@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Volto %@"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rosto %@"
+          }
+        }
+      }
     },
     "Face %lld" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gesicht %lld"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rostro %lld"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Visage %lld"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Volto %lld"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1288,6 +2800,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "얼굴 %lld"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rosto %lld"
           }
         },
         "zh-Hans" : {
@@ -1307,6 +2825,30 @@
     "Face Enhancer" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Detailverbesserung"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mejorador de rostros"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Amélioration du visage"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Miglioramento volto"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1317,6 +2859,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "얼굴 화질 개선기"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aprimorador de Rostos"
           }
         },
         "zh-Hans" : {
@@ -1336,6 +2884,30 @@
     "Face ready." : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gesicht bereit."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rostro listo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Visage prêt."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Volto pronto."
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1346,6 +2918,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "얼굴 준비 완료."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rosto pronto."
           }
         },
         "zh-Hans" : {
@@ -1365,6 +2943,30 @@
     "Face swapping for photos and video that runs entirely on your own device — nothing is ever uploaded." : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gesichtstausch für Fotos und Videos, der vollständig auf deinem eigenen Gerät läuft — nichts wird jemals hochgeladen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Intercambio de rostros en fotos y video que funciona por completo en tu propio dispositivo — nunca se sube nada."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’échange de visages sur photo et vidéo, entièrement sur votre appareil — rien n’est jamais envoyé en ligne."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scambio di volti per foto e video che funziona interamente sul tuo dispositivo — niente viene mai caricato online."
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1375,6 +2977,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "사진과 동영상의 얼굴 바꾸기를 전부 내 기기에서 처리합니다. 업로드되는 것은 전혀 없습니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Troca de rostos em fotos e vídeos que funciona inteiramente no seu próprio dispositivo — nada é enviado para lugar nenhum."
           }
         },
         "zh-Hans" : {
@@ -1394,10 +3002,34 @@
     "Face swapping needs all three. Remove one and the app returns to its download screen until it is fetched again." : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Für den Gesichtstausch werden alle drei benötigt. Entfernst du eines, kehrt die App zum Download-Bildschirm zurück, bis es wieder geladen ist."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Face swapping needs all three. Remove one and the app returns to its download screen until it is fetched again."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El intercambio de rostros necesita los tres. Si eliminas uno, la app vuelve a su pantalla de descarga hasta que se descargue otra vez."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’échange de visages a besoin des trois. Si vous en supprimez un, l’app revient à son écran de téléchargement jusqu’à ce qu’il soit récupéré."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lo scambio di volti ha bisogno di tutti e tre. Se ne rimuovi uno, l'app torna alla schermata di download finché non viene scaricato di nuovo."
           }
         },
         "ja" : {
@@ -1410,6 +3042,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "얼굴 교체에는 세 가지 모두 필요합니다. 하나를 제거하면 다시 다운로드할 때까지 다운로드 화면으로 돌아갑니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A troca de rostos precisa dos três. Remova um e o app volta para a tela de download até que ele seja baixado de novo."
           }
         },
         "zh-Hans" : {
@@ -1429,6 +3067,30 @@
     "Failed" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fehlgeschlagen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falló"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Échec"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non riuscito"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1439,6 +3101,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "실패"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falhou"
           }
         },
         "zh-Hans" : {
@@ -1458,6 +3126,30 @@
     "Find faces" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gesichter suchen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buscar rostros"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trouver les visages"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trova i volti"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1468,6 +3160,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "얼굴 찾기"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buscar rostos"
           }
         },
         "zh-Hans" : {
@@ -1487,6 +3185,30 @@
     "Find the faces in the target, then tick the ones to replace." : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suche die Gesichter im Ziel und markiere dann die, die ersetzt werden sollen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Busca los rostros del destino y marca los que quieras reemplazar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trouvez les visages dans la cible, puis cochez ceux à remplacer."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trova i volti nella destinazione, poi seleziona quelli da sostituire."
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1497,6 +3219,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "대상에서 얼굴을 찾은 다음, 바꿀 얼굴을 선택하십시오."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Busque os rostos no destino e marque os que você quer substituir."
           }
         },
         "zh-Hans" : {
@@ -1516,6 +3244,30 @@
     "H.264 plays anywhere." : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "H.264 läuft überall."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "H.264 se reproduce en cualquier parte."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "H.264 se lit partout."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "H.264 si riproduce ovunque."
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1526,6 +3278,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "H.264는 어디서나 재생됩니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O H.264 funciona em qualquer lugar."
           }
         },
         "zh-Hans" : {
@@ -1545,6 +3303,30 @@
     "Higher keeps more of the source face; lower blends toward the original." : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Höher behält mehr vom Quellgesicht; niedriger blendet zum Original über."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Más alto conserva más del rostro de origen; más bajo se mezcla con el original."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plus haut conserve davantage du visage source ; plus bas se rapproche de l’original."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Più alto mantiene di più del volto di origine; più basso si avvicina all'originale."
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1555,6 +3337,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "높일수록 소스 얼굴이 더 많이 남고, 낮출수록 원래 얼굴에 가깝게 섞입니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Valores mais altos mantêm mais do rosto de origem; mais baixos aproximam do original."
           }
         },
         "zh-Hans" : {
@@ -1574,6 +3362,30 @@
     "Include quality extras" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Qualitäts-Extras mitladen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Incluir extras de calidad"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inclure les améliorations de qualité"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Includi gli extra di qualità"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1584,6 +3396,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "품질 향상 모델 포함"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Incluir extras de qualidade"
           }
         },
         "zh-Hans" : {
@@ -1603,6 +3421,30 @@
     "Installed" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Installiert"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instalado"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Installé"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Installato"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1613,6 +3455,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "설치됨"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instalado"
           }
         },
         "zh-Hans" : {
@@ -1630,11 +3478,67 @@
       }
     },
     "Installed but not loaded: the engine could not use this file. Remove it here and download it again." : {
-      "extractionState" : "manual"
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Installiert, aber nicht geladen: Die Engine konnte diese Datei nicht nutzen. Entferne sie hier und lade sie erneut."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instalado pero sin cargar: el motor no pudo usar este archivo. Elimínalo aquí y descárgalo de nuevo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Installé mais non chargé : le moteur n’a pas pu utiliser ce fichier. Supprimez-le ici, puis téléchargez-le à nouveau."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Installato ma non caricato: il motore non è riuscito a usare questo file. Rimuovilo qui e scaricalo di nuovo."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instalado, mas não carregado: o motor não conseguiu usar este arquivo. Remova-o aqui e baixe de novo."
+          }
+        }
+      }
     },
     "Keep hands and hair" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hände und Haare erhalten"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conservar manos y cabello"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conserver mains et cheveux"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mantieni mani e capelli"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1645,6 +3549,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "손과 머리카락 유지"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Manter mãos e cabelo"
           }
         },
         "zh-Hans" : {
@@ -1664,10 +3574,34 @@
     "Language" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sprache"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Language"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Idioma"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Langue"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lingua"
           }
         },
         "ja" : {
@@ -1680,6 +3614,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "언어"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Idioma"
           }
         },
         "zh-Hans" : {
@@ -1697,14 +3637,102 @@
       }
     },
     "Lifetime access" : {
-      "extractionState" : "manual"
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lebenslanger Zugriff"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acceso de por vida"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accès à vie"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accesso a vita"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acesso vitalício"
+          }
+        }
+      }
     },
     "Loading lifetime access…" : {
-      "extractionState" : "manual"
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lebenslanger Zugriff wird geladen…"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cargando el acceso de por vida…"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chargement de l’accès à vie…"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Caricamento dell'accesso a vita…"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Carregando o acesso vitalício…"
+          }
+        }
+      }
     },
     "Look again" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erneut suchen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buscar de nuevo"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nouvelle recherche"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cerca di nuovo"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1715,6 +3743,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "다시 찾기"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buscar de novo"
           }
         },
         "zh-Hans" : {
@@ -1734,6 +3768,30 @@
     "Look for the faces in this photo." : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suche die Gesichter in diesem Foto."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Busca los rostros de esta foto."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cherchez les visages présents sur cette photo."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cerca i volti in questa foto."
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1744,6 +3802,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "이 사진에서 얼굴을 찾아보십시오."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Busque os rostos nesta foto."
           }
         },
         "zh-Hans" : {
@@ -1763,6 +3827,30 @@
     "Look through the video for the people in it, then tick the ones to replace." : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Durchsuche das Video nach den Personen darin und markiere dann die, die ersetzt werden sollen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Revisa el video para encontrar a las personas que aparecen y marca las que quieras reemplazar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parcourez la vidéo pour y repérer les personnes, puis cochez celles à remplacer."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cerca nel video le persone che compaiono, poi seleziona quelle da sostituire."
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1773,6 +3861,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "비디오에 등장하는 사람을 찾은 다음, 바꿀 사람을 선택하십시오."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Procure no vídeo as pessoas que aparecem nele e marque quem você quer substituir."
           }
         },
         "zh-Hans" : {
@@ -1792,6 +3886,30 @@
     "Looking…" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wird gesucht…"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buscando…"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recherche…"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ricerca…"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1802,6 +3920,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "찾는 중…"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buscando…"
           }
         },
         "zh-Hans" : {
@@ -1821,6 +3945,30 @@
     "Lower if someone is missed when they turn away; raise if the wrong person gets replaced." : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niedriger, wenn jemand beim Wegdrehen übersehen wird; höher, wenn die falsche Person ersetzt wird."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Baja el valor si alguien queda sin detectar al voltearse; súbelo si se reemplaza a la persona equivocada."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Baissez si une personne est oubliée lorsqu’elle se détourne ; augmentez si la mauvaise personne est remplacée."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abbassalo se qualcuno non viene riconosciuto quando si gira; alzalo se viene sostituita la persona sbagliata."
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1831,6 +3979,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "고개를 돌린 사람을 놓치면 낮추고, 엉뚱한 사람이 바뀌면 높이십시오."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diminua se alguém deixar de ser reconhecido ao virar o rosto; aumente se a pessoa errada for substituída."
           }
         },
         "zh-Hans" : {
@@ -1850,6 +4004,30 @@
     "match" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zuordnen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "emparejar"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "associer"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "abbina"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1860,6 +4038,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "매칭"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "combinar"
           }
         },
         "zh-Hans" : {
@@ -1879,6 +4063,30 @@
     "Match strictness" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zuordnungsstrenge"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rigor de coincidencia"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rigueur de correspondance"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rigore dell'abbinamento"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1889,6 +4097,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "일치 엄격도"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rigor da correspondência"
           }
         },
         "zh-Hans" : {
@@ -1906,11 +4120,67 @@
       }
     },
     "Missing someone? Click their face in the preview to add them." : {
-      "extractionState" : "manual"
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fehlt jemand? Klicke in der Vorschau auf das Gesicht, um die Person hinzuzufügen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Falta alguien? Haz clic en su rostro en la vista previa para agregarlo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il manque quelqu’un ? Cliquez sur son visage dans l’aperçu pour l’ajouter."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Manca qualcuno? Fai clic sul suo volto nell'anteprima per aggiungerlo."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Faltou alguém? Clique no rosto da pessoa na pré-visualização para adicioná-la."
+          }
+        }
+      }
     },
     "Models" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modelle"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modelos"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modèles"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modelli"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1921,6 +4191,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "모델"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modelos"
           }
         },
         "zh-Hans" : {
@@ -1940,6 +4216,30 @@
     "Morphiqo" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Morphiqo"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Morphiqo"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Morphiqo"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Morphiqo"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1947,6 +4247,12 @@
           }
         },
         "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Morphiqo"
+          }
+        },
+        "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Morphiqo"
@@ -1967,14 +4273,102 @@
       }
     },
     "Morphiqo Pro" : {
-      "extractionState" : "manual"
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Morphiqo Pro"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Morphiqo Pro"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Morphiqo Pro"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Morphiqo Pro"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Morphiqo Pro"
+          }
+        }
+      }
     },
     "Need help? Contact support" : {
-      "extractionState" : "manual"
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Brauchst du Hilfe? Support kontaktieren"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Necesitas ayuda? Contacta a soporte"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Besoin d’aide ? Contacter l’assistance"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ti serve aiuto? Contatta l'assistenza"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Precisa de ajuda? Fale com o suporte"
+          }
+        }
+      }
     },
     "Needs the Face Enhancer model." : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Benötigt das Modell für die Detailverbesserung."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Requiere el modelo Mejorador de rostros."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nécessite le modèle d’amélioration du visage."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Richiede il modello Miglioramento volto."
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1985,6 +4379,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Face Enhancer 모델이 필요합니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Requer o modelo Aprimorador de Rostos."
           }
         },
         "zh-Hans" : {
@@ -2004,6 +4404,30 @@
     "Needs the Occlusion Mask model." : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Benötigt das Modell für die Verdeckungsmaske."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Requiere el modelo Máscara de oclusión."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nécessite le modèle de masque d’occlusion."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Richiede il modello Maschera occlusioni."
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2014,6 +4438,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Occlusion Mask 모델이 필요합니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Requer o modelo Máscara de Oclusão."
           }
         },
         "zh-Hans" : {
@@ -2033,6 +4463,30 @@
     "No face found — try a clearer, front-facing photo." : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kein Gesicht gefunden — versuche ein klareres Foto von vorn."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se encontró ningún rostro — prueba con una foto más nítida y de frente."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun visage trouvé — essayez une photo plus nette, de face."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nessun volto trovato — prova una foto più nitida e frontale."
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2043,6 +4497,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "얼굴을 찾지 못했습니다 — 더 선명한 정면 사진으로 시도해 보십시오."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nenhum rosto encontrado — tente uma foto mais nítida e de frente."
           }
         },
         "zh-Hans" : {
@@ -2062,6 +4522,30 @@
     "No faces found in the target." : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Im Ziel wurden keine Gesichter gefunden."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se encontraron rostros en el destino."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun visage trouvé dans la cible."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nessun volto trovato nella destinazione."
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2072,6 +4556,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "대상에서 얼굴을 찾지 못했습니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nenhum rosto encontrado no destino."
           }
         },
         "zh-Hans" : {
@@ -2091,6 +4581,30 @@
     "No one selected — nothing will be replaced." : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niemand ausgewählt — es wird nichts ersetzt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No hay nadie seleccionado — no se reemplazará nada."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Personne n’est sélectionné — rien ne sera remplacé."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nessuno selezionato — non verrà sostituito nulla."
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2101,6 +4615,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "선택한 사람이 없습니다 — 아무것도 바뀌지 않습니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ninguém selecionado — nada será substituído."
           }
         },
         "zh-Hans" : {
@@ -2120,6 +4640,30 @@
     "None" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ninguno"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nessuno"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2130,6 +4674,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "전체 해제"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nenhum"
           }
         },
         "zh-Hans" : {
@@ -2149,6 +4699,30 @@
     "Objects crossing the face stay in front. Slower." : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Objekte vor dem Gesicht bleiben davor. Langsamer."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los objetos que cruzan por delante del rostro se mantienen al frente. Más lento."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les objets qui passent devant le visage restent au premier plan. Plus lent."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gli oggetti che passano davanti al volto restano in primo piano. Più lento."
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2159,6 +4733,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "얼굴 앞의 물체가 그대로 유지됩니다. 대신 느립니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Objetos que cruzam o rosto ficam à frente. Mais lento."
           }
         },
         "zh-Hans" : {
@@ -2178,6 +4758,30 @@
     "OK" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2188,6 +4792,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "확인"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
           }
         },
         "zh-Hans" : {
@@ -2207,10 +4817,34 @@
     "On disk" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Auf dem Gerät"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "On disk"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En disco"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sur le disque"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Su disco"
           }
         },
         "ja" : {
@@ -2223,6 +4857,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "디스크 사용량"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No disco"
           }
         },
         "zh-Hans" : {
@@ -2242,10 +4882,34 @@
     "One" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eines"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "One"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uno"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un seul"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uno"
           }
         },
         "ja" : {
@@ -2258,6 +4922,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "한 명"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Um"
           }
         },
         "zh-Hans" : {
@@ -2277,10 +4947,34 @@
     "Open" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Öffnen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Open"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvrir"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apri"
           }
         },
         "ja" : {
@@ -2293,6 +4987,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "열기"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir"
           }
         },
         "zh-Hans" : {
@@ -2312,10 +5012,34 @@
     "Open Face Image…" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gesichtsbild öffnen…"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Open Face Image…"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir imagen de rostro…"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvrir une image de visage…"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apri immagine del volto…"
           }
         },
         "ja" : {
@@ -2328,6 +5052,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "얼굴 이미지 열기…"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir Imagem de Rosto…"
           }
         },
         "zh-Hans" : {
@@ -2347,10 +5077,34 @@
     "Open Video or Photo…" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Video oder Foto öffnen…"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Open Video or Photo…"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir video o foto…"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvrir une vidéo ou une photo…"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apri video o foto…"
           }
         },
         "ja" : {
@@ -2363,6 +5117,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "비디오 또는 사진 열기…"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir Vídeo ou Foto…"
           }
         },
         "zh-Hans" : {
@@ -2382,10 +5142,34 @@
     "Optional" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Optional"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Optional"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opcional"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Facultatif"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Facoltativo"
           }
         },
         "ja" : {
@@ -2398,6 +5182,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "선택"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opcional"
           }
         },
         "zh-Hans" : {
@@ -2417,6 +5207,30 @@
     "Part of the face swap pipeline." : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Teil der Verarbeitungskette für den Gesichtstausch."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Forma parte del proceso de intercambio de rostros."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fait partie du pipeline d’échange de visages."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fa parte della pipeline di scambio dei volti."
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2427,6 +5241,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "얼굴 교체 파이프라인의 일부입니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parte do fluxo de troca de rostos."
           }
         },
         "zh-Hans" : {
@@ -2446,6 +5266,30 @@
     "paste" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "einfügen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "pegar"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "coller"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "incolla"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2456,6 +5300,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "합성"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "colar"
           }
         },
         "zh-Hans" : {
@@ -2473,15 +5323,71 @@
       }
     },
     "Pay once for permanent Pro access. No renewal." : {
-      "extractionState" : "manual"
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Einmal zahlen für dauerhaften Pro-Zugriff. Keine Verlängerung."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paga una sola vez y obtén acceso Pro permanente. Sin renovaciones."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Payez une fois pour un accès Pro permanent. Aucun renouvellement."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paghi una volta sola per l'accesso Pro permanente. Nessun rinnovo."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pague uma vez e tenha acesso Pro permanente. Sem renovação."
+          }
+        }
+      }
     },
     "Photo" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Foto"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Photo"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Foto"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photo"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Foto"
           }
         },
         "ja" : {
@@ -2494,6 +5400,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "사진"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Foto"
           }
         },
         "zh-Hans" : {
@@ -2513,6 +5425,30 @@
     "Pipeline Component" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verarbeitungskomponente"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Componente del proceso"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Composant du pipeline"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Componente della pipeline"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2523,6 +5459,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "파이프라인 구성 요소"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Componente do fluxo"
           }
         },
         "zh-Hans" : {
@@ -2542,10 +5484,34 @@
     "Play" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abspielen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Play"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reproducir"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lire"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Riproduci"
           }
         },
         "ja" : {
@@ -2558,6 +5524,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "재생"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reproduzir"
           }
         },
         "zh-Hans" : {
@@ -2577,10 +5549,34 @@
     "Previewing…" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vorschau läuft…"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Previewing…"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Generando la vista previa…"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aperçu en cours…"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anteprima in corso…"
           }
         },
         "ja" : {
@@ -2593,6 +5589,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "미리 보는 중…"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pré-visualizando…"
           }
         },
         "zh-Hans" : {
@@ -2612,6 +5614,30 @@
     "Rate Morphiqo" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Morphiqo bewerten"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Califica Morphiqo"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Noter Morphiqo"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Valuta Morphiqo"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2622,6 +5648,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Morphiqo 평가하기"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avaliar o Morphiqo"
           }
         },
         "zh-Hans" : {
@@ -2641,6 +5673,30 @@
     "Ratings are how other people find Morphiqo. It takes one click and you stay in the app." : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Über Bewertungen finden andere Morphiqo. Ein Klick genügt, und du bleibst in der App."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Las calificaciones son la forma en que otras personas encuentran Morphiqo. Basta un clic y no sales de la app."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les notes sont ce qui permet aux autres de découvrir Morphiqo. Il suffit d’un clic et vous restez dans l’app."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le valutazioni sono il modo in cui gli altri scoprono Morphiqo. Basta un clic e resti nell'app."
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2651,6 +5707,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "평점은 다른 사람들이 Morphiqo를 찾는 방법입니다. 한 번만 클릭하면 되고 앱을 벗어나지도 않습니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "As avaliações são como outras pessoas descobrem o Morphiqo. Leva um clique e você continua no app."
           }
         },
         "zh-Hans" : {
@@ -2670,10 +5732,34 @@
     "Ready to export." : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bereit zum Export."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Ready to export."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Listo para exportar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prêt à exporter."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pronto per l'esportazione."
           }
         },
         "ja" : {
@@ -2686,6 +5772,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "내보낼 준비가 되었습니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pronto para exportar."
           }
         },
         "zh-Hans" : {
@@ -2705,6 +5797,30 @@
     "Remove" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Entfernen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminar"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rimuovi"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2715,6 +5831,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "제거"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remover"
           }
         },
         "zh-Hans" : {
@@ -2732,15 +5854,71 @@
       }
     },
     "Remove %@" : {
-      "extractionState" : "manual"
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ entfernen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminar %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer %@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rimuovi %@"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remover %@"
+          }
+        }
+      }
     },
     "Remove all models" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle Modelle entfernen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Remove all models"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminar todos los modelos"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer tous les modèles"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rimuovi tutti i modelli"
           }
         },
         "ja" : {
@@ -2753,6 +5931,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "모든 모델 제거"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remover todos os modelos"
           }
         },
         "zh-Hans" : {
@@ -2772,10 +5956,34 @@
     "Remove all models?" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle Modelle entfernen?"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Remove all models?"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Eliminar todos los modelos?"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer tous les modèles ?"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rimuovere tutti i modelli?"
           }
         },
         "ja" : {
@@ -2788,6 +5996,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "모든 모델을 제거하시겠습니까?"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remover todos os modelos?"
           }
         },
         "zh-Hans" : {
@@ -2807,10 +6021,34 @@
     "Remove the optional models" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Optionale Modelle entfernen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Remove the optional models"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminar los modelos opcionales"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer les modèles facultatifs"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rimuovi i modelli facoltativi"
           }
         },
         "ja" : {
@@ -2823,6 +6061,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "선택 모델 제거"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remover os modelos opcionais"
           }
         },
         "zh-Hans" : {
@@ -2840,15 +6084,71 @@
       }
     },
     "Remove the optional models (%@)" : {
-      "extractionState" : "manual"
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Optionale Modelle entfernen (%@)"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminar los modelos opcionales (%@)"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer les modèles facultatifs (%@)"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rimuovi i modelli facoltativi (%@)"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remover os modelos opcionais (%@)"
+          }
+        }
+      }
     },
     "Remove the optional models?" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Optionale Modelle entfernen?"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Remove the optional models?"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Eliminar los modelos opcionales?"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer les modèles facultatifs ?"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rimuovere i modelli facoltativi?"
           }
         },
         "ja" : {
@@ -2861,6 +6161,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "선택 모델을 제거하시겠습니까?"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remover os modelos opcionais?"
           }
         },
         "zh-Hans" : {
@@ -2880,10 +6186,34 @@
     "Remove this model from disk" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieses Modell von der Festplatte entfernen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Remove this model from disk"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminar este modelo del disco"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer ce modèle du disque"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rimuovi questo modello dal disco"
           }
         },
         "ja" : {
@@ -2896,6 +6226,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "디스크에서 이 모델 제거"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remover este modelo do disco"
           }
         },
         "zh-Hans" : {
@@ -2915,6 +6251,30 @@
     "Rendering the photo…" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Foto wird gerendert…"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Procesando la foto…"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rendu de la photo…"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elaborazione della foto…"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2925,6 +6285,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "사진 렌더링 중…"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Renderizando a foto…"
           }
         },
         "zh-Hans" : {
@@ -2944,6 +6310,30 @@
     "Replaces every face in the frame." : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ersetzt jedes Gesicht im Einzelbild."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reemplaza todos los rostros del fotograma."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remplace tous les visages de l’image."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sostituisce tutti i volti nel fotogramma."
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2954,6 +6344,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "프레임 안의 모든 얼굴을 바꿉니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Substitui todos os rostos do quadro."
           }
         },
         "zh-Hans" : {
@@ -2973,6 +6369,30 @@
     "Replaces only the faces you tick." : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ersetzt nur die Gesichter, die du markierst."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reemplaza solo los rostros que marques."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remplace uniquement les visages que vous cochez."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sostituisce solo i volti che selezioni."
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2983,6 +6403,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "선택한 얼굴만 바꿉니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Substitui apenas os rostos que você marcar."
           }
         },
         "zh-Hans" : {
@@ -3002,6 +6428,30 @@
     "Replaces only the people you tick, wherever they appear in the video." : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ersetzt nur die Personen, die du markierst, wo immer sie im Video vorkommen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reemplaza solo a las personas que marques, dondequiera que aparezcan en el video."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remplace uniquement les personnes que vous cochez, partout où elles apparaissent dans la vidéo."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sostituisce solo le persone che selezioni, ovunque compaiano nel video."
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3012,6 +6462,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "선택한 사람만 바꾸며, 비디오의 어느 장면에 나오든 적용됩니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Substitui apenas as pessoas que você marcar, onde quer que apareçam no vídeo."
           }
         },
         "zh-Hans" : {
@@ -3031,10 +6487,34 @@
     "Required" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erforderlich"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Required"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Necesario"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Requis"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Necessario"
           }
         },
         "ja" : {
@@ -3047,6 +6527,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "필수"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Obrigatório"
           }
         },
         "zh-Hans" : {
@@ -3066,10 +6552,34 @@
     "Resemblance" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ähnlichkeit"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Resemblance"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parecido"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ressemblance"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Somiglianza"
           }
         },
         "ja" : {
@@ -3082,6 +6592,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "유사도"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Semelhança"
           }
         },
         "zh-Hans" : {
@@ -3101,6 +6617,30 @@
     "Set up Morphiqo" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Morphiqo einrichten"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configurar Morphiqo"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configurer Morphiqo"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configura Morphiqo"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3111,6 +6651,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Morphiqo 설정"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configurar o Morphiqo"
           }
         },
         "zh-Hans" : {
@@ -3130,10 +6676,34 @@
     "SETTINGS" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "EINSTELLUNGEN"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "SETTINGS"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CONFIGURACIÓN"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "RÉGLAGES"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "IMPOSTAZIONI"
           }
         },
         "ja" : {
@@ -3146,6 +6716,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "설정"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AJUSTES"
           }
         },
         "zh-Hans" : {
@@ -3165,10 +6741,34 @@
     "Settings…" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Einstellungen…"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Settings…"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configuración…"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Réglages…"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impostazioni…"
           }
         },
         "ja" : {
@@ -3181,6 +6781,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "설정…"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajustes…"
           }
         },
         "zh-Hans" : {
@@ -3200,6 +6806,30 @@
     "Share Morphiqo" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Morphiqo teilen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compartir Morphiqo"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Partager Morphiqo"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Condividi Morphiqo"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3210,6 +6840,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Morphiqo 공유하기"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compartilhar o Morphiqo"
           }
         },
         "zh-Hans" : {
@@ -3229,6 +6865,30 @@
     "Sharper results and steadier tracking. You can add these later." : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schärfere Ergebnisse und stabilere Verfolgung. Du kannst das später hinzufügen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resultados más nítidos y un seguimiento más estable. Puedes agregarlos después."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Des résultats plus nets et un suivi plus stable. Vous pourrez les ajouter plus tard."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Risultati più nitidi e tracciamento più stabile. Puoi aggiungerli in un secondo momento."
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3239,6 +6899,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "결과가 더 선명해지고 추적도 더 안정적입니다. 나중에 추가할 수도 있습니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resultados mais nítidos e rastreamento mais estável. Você pode adicionar isso depois."
           }
         },
         "zh-Hans" : {
@@ -3258,6 +6924,30 @@
     "Sharper skin and eyes. Slower." : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schärfere Haut und Augen. Langsamer."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piel y ojos más nítidos. Más lento."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peau et yeux plus nets. Plus lent."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pelle e occhi più nitidi. Più lento."
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3268,6 +6958,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "피부와 눈이 더 선명해집니다. 대신 느립니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pele e olhos mais nítidos. Mais lento."
           }
         },
         "zh-Hans" : {
@@ -3287,10 +6983,34 @@
     "Show in Finder" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Im Finder zeigen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Show in Finder"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar en el Finder"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher dans le Finder"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostra nel Finder"
           }
         },
         "ja" : {
@@ -3303,6 +7023,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Finder에서 보기"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar no Finder"
           }
         },
         "zh-Hans" : {
@@ -3322,6 +7048,30 @@
     "Showing original" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Original wird angezeigt"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrando el original"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Original affiché"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostra l'originale"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3332,6 +7082,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "원본 표시 중"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrando o original"
           }
         },
         "zh-Hans" : {
@@ -3351,6 +7107,30 @@
     "Showing result" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ergebnis wird angezeigt"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrando el resultado"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Résultat affiché"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostra il risultato"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3361,6 +7141,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "결과 표시 중"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrando o resultado"
           }
         },
         "zh-Hans" : {
@@ -3380,6 +7166,30 @@
     "Smaller files." : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kleinere Dateien."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Archivos más pequeños."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fichiers plus légers."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "File più piccoli."
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3390,6 +7200,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "파일 크기가 작습니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arquivos menores."
           }
         },
         "zh-Hans" : {
@@ -3409,10 +7225,34 @@
     "SOURCE FACE" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "QUELLGESICHT"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "SOURCE FACE"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ROSTRO DE ORIGEN"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "VISAGE SOURCE"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "VOLTO DI ORIGINE"
           }
         },
         "ja" : {
@@ -3425,6 +7265,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "소스 얼굴"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ROSTO DE ORIGEM"
           }
         },
         "zh-Hans" : {
@@ -3444,6 +7290,30 @@
     "Starting engine…" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Engine wird gestartet…"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Iniciando el motor…"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Démarrage du moteur…"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avvio del motore…"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3454,6 +7324,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "엔진 시작 중…"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Iniciando o motor…"
           }
         },
         "zh-Hans" : {
@@ -3473,6 +7349,30 @@
     "Starting…" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wird gestartet…"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Iniciando…"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Démarrage…"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avvio…"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3483,6 +7383,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "시작 중…"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Iniciando…"
           }
         },
         "zh-Hans" : {
@@ -3502,6 +7408,30 @@
     "Stop" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stopp"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Detener"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arrêter"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Interrompi"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3512,6 +7442,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "중단"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parar"
           }
         },
         "zh-Hans" : {
@@ -3531,10 +7467,34 @@
     "Storage" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Speicher"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Storage"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Almacenamiento"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stockage"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spazio"
           }
         },
         "ja" : {
@@ -3547,6 +7507,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "저장 공간"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Armazenamento"
           }
         },
         "zh-Hans" : {
@@ -3564,11 +7530,67 @@
       }
     },
     "Subscriptions renew automatically until cancelled. You can manage or cancel them in your App Store account settings." : {
-      "extractionState" : "manual"
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abos verlängern sich automatisch, bis du kündigst. Du kannst sie in den Einstellungen deines App-Store-Accounts verwalten oder kündigen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Las suscripciones se renuevan automáticamente hasta que las canceles. Puedes administrarlas o cancelarlas en la configuración de tu cuenta del App Store."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les abonnements se renouvellent automatiquement jusqu’à leur annulation. Vous pouvez les gérer ou les annuler dans les réglages de votre compte App Store."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gli abbonamenti si rinnovano automaticamente finché non li disdici. Puoi gestirli o disdirli nelle impostazioni del tuo account App Store."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "As assinaturas são renovadas automaticamente até serem canceladas. Você pode gerenciá-las ou cancelá-las nos ajustes da sua conta da App Store."
+          }
+        }
+      }
     },
     "swap" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "tauschen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "intercambiar"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "échanger"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "scambia"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3579,6 +7601,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "교체"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "trocar"
           }
         },
         "zh-Hans" : {
@@ -3596,15 +7624,71 @@
       }
     },
     "Swap videos and export your results with unlimited Pro access." : {
-      "extractionState" : "manual"
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tausche Gesichter in Videos und exportiere deine Ergebnisse mit unbegrenztem Pro-Zugriff."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Intercambia rostros en videos y exporta tus resultados con acceso Pro ilimitado."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Échangez les visages en vidéo et exportez vos résultats avec l’accès Pro illimité."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scambia i volti nei video ed esporta i risultati con l'accesso Pro illimitato."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Troque rostos em vídeos e exporte seus resultados com acesso Pro ilimitado."
+          }
+        }
+      }
     },
     "System follows macOS. Choosing a language applies to Morphiqo and is remembered for the next launch." : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "„System“ folgt macOS. Eine gewählte Sprache gilt für Morphiqo und wird für den nächsten Start gemerkt."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "System follows macOS. Choosing a language applies to Morphiqo and is remembered for the next launch."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La opción Sistema sigue el idioma de macOS. El idioma que elijas se aplica a Morphiqo y se recuerda para el próximo inicio."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’option Système suit macOS. Le choix d’une langue s’applique à Morphiqo et est conservé au prochain lancement."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sistema segue macOS. La lingua che scegli vale per Morphiqo e viene ricordata al prossimo avvio."
           }
         },
         "ja" : {
@@ -3617,6 +7701,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "시스템은 macOS 설정을 따릅니다. 언어를 선택하면 Morphiqo에 적용되며 다음 실행에도 유지됩니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sistema acompanha o macOS. O idioma escolhido vale para o Morphiqo e é lembrado na próxima abertura."
           }
         },
         "zh-Hans" : {
@@ -3636,10 +7726,34 @@
     "TARGET" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ZIEL"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "TARGET"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DESTINO"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CIBLE"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DESTINAZIONE"
           }
         },
         "ja" : {
@@ -3652,6 +7766,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "대상"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DESTINO"
           }
         },
         "zh-Hans" : {
@@ -3671,6 +7791,30 @@
     "That file does not contain a video track." : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diese Datei enthält keine Videospur."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ese archivo no contiene una pista de video."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce fichier ne contient aucune piste vidéo."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quel file non contiene una traccia video."
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3681,6 +7825,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "이 파일에는 비디오 트랙이 없습니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esse arquivo não contém uma faixa de vídeo."
           }
         },
         "zh-Hans" : {
@@ -3700,6 +7850,30 @@
     "That file type is not supported." : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieser Dateityp wird nicht unterstützt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ese tipo de archivo no es compatible."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce type de fichier n’est pas pris en charge."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quel tipo di file non è supportato."
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3710,6 +7884,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "지원하지 않는 파일 형식입니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esse tipo de arquivo não é compatível."
           }
         },
         "zh-Hans" : {
@@ -3729,10 +7909,34 @@
     "The app needs its AI models before it can run. This is a one‑time download — afterwards face swapping works entirely on this Mac, with no internet connection." : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die App braucht ihre KI-Modelle, bevor sie laufen kann. Das ist ein einmaliger Download — danach funktioniert der Gesichtstausch vollständig auf diesem Mac, ganz ohne Internetverbindung."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "The app needs its AI models before it can run. This is a one‑time download — afterwards face swapping works entirely on this Mac, with no internet connection."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La app necesita sus modelos de IA para poder funcionar. Es una descarga única — después, el intercambio de rostros funciona por completo en esta Mac, sin conexión a internet."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’app a besoin de ses modèles d’IA pour fonctionner. Il s’agit d’un téléchargement unique — ensuite, l’échange de visages fonctionne entièrement sur ce Mac, sans connexion à internet."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L'app ha bisogno dei suoi modelli IA per poter funzionare. È un download una‑tantum — dopodiché lo scambio di volti funziona interamente su questo Mac, senza connessione a internet."
           }
         },
         "ja" : {
@@ -3745,6 +7949,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "앱을 실행하려면 AI 모델이 필요합니다. 한 번만 다운로드하면 이후 얼굴 교체는 인터넷 연결 없이 이 Mac에서 완전히 실행됩니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O app precisa dos modelos de IA antes de funcionar. É um download único — depois disso, a troca de rostos funciona inteiramente neste Mac, sem conexão com a internet."
           }
         },
         "zh-Hans" : {
@@ -3764,6 +7974,30 @@
     "The downloaded file did not match its expected checksum and was discarded." : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die geladene Datei stimmte nicht mit der erwarteten Prüfsumme überein und wurde verworfen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El archivo descargado no coincidía con su suma de comprobación esperada y se descartó."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le fichier téléchargé ne correspondait pas à la somme de contrôle attendue et a été supprimé."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il file scaricato non corrispondeva al checksum previsto ed è stato scartato."
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3774,6 +8008,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "다운로드한 파일이 예상 체크섬과 일치하지 않아 폐기했습니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O arquivo baixado não correspondeu ao checksum esperado e foi descartado."
           }
         },
         "zh-Hans" : {
@@ -3793,6 +8033,30 @@
     "The engine is still starting." : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Engine startet noch."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El motor aún se está iniciando."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le moteur est encore en cours de démarrage."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il motore è ancora in avvio."
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3803,6 +8067,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "엔진이 아직 시작 중입니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O motor ainda está iniciando."
           }
         },
         "zh-Hans" : {
@@ -3822,6 +8092,30 @@
     "The photo is no longer loaded." : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das Foto ist nicht mehr geladen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La foto ya no está cargada."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La photo n’est plus chargée."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La foto non è più caricata."
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3832,6 +8126,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "사진을 더 이상 사용할 수 없습니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A foto não está mais carregada."
           }
         },
         "zh-Hans" : {
@@ -3851,6 +8151,30 @@
     "This video's audio track could not be read." : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Tonspur dieses Videos konnte nicht gelesen werden."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se pudo leer la pista de audio de este video."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La piste audio de cette vidéo n’a pas pu être lue."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non è stato possibile leggere la traccia audio di questo video."
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3861,6 +8185,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "이 비디오의 오디오 트랙을 읽지 못했습니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não foi possível ler a faixa de áudio deste vídeo."
           }
         },
         "zh-Hans" : {
@@ -3880,6 +8210,30 @@
     "Tick at least one face to replace." : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Markiere mindestens ein Gesicht, das ersetzt werden soll."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Marca al menos un rostro para reemplazar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cochez au moins un visage à remplacer."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seleziona almeno un volto da sostituire."
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3890,6 +8244,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "바꿀 얼굴을 하나 이상 선택하십시오."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Marque pelo menos um rosto para substituir."
           }
         },
         "zh-Hans" : {
@@ -3907,15 +8267,71 @@
       }
     },
     "Unlock lifetime" : {
-      "extractionState" : "manual"
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dauerhaft freischalten"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desbloquear de por vida"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Débloquer à vie"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sblocca a vita"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desbloquear vitalício"
+          }
+        }
+      }
     },
     "Unlock Pro" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pro freischalten"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Unlock Pro"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desbloquear Pro"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Débloquer Pro"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sblocca Pro"
           }
         },
         "ja" : {
@@ -3928,6 +8344,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pro 잠금 해제"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desbloquear Pro"
           }
         },
         "zh-Hans" : {
@@ -3945,15 +8367,71 @@
       }
     },
     "Upgrade" : {
-      "extractionState" : "manual"
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Upgrade"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Obtener Pro"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Passer à Pro"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Passa a Pro"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fazer upgrade"
+          }
+        }
+      }
     },
     "Use Face" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gesicht verwenden"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Use Face"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usar rostro"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Utiliser le visage"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usa il volto"
           }
         },
         "ja" : {
@@ -3966,6 +8444,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "얼굴 사용"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usar Rosto"
           }
         },
         "zh-Hans" : {
@@ -3985,10 +8469,34 @@
     "Use Media" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Medium verwenden"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Use Media"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usar archivo"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Utiliser le média"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usa il file"
           }
         },
         "ja" : {
@@ -4001,6 +8509,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "미디어 사용"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usar Mídia"
           }
         },
         "zh-Hans" : {
@@ -4020,6 +8534,30 @@
     "Use this face" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieses Gesicht verwenden"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usar este rostro"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Utiliser ce visage"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usa questo volto"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4030,6 +8568,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "이 얼굴 사용"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usar este rosto"
           }
         },
         "zh-Hans" : {
@@ -4049,6 +8593,30 @@
     "Verifying…" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wird überprüft…"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verificando…"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Validation…"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verifica…"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4059,6 +8627,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "검증 중…"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verificando…"
           }
         },
         "zh-Hans" : {
@@ -4078,6 +8652,30 @@
     "Version" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Version"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Versión"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Version"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Versione"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4088,6 +8686,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "버전"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Versão"
           }
         },
         "zh-Hans" : {
@@ -4107,9 +8711,33 @@
     "Video" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Video"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
+            "value" : "Video"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Video"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vidéo"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
             "value" : "Video"
           }
         },
@@ -4123,6 +8751,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "비디오"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vídeo"
           }
         },
         "zh-Hans" : {
@@ -4142,10 +8776,34 @@
     "Which face" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Welches Gesicht"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Which face"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Qué rostro"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quel visage"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quale volto"
           }
         },
         "ja" : {
@@ -4158,6 +8816,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "얼굴 선택"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Qual rosto"
           }
         },
         "zh-Hans" : {
@@ -4177,6 +8841,30 @@
     "Will be left alone" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bleibt unverändert"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se reemplazará"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ne sera pas remplacé"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resterà invariato"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4187,6 +8875,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "바뀌지 않음"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ficará como está"
           }
         },
         "zh-Hans" : {
@@ -4206,6 +8900,30 @@
     "Will be replaced" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wird ersetzt"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se reemplazará"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sera remplacé"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verrà sostituito"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4216,6 +8934,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "바뀜"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Será substituído"
           }
         },
         "zh-Hans" : {

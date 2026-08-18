@@ -15,6 +15,11 @@ enum AppLanguage: String, CaseIterable, Identifiable, Sendable {
     case simplifiedChinese = "zh-Hans"
     case korean = "ko"
     case japanese = "ja"
+    case german = "de"
+    case spanish = "es"
+    case french = "fr"
+    case italian = "it"
+    case brazilianPortuguese = "pt-BR"
 
     var id: String { rawValue }
 
@@ -22,11 +27,16 @@ enum AppLanguage: String, CaseIterable, Identifiable, Sendable {
     /// not the language the user intended to choose.
     var label: String {
         switch self {
-        case .system:            return "System"
-        case .english:           return "English"
-        case .simplifiedChinese: return "简体中文"
-        case .korean:            return "한국어"
-        case .japanese:          return "日本語"
+        case .system:             return "System"
+        case .english:            return "English"
+        case .simplifiedChinese:  return "简体中文"
+        case .korean:             return "한국어"
+        case .japanese:           return "日本語"
+        case .german:             return "Deutsch"
+        case .spanish:            return "Español"
+        case .french:             return "Français"
+        case .italian:            return "Italiano"
+        case .brazilianPortuguese: return "Português"
         }
     }
 

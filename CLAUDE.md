@@ -167,7 +167,7 @@ change any of them without reading why.
 
 **None of this changes what ships.** The catalog is still compiled into
 `.lproj/Localizable.strings` by a separate build step; verified by building both
-apps and reading the strings back out of `Morphiqo.app`, all four languages
+apps and reading the strings back out of `Morphiqo.app`, every language
 present and unchanged in count. What is lost is only the automatic *authoring*
 of new entries, and the IDE's own reporting of missing or dead strings — both of
 which move to the tool below.
@@ -196,9 +196,10 @@ they make deleted strings look alive.
 Two things it reports are worth acting on immediately:
 
 - **MISSING** — in the code, not in the catalog. It renders English to every
-  Japanese, Korean and Chinese reader, and nothing fails to build.
-- **missing a translation** — in the catalog with no `ja`/`ko`/`zh-Hans`/`zh-Hant`
-  value. Same outcome.
+  reader whose language the app otherwise speaks, and nothing fails to build.
+- **missing a translation** — in the catalog with no value for one of the nine
+  shipped languages (`de`, `es`, `fr`, `it`, `ja`, `ko`, `pt-BR`, `zh-Hans`,
+  `zh-Hant`). Same outcome.
 
 The build directory it creates is around 600 MB–1 GB and is git-ignored; delete
 `.strings-check/` when you want the space back.

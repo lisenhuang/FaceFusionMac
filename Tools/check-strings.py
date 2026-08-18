@@ -12,7 +12,7 @@ Two kinds of disagreement, and they are not equally serious:
 
   MISSING   a string is in the code and not in the catalog. Xcode will add it,
             untranslated, and until somebody translates it the app shows
-            English to every Japanese, Korean and Chinese reader. This is a
+            English to every reader the app is not in English for. This is a
             bug, and the only reason it is invisible is that an untranslated
             string still renders.
 
@@ -268,7 +268,8 @@ def main():
     stale = sorted(k for k, v in catalog.items()
                    if v.get("extractionState") == "stale")
 
-    languages = {"ja", "ko", "zh-Hans", "zh-Hant"}
+    languages = {"de", "es", "fr", "it", "ja", "ko", "pt-BR",
+                 "zh-Hans", "zh-Hant"}
     untranslated = sorted(
         k for k in catalog
         if k not in dead and k
