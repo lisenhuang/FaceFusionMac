@@ -13,6 +13,7 @@ import Foundation
 import AVFoundation
 import CoreVideo
 import CoreMedia
+import os
 
 // MARK: - Description of a source video
 
@@ -147,7 +148,30 @@ enum VideoPipeline {
         /// currently busy sits idle. Overlapping a few frames keeps them all
         /// fed. Beyond about four the units are saturated and the only effect
         /// is more resident frame buffers.
-        var concurrentFrames: Int = 3
+        ///
+        /// This was the constant 3 for every Mac. It now starts from the
+        /// machine — performance cores, memory and how warm it already is —
+        /// because the range this app ships across runs from an 8 GB Air to a
+        /// Mac Studio and one number cannot be right at both ends.
+        /// `DeviceCapabilities` never returns less than 3 except under thermal
+        /// throttling, so nothing that works today gets shallower.
+        var concurrentFrames: Int
+
+        init(source: URL,
+             destination: URL,
+             options: SwapOptions,
+             useHEVC: Bool = true,
+             qualityMultiplier: Double = 1.0,
+             concurrentFrames: Int? = nil) {
+            self.source = source
+            self.destination = destination
+            self.options = options
+            self.useHEVC = useHEVC
+            self.qualityMultiplier = qualityMultiplier
+            self.concurrentFrames = concurrentFrames
+                ?? DeviceCapabilities.recommendedProfile(enhancing: options.enhanceFace)
+                    .concurrentFrames
+        }
     }
 
     /// Reads every frame, hands it to `transform`, and writes the result.
@@ -284,7 +308,14 @@ enum VideoPipeline {
             var sample: CMSampleBuffer
         }
         var inFlight: [InFlight] = []
-        let depth = max(1, request.concurrentFrames)
+
+        // The starting depth is the ceiling for the whole run. Throttling can
+        // only lower it and cooling can only return it to here — a machine that
+        // has recovered does not get to push harder than the profile allowed
+        // when it was cool.
+        let startingDepth = max(1, request.concurrentFrames)
+        var depth = startingDepth
+        var framesSubmitted = 0
 
         // The audio has to be fed *alongside* the frames, not after them.
         // AVAssetWriter applies backpressure across all of its inputs together:
@@ -376,7 +407,25 @@ enum VideoPipeline {
             inFlight.append(InFlight(task: task, output: output,
                                      time: presentationTime, sample: sample))
 
-            if inFlight.count >= depth {
+            framesSubmitted += 1
+            // Roughly once a second of export, ask the machine how it is doing.
+            // Thermal transitions take tens of seconds, so this is far more
+            // often than it needs to be and still costs nothing measurable.
+            if framesSubmitted % 30 == 0 {
+                let profile = DeviceCapabilities.recommendedProfile(
+                    enhancing: request.options.enhanceFace)
+                let adjusted = min(startingDepth, max(1, profile.concurrentFrames))
+                if adjusted != depth {
+                    EngineLog.engine.notice(
+                        "Export depth \(depth) → \(adjusted) (\(profile.reason, privacy: .public))")
+                    depth = adjusted
+                }
+            }
+
+            // A `while` rather than an `if`, because `depth` can now shrink
+            // underneath a queue that is already deeper than it: one drain per
+            // frame would only ever converge back to the old depth.
+            while inFlight.count >= depth {
                 try await drainOldest()
             }
         }

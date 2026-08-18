@@ -10,11 +10,27 @@
 //  Python pipeline is built on OpenCV and is likewise BGR-first, which keeps
 //  the channel bookkeeping below identical to it.
 //
+//  Every routine here exists twice. The scalar Swift implementation is the one
+//  that was validated against the Python/OpenCV ground truth, and it is kept
+//  exactly as it was written; the Metal fast path in front of it is an
+//  optimisation that has to agree with it, not a replacement for it. When they
+//  disagree, the CPU is right. A Mac without a usable Metal library — or a
+//  frame the GPU cannot address, which is any borrowed surface that failed the
+//  page-alignment test in `withSurface` — simply falls through and still works.
+//
+//  This file and the iOS app's copy are the same pixel code deliberately. Only
+//  the bridging differs: frames reach this process as an `IOSurface` over XPC
+//  rather than as a `CVPixelBuffer` from a decoder. Everything below that
+//  boundary — every warp, every tensor pack, every blend — stays identical,
+//  because the two platforms are verified against each other.
+//
 
 import Foundation
 import CoreGraphics
+import CoreVideo
 import IOSurface
-import Accelerate
+import Metal
+import os
 
 /// A mutable 8-bit BGRA image. Either owns its storage or borrows an
 /// IOSurface's, in which case the caller keeps the surface locked.
@@ -23,16 +39,35 @@ final class BGRAImage {
     let height: Int
     let rowBytes: Int
     let base: UnsafeMutableRawPointer
+    /// Present when the GPU can address these exact bytes. Owned storage always
+    /// has one while Metal is available; borrowed storage has one only when the
+    /// underlying surface happened to be page-aligned.
+    let mtlBuffer: MTLBuffer?
     private let ownsStorage: Bool
 
     init(width: Int, height: Int) {
         self.width = width
         self.height = height
-        self.rowBytes = width * 4
-        self.base = UnsafeMutableRawPointer.allocate(byteCount: rowBytes * height,
-                                                     alignment: 64)
-        self.ownsStorage = true
-        memset(base, 0, rowBytes * height)
+        // Rows are padded to 64 bytes so each one starts on a cache line and
+        // the GPU's stores coalesce. Nothing in the pixel code assumes a stride
+        // of `width * 4` — it all goes through `rowBytes` — so this is
+        // invisible above.
+        self.rowBytes = ((width * 4) + 63) / 64 * 64
+        let byteCount = max(1, rowBytes * height)
+
+        // Shared storage means the kernels that fill this and the CPU that
+        // reads it are looking at the same physical pages: no upload, no
+        // download. Without Metal it is a plain aligned allocation.
+        if let buffer = MetalContext.shared?.makeBuffer(length: byteCount) {
+            self.mtlBuffer = buffer
+            self.base = buffer.contents()
+            self.ownsStorage = false
+        } else {
+            self.mtlBuffer = nil
+            self.base = UnsafeMutableRawPointer.allocate(byteCount: byteCount, alignment: 64)
+            self.ownsStorage = true
+        }
+        memset(base, 0, byteCount)
     }
 
     init(borrowing base: UnsafeMutableRawPointer, width: Int, height: Int, rowBytes: Int) {
@@ -40,6 +75,21 @@ final class BGRAImage {
         self.height = height
         self.rowBytes = rowBytes
         self.base = base
+        self.mtlBuffer = nil
+        self.ownsStorage = false
+    }
+
+    /// As above, but with a GPU view onto the borrowed bytes. Only
+    /// `withSurface` builds one of these, because only it knows the surface
+    /// stays locked and alive for exactly as long as the image does.
+    private init(borrowing base: UnsafeMutableRawPointer,
+                 width: Int, height: Int, rowBytes: Int,
+                 mtlBuffer: MTLBuffer?) {
+        self.width = width
+        self.height = height
+        self.rowBytes = rowBytes
+        self.base = base
+        self.mtlBuffer = mtlBuffer
         self.ownsStorage = false
     }
 
@@ -62,6 +112,15 @@ final class BGRAImage {
 
     func copyContents(into destination: BGRAImage) {
         precondition(destination.width == width && destination.height == height)
+
+        // A copy, not arithmetic: the blit moves the same bytes the `memcpy`
+        // below would, so there is nothing here for the two paths to disagree
+        // about. What it buys is the CPU time — 33 MB a frame at 4K — on a core
+        // the export loop wants for decode and encode.
+        if let ops = MetalImageOps.active, ops.copy(self, into: destination) {
+            return
+        }
+
         let bytes = min(width, destination.width) * 4
         for y in 0 ..< height {
             memcpy(destination.row(y), row(y), bytes)
@@ -72,7 +131,20 @@ final class BGRAImage {
 // MARK: - IOSurface bridging
 
 extension BGRAImage {
+
     /// Runs `body` with an image view onto a locked IOSurface.
+    ///
+    /// Frames arrive here as surfaces sent over XPC, so the pages are already
+    /// shared with the app rather than copied. When the surface's base address
+    /// is page-aligned and its allocation covers the plane, Metal can be handed
+    /// those same pages with `makeBuffer(bytesNoCopy:)` and a frame reaches the
+    /// GPU without being copied at all. When the alignment does not hold — and
+    /// it is not guaranteed by anything — the image simply has no `mtlBuffer`
+    /// and every operation on it takes the CPU path. That is a slower frame,
+    /// never a failed one.
+    ///
+    /// The returned image must not escape `body`: the surface is unlocked on
+    /// the way out and the Metal view over it dies with it.
     static func withSurface<T>(_ surface: IOSurface,
                                readOnly: Bool,
                                _ body: (BGRAImage) throws -> T) rethrows -> T {
@@ -80,13 +152,51 @@ extension BGRAImage {
         surface.lock(options: options, seed: nil)
         defer { surface.unlock(options: options, seed: nil) }
 
-        let image = BGRAImage(borrowing: surface.baseAddress,
-                              width: surface.width,
-                              height: surface.height,
-                              rowBytes: surface.bytesPerRow)
-        return try body(image)
+        let base = surface.baseAddress
+        let shared = gpuView(over: base,
+                             in: surface,
+                             byteCount: surface.bytesPerRow * surface.height)
+        return try body(BGRAImage(borrowing: base,
+                                  width: surface.width,
+                                  height: surface.height,
+                                  rowBytes: surface.bytesPerRow,
+                                  mtlBuffer: shared))
     }
 
+    private static func gpuView(over base: UnsafeMutableRawPointer,
+                                in surface: IOSurface,
+                                byteCount: Int) -> MTLBuffer? {
+        guard byteCount > 0, let device = MetalContext.shared?.device else { return nil }
+
+        let pageSize = Int(getpagesize())
+        guard pageSize > 0, UInt(bitPattern: base) % UInt(pageSize) == 0 else { return nil }
+
+        // Two separate conditions, and conflating them costs the fast path on
+        // exactly the frames worth having it for. What must be true is that the
+        // surface's allocation covers the plane — that is the memory the kernels
+        // read and write. What `bytesNoCopy` wants is a whole number of pages,
+        // and `allocationSize` reports the surface's size, not its mapping: a
+        // 1080p BGRA surface comes back as the plane plus 64 bytes, which is not
+        // page-rounded, while the mapping behind it always is. Rounding the
+        // length up is therefore safe, and testing the *rounded* length against
+        // the alloc size would reject nearly every real frame.
+        guard surface.allocationSize >= byteCount else { return nil }
+        let length = (byteCount + pageSize - 1) / pageSize * pageSize
+
+        // No deallocator: the surface owns these pages and outlives the buffer,
+        // which lives only for the duration of `withSurface`.
+        return device.makeBuffer(bytesNoCopy: base,
+                                 length: length,
+                                 options: .storageModeShared,
+                                 deallocator: nil)
+    }
+
+    /// A fresh surface for the engine to render a swapped frame into.
+    ///
+    /// Left to IOSurface's own allocator rather than routed through
+    /// `MetalContext`: this one has to cross back to the app, and a surface is
+    /// the only thing that does. It comes back page-aligned in practice, so
+    /// `withSurface` hands it to the GPU anyway.
     static func makeSurface(width: Int, height: Int) -> IOSurface? {
         IOSurface(properties: [
             .width: width,
@@ -111,6 +221,11 @@ extension BGRAImage {
     /// different high-frequency detail and the result shimmers. Anything
     /// shrinking by more than half is therefore box-reduced first, which is
     /// the standard mipmap prefilter.
+    ///
+    /// Left exactly as it was written, because this is the function whose
+    /// output was compared against the Python reference. Its two steps —
+    /// `boxReduced` and `drawWarped` — each take the GPU on their own when they
+    /// can, so this gets the fast path without any of it being restructured.
     func warped(by transform: CGAffineTransform,
                 width outWidth: Int,
                 height outHeight: Int) -> BGRAImage {
@@ -138,6 +253,12 @@ extension BGRAImage {
     /// Averages each `factor` x `factor` block into one pixel.
     func boxReduced(by factor: Int) -> BGRAImage {
         precondition(factor >= 2)
+
+        if let ops = MetalImageOps.active, mtlBuffer != nil,
+           let reduced = ops.boxReduce(self, factor: factor) {
+            return reduced
+        }
+
         let outWidth = max(1, width / factor)
         let outHeight = max(1, height / factor)
         let out = BGRAImage(width: outWidth, height: outHeight)
@@ -166,6 +287,11 @@ extension BGRAImage {
 
     /// As `warped(by:width:height:)` but writes into an existing buffer.
     func drawWarped(into out: BGRAImage, transform: CGAffineTransform) {
+        if let ops = MetalImageOps.active, mtlBuffer != nil, out.mtlBuffer != nil,
+           ops.warp(self, into: out, transform: transform) {
+            return
+        }
+
         // Sampling is destination-driven, so invert to go dst -> src.
         let inverse = transform.inverted()
         let srcMaxX = Float(width - 1)
@@ -259,6 +385,12 @@ extension BGRAImage {
                    mean: Float = 0,
                    standardDeviation: Float = 1,
                    padTo padded: (width: Int, height: Int)? = nil) -> FloatTensor {
+        if let ops = MetalImageOps.active, mtlBuffer != nil,
+           let tensor = ops.packTensor(self, order: order, mean: mean,
+                                       standardDeviation: standardDeviation, padTo: padded) {
+            return tensor
+        }
+
         let outWidth = padded?.width ?? width
         let outHeight = padded?.height ?? height
         let plane = outWidth * outHeight
@@ -283,12 +415,50 @@ extension BGRAImage {
         return FloatTensor(shape: [1, 3, outHeight, outWidth], values: values)
     }
 
+    /// Warps straight into a normalised CHW tensor, which is what every model
+    /// in the pipeline actually wants. Fusing the two steps skips a full BGRA
+    /// crop per model invocation — five of them per face per frame.
+    ///
+    /// The GPU path is one kernel, preceded by the same integer box-prefilter
+    /// `warped` applies when a transform shrinks by more than half. Two steps,
+    /// same factor, same numbers. The CPU path is literally `warped` followed by
+    /// `tensorCHW`, so the fused version has something exact to be checked
+    /// against.
+    func warpedTensor(by transform: CGAffineTransform,
+                      width outWidth: Int,
+                      height outHeight: Int,
+                      order: ChannelOrder,
+                      mean: Float = 0,
+                      standardDeviation: Float = 1,
+                      padTo padded: (width: Int, height: Int)? = nil) -> FloatTensor {
+        if let ops = MetalImageOps.active, mtlBuffer != nil {
+            let (source, adjusted) = ops.boxPrefiltered(self, for: transform)
+            if let tensor = ops.warpToTensor(source, transform: adjusted,
+                                             width: outWidth, height: outHeight,
+                                             order: order, mean: mean,
+                                             standardDeviation: standardDeviation,
+                                             padTo: padded) {
+                return tensor
+            }
+        }
+
+        let crop = warped(by: transform, width: outWidth, height: outHeight)
+        return crop.tensorCHW(order: order, mean: mean,
+                              standardDeviation: standardDeviation, padTo: padded)
+    }
+
     /// Inverse of `tensorCHW`. Values are denormalised, clamped to 0...1 and
     /// written as opaque BGRA.
     static func fromTensorCHW(_ tensor: FloatTensor,
                               order: ChannelOrder,
                               mean: Float = 0,
                               standardDeviation: Float = 1) -> BGRAImage {
+        if let ops = MetalImageOps.active,
+           let image = ops.unpackTensor(tensor, order: order, mean: mean,
+                                        standardDeviation: standardDeviation) {
+            return image
+        }
+
         // Shape is [1, 3, H, W]; tolerate a missing batch dimension.
         let dims = tensor.shape.count == 4 ? Array(tensor.shape.dropFirst()) : tensor.shape
         let height = dims[1], width = dims[2]
@@ -296,17 +466,19 @@ extension BGRAImage {
         let image = BGRAImage(width: width, height: height)
         let offsets: [Int] = (order == .bgr) ? [0, 1, 2] : [2, 1, 0]
 
-        tensor.values.withUnsafeBufferPointer { src in
-            for y in 0 ..< height {
-                let dst = image.row(y)
-                for x in 0 ..< width {
-                    let pixel = x * 4
-                    for c in 0 ..< 3 {
-                        let v = src[c * plane + y * width + x] * standardDeviation + mean
-                        dst[pixel + offsets[c]] = UInt8(min(max(v, 0), 1) * 255 + 0.5)
-                    }
-                    dst[pixel + 3] = 255
+        // `FloatTensor.values` is an `UnsafeMutableBufferPointer` now, so the
+        // reference's `withUnsafeBufferPointer` wrapper has nothing to attach
+        // to; the loop it wrapped is otherwise unchanged.
+        let src = tensor.values
+        for y in 0 ..< height {
+            let dst = image.row(y)
+            for x in 0 ..< width {
+                let pixel = x * 4
+                for c in 0 ..< 3 {
+                    let v = src[c * plane + y * width + x] * standardDeviation + mean
+                    dst[pixel + offsets[c]] = UInt8(min(max(v, 0), 1) * 255 + 0.5)
                 }
+                dst[pixel + 3] = 255
             }
         }
         return image
@@ -315,11 +487,42 @@ extension BGRAImage {
 
 // MARK: - Masks
 
+/// Somewhere for a mask's GPU mirror to live.
+///
+/// A reference, so that a mask handed out of `FaceMasker`'s cache — by value,
+/// as a struct — carries the upload it already paid for instead of copying a
+/// megabyte of floats for every face of every frame. `@unchecked Sendable` with
+/// a lock inside, because `FloatMask` has to stay `Sendable` for that cache to
+/// compile and several export frames touch the same mask at once.
+final class MaskGPUStorage: @unchecked Sendable {
+    private let state = OSAllocatedUnfairLock<MTLBuffer?>(uncheckedState: nil)
+
+    var buffer: MTLBuffer? {
+        get { state.withLock { $0 } }
+        set { state.withLock { $0 = newValue } }
+    }
+}
+
 /// A single-channel float mask in 0...1.
 struct FloatMask {
     var width: Int
     var height: Int
     var values: [Float]
+
+    /// Replaced rather than emptied whenever `values` changes, so a copy taken
+    /// before the change keeps its own mirror and cannot be blended from the
+    /// wrong floats. The trap this leaves is writing through `values` from
+    /// outside — only the mask builder does that, and only before anything has
+    /// been uploaded.
+    private var storage = MaskGPUStorage()
+
+    /// The mask's floats in GPU-addressable memory, filled in on first use by
+    /// `MetalImageOps`. Masks themselves stay on the CPU: they are built at
+    /// most a handful of times per session and then cached.
+    var gpuBuffer: MTLBuffer? {
+        get { storage.buffer }
+        nonmutating set { storage.buffer = newValue }
+    }
 
     init(width: Int, height: Int, repeating value: Float = 0) {
         self.width = width
@@ -331,10 +534,12 @@ struct FloatMask {
     mutating func intersect(with other: FloatMask) {
         guard other.width == width, other.height == height else { return }
         for i in 0 ..< values.count { values[i] = min(values[i], other.values[i]) }
+        storage = MaskGPUStorage()
     }
 
     mutating func clamp01() {
         for i in 0 ..< values.count { values[i] = min(max(values[i], 0), 1) }
+        storage = MaskGPUStorage()
     }
 
     /// Separable Gaussian blur. Kernel radius follows OpenCV's rule for a
@@ -356,6 +561,15 @@ struct FloatMask {
             total += v
         }
         for i in 0 ..< size { kernel[i] /= total }
+
+        // Comfortably the most expensive thing left on the CPU per frame: the
+        // restorer's 512x512 mask at the default feather is a ~150-tap kernel
+        // in each direction. The weights are handed over rather than recomputed
+        // so both paths use the same coefficients to the bit.
+        if let ops = MetalImageOps.active,
+           let fast = ops.blurMask(self, weights: kernel, radius: radius) {
+            return fast
+        }
 
         var horizontal = [Float](repeating: 0, count: values.count)
         for y in 0 ..< height {
@@ -386,6 +600,12 @@ struct FloatMask {
     /// Warps the mask with the same conventions as `BGRAImage.drawWarped`,
     /// sampling bilinearly and clamping at the edges.
     func warped(by transform: CGAffineTransform, width outWidth: Int, height outHeight: Int) -> FloatMask {
+        if let ops = MetalImageOps.active,
+           let fast = ops.warpMask(self, transform: transform,
+                                   width: outWidth, height: outHeight) {
+            return fast
+        }
+
         var out = FloatMask(width: outWidth, height: outHeight)
         let inverse = transform.inverted()
         let maxX = Float(width - 1), maxY = Float(height - 1)
@@ -430,6 +650,16 @@ extension BGRAImage {
                    mask: FloatMask,
                    transform: CGAffineTransform,
                    opacity: Float = 1.0) {
+        // The one read-modify-write in the pipeline, so the GPU path is written
+        // to leave the destination untouched unless it can finish the whole
+        // blend; a half-applied composite followed by the CPU redoing it would
+        // blend the same patch in twice.
+        if let ops = MetalImageOps.active, mtlBuffer != nil, patch.mtlBuffer != nil,
+           ops.pasteBack(into: self, patch: patch, mask: mask,
+                         transform: transform, opacity: opacity) {
+            return
+        }
+
         let inverse = transform.inverted()
         let bounds = Geometry.transformedBounds(width: patch.width,
                                                 height: patch.height,

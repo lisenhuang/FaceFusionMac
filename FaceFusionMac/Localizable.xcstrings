@@ -4,72 +4,12 @@
     "" : {
       "extractionState" : "manual"
     },
-    "Drop a video or photo\nor click to choose" : {
-      "extractionState" : "manual",
+    "%@ / %@ frames" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Drop a video or photo\nor click to choose"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "動画または写真をドロップ\nまたはクリックして選択"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "비디오 또는 사진을 놓거나\n클릭하여 선택"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "拖放视频或照片\n或点按选择"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "拖放影片或照片\n或按一下選擇"
-          }
-        }
-      }
-    },
-    "Drop a photo\nor click to choose" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Drop a photo\nor click to choose"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "写真をドロップ\nまたはクリックして選択"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "사진을 놓거나\n클릭하여 선택"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "拖放照片\n或点按选择"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "拖放照片\n或按一下選擇"
+            "value" : "%1$@ / %2$@ frames"
           }
         }
       }
@@ -87,6 +27,9 @@
           }
         }
       }
+    },
+    "%@%%" : {
+
     },
     "%lld / %lld frames" : {
       "extractionState" : "manual",
@@ -856,6 +799,76 @@
     "Download missing (%@)" : {
       "extractionState" : "manual"
     },
+    "Drop a photo\nor click to choose" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Drop a photo\nor click to choose"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "写真をドロップ\nまたはクリックして選択"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "사진을 놓거나\n클릭하여 선택"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "拖放照片\n或点按选择"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "拖放照片\n或按一下選擇"
+          }
+        }
+      }
+    },
+    "Drop a video or photo\nor click to choose" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Drop a video or photo\nor click to choose"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "動画または写真をドロップ\nまたはクリックして選択"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "비디오 또는 사진을 놓거나\n클릭하여 선택"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "拖放视频或照片\n或点按选择"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "拖放影片或照片\n或按一下選擇"
+          }
+        }
+      }
+    },
     "Edge softness" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1257,6 +1270,9 @@
           }
         }
       }
+    },
+    "Face %@" : {
+
     },
     "Face %lld" : {
       "extractionState" : "manual",
@@ -2563,35 +2579,6 @@
         }
       }
     },
-    "Ratings are how other people find Morphiqo. It takes one click and you stay in the app." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "評価は、ほかの人が Morphiqo を見つけるきっかけになります。クリック一回で済み、アプリから離れる必要もありません。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "평점은 다른 사람들이 Morphiqo를 찾는 방법입니다. 한 번만 클릭하면 되고 앱을 벗어나지도 않습니다."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "评分是其他人发现 Morphiqo 的方式。只需点按一次，而且无需离开 App。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "評分是其他人發現 Morphiqo 的方式。只需點按一次，而且無需離開 App。"
-          }
-        }
-      }
-    },
     "Rate Morphiqo" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2617,6 +2604,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "為 Morphiqo 評分"
+          }
+        }
+      }
+    },
+    "Ratings are how other people find Morphiqo. It takes one click and you stay in the app." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "評価は、ほかの人が Morphiqo を見つけるきっかけになります。クリック一回で済み、アプリから離れる必要もありません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "평점은 다른 사람들이 Morphiqo를 찾는 방법입니다. 한 번만 클릭하면 되고 앱을 벗어나지도 않습니다."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "评分是其他人发现 Morphiqo 的方式。只需点按一次，而且无需离开 App。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "評分是其他人發現 Morphiqo 的方式。只需點按一次，而且無需離開 App。"
           }
         }
       }

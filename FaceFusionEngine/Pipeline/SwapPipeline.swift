@@ -64,7 +64,7 @@ final class SwapPipeline {
                 throw makeEngineNSError(.modelMissing, underlying: "no path for \(id.rawValue)")
             }
             do {
-                try runtime.load(id, path: path, compute: config.compute,
+                try runtime.load(id, path: path, compute: config.compute(for: id),
                                  cacheDirectory: config.modelCacheDirectory,
                                  tuning: config.tuning)
             } catch {
@@ -84,7 +84,7 @@ final class SwapPipeline {
             guard let path = config.modelPaths[id],
                   FileManager.default.fileExists(atPath: path) else { continue }
             do {
-                try runtime.load(id, path: path, compute: config.compute,
+                try runtime.load(id, path: path, compute: config.compute(for: id),
                                  cacheDirectory: config.modelCacheDirectory,
                                  tuning: config.tuning)
             } catch {
@@ -113,7 +113,11 @@ final class SwapPipeline {
         recognizer = FaceRecognizer(model: recognizerModel)
         swapper = try FaceSwapper(model: swapperModel, modelPath: swapperPath)
         landmarker = runtime.model(.faceLandmarker).map { FaceLandmarker(model: $0) }
-        enhancer = runtime.model(.faceEnhancer).map { FaceEnhancer(model: $0) }
+        // The enhancer takes every replica the runtime built and picks between
+        // them per call, so two frames being restored at once do not queue
+        // behind one session.
+        let enhancerModels = runtime.models(.faceEnhancer)
+        enhancer = enhancerModels.isEmpty ? nil : FaceEnhancer(models: enhancerModels)
         occluder = runtime.model(.faceOccluder).map { FaceOccluder(model: $0) }
 
         return EnginePreparation(loadedModels: runtime.loadedModels,

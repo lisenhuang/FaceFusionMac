@@ -95,15 +95,31 @@ public nonisolated struct EngineTuning: Codable, Sendable, Equatable {
     public var profileComputePlan: Bool
     /// 0 leaves ORT's default.
     public var intraOpThreads: Int
+    /// How many independent `ORTSession`s to build for the face enhancer, so
+    /// two frames can be restored at once instead of queueing on one.
+    ///
+    /// An `ORTSession` serialises its own `run`, and the export loop keeps
+    /// several frames inside the engine at once — so without a second replica
+    /// every one of them queues behind the same session while the rest of the
+    /// pipeline sits idle. The enhancer is both the slowest stage and the
+    /// largest model, which is why it is the only one replicated: a second copy
+    /// of any other model's weights would cost more resident memory than it
+    /// buys in overlap.
+    ///
+    /// Defaulted inline as well as in the initialiser so that an
+    /// `EngineConfiguration` encoded by an older build still decodes.
+    public var enhancerReplicas: Int = 1
 
     public init(requireStaticInputShapes: Bool = true,
                 modelFormat: String = "MLProgram",
                 profileComputePlan: Bool = false,
-                intraOpThreads: Int = 0) {
+                intraOpThreads: Int = 0,
+                enhancerReplicas: Int = 1) {
         self.requireStaticInputShapes = requireStaticInputShapes
         self.modelFormat = modelFormat
         self.profileComputePlan = profileComputePlan
         self.intraOpThreads = intraOpThreads
+        self.enhancerReplicas = enhancerReplicas
     }
 }
 
@@ -113,6 +129,19 @@ public struct EngineConfiguration: Codable, Sendable {
     /// Where Core ML may cache the models it compiles from the ONNX graphs.
     public var modelCacheDirectory: String
     public var compute: ComputePolicy
+    /// Per-model exceptions to `compute`, empty by default.
+    ///
+    /// One `MLComputeUnits` for all six graphs is a single answer to a question
+    /// that has more than one: the detector and the identity encoder are small
+    /// and land well on the Neural Engine, while the swapper and the restorer
+    /// are convolutional generators it largely rejects. Splitting them lets two
+    /// units work at once instead of contending for one.
+    ///
+    /// Shipping empty is deliberate. Which model wants which unit is a
+    /// measurement, not a deduction — `Benchmark` is the instrument — and an
+    /// empty dictionary reproduces exactly the behaviour of the single policy
+    /// it generalises.
+    public var computeOverrides: [ModelID: ComputePolicy] = [:]
     public var tuning: EngineTuning
     /// The manifest's SHA-256 for each model, so the engine can find out
     /// whether a file it cannot load is still the file it was verified as.
@@ -127,13 +156,20 @@ public struct EngineConfiguration: Codable, Sendable {
     public init(modelPaths: [ModelID: String],
                 modelCacheDirectory: String,
                 compute: ComputePolicy = .automatic,
+                computeOverrides: [ModelID: ComputePolicy] = [:],
                 tuning: EngineTuning = EngineTuning(),
                 modelDigests: [ModelID: String] = [:]) {
         self.modelPaths = modelPaths
         self.modelCacheDirectory = modelCacheDirectory
         self.compute = compute
+        self.computeOverrides = computeOverrides
         self.tuning = tuning
         self.modelDigests = modelDigests
+    }
+
+    /// The policy one model should load under.
+    public func compute(for id: ModelID) -> ComputePolicy {
+        computeOverrides[id] ?? compute
     }
 }
 

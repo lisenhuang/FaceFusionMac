@@ -52,6 +52,9 @@ enum Benchmark {
     struct Configuration {
         var name: String
         var compute: ComputePolicy
+        /// Per-model exceptions to `compute`. Empty reproduces the single
+        /// policy exactly, which is what every entry that predates this did.
+        var computeOverrides: [ModelID: ComputePolicy] = [:]
         var tuning: EngineTuning
         var enhance: Bool
     }
@@ -85,6 +88,39 @@ enum Benchmark {
                       enhance: false),
         Configuration(name: "CPU only (baseline)",
                       compute: .cpu,
+                      tuning: EngineTuning(requireStaticInputShapes: true),
+                      enhance: true),
+
+        // Split policies. `CPUAndNeuralEngine` across the board measured 17x
+        // slower than `ALL`, and the reason was never that the ANE is slow —
+        // it is that the swapper and the restorer are convolutional generators
+        // it largely rejects, so those two runs degenerate into constant
+        // fallback and drag the small graphs down with them. These entries ask
+        // the question the single policy could not: whether the detector, the
+        // landmarker and the identity encoder are faster on the ANE while the
+        // generators keep the GPU, so that two units work at once instead of
+        // contending for one.
+        //
+        // Nothing ships from this until it is measured. `EngineConfiguration`
+        // defaults to an empty override map precisely so that the answer has to
+        // be put there deliberately.
+        Configuration(name: "small models on ANE",
+                      compute: .automatic,
+                      computeOverrides: [.faceDetector: .neuralEngine,
+                                         .faceLandmarker: .neuralEngine,
+                                         .faceRecognizer: .neuralEngine],
+                      tuning: EngineTuning(requireStaticInputShapes: true),
+                      enhance: true),
+        Configuration(name: "small ANE, generators GPU",
+                      compute: .gpu,
+                      computeOverrides: [.faceDetector: .neuralEngine,
+                                         .faceLandmarker: .neuralEngine,
+                                         .faceRecognizer: .neuralEngine],
+                      tuning: EngineTuning(requireStaticInputShapes: true),
+                      enhance: true),
+        Configuration(name: "occluder on ANE",
+                      compute: .automatic,
+                      computeOverrides: [.faceOccluder: .neuralEngine],
                       tuning: EngineTuning(requireStaticInputShapes: true),
                       enhance: true),
     ]
@@ -141,6 +177,7 @@ enum Benchmark {
                                                modelDigests: model.models.installedDigests(),
                                                cacheDirectory: ModelManager.compileCacheDirectory,
                                                compute: configuration.compute,
+                                               computeOverrides: configuration.computeOverrides,
                                                tuning: configuration.tuning)
 
                 let sourceSurface = try PixelSurface.surface(of: sourceBuffer)

@@ -7,7 +7,10 @@
 //  alignment across a video than the detector's own output, which jitters.
 //
 //  The crop is a pure scale-and-translate that puts the face box into a
-//  256x256 frame at a fixed 195px working size.
+//  256x256 frame at a fixed 195px working size. It exists only to be packed
+//  into a tensor, so it is warped straight into one — a saving of one 256x256
+//  BGRA buffer per face per frame, and nothing else changes: the fused path
+//  runs the same warp with the same prefilter rule.
 //
 
 import Foundation
@@ -38,9 +41,9 @@ struct FaceLandmarker {
         )
         let transform = Geometry.translationTransform(scale: scale, translation: translation)
 
-        let crop = image.warped(by: transform,
-                                width: Self.inputSize, height: Self.inputSize)
-        let input = crop.tensorCHW(order: .bgr)
+        let input = image.warpedTensor(by: transform,
+                                       width: Self.inputSize, height: Self.inputSize,
+                                       order: .bgr)
 
         let outputs = try model.run([model.inputNames[0]: input])
 
@@ -55,25 +58,36 @@ struct FaceLandmarker {
         let gridToCrop = CGFloat(Self.inputSize) / 64.0
 
         let inverse = transform.inverted()
-        var points: [CGPoint] = []
-        points.reserveCapacity(pointCount)
-        for i in 0 ..< pointCount {
-            let cropPoint = CGPoint(x: CGFloat(landmarkTensor.values[i * stride]) * gridToCrop,
-                                    y: CGFloat(landmarkTensor.values[i * stride + 1]) * gridToCrop)
-            points.append(Geometry.apply(inverse, to: cropPoint))
+        // A tensor's `values` is a pointer into its storage, not an array, so
+        // the tensor is pinned for the whole read rather than trusted to
+        // survive to the end of the loop.
+        let points = withExtendedLifetime(landmarkTensor) { () -> [CGPoint] in
+            let values = landmarkTensor.values
+            var collected: [CGPoint] = []
+            collected.reserveCapacity(pointCount)
+            for i in 0 ..< pointCount {
+                let cropPoint = CGPoint(x: CGFloat(values[i * stride]) * gridToCrop,
+                                        y: CGFloat(values[i * stride + 1]) * gridToCrop)
+                collected.append(Geometry.apply(inverse, to: cropPoint))
+            }
+            return collected
         }
 
         var score: Float = 1
         if let heatmaps = outputs["heatmaps"], heatmaps.shape.count == 4 {
             let count = heatmaps.shape[1]
             let cells = heatmaps.shape[2] * heatmaps.shape[3]
-            var total: Float = 0
-            for k in 0 ..< count {
-                var peak: Float = -.greatestFiniteMagnitude
-                for c in 0 ..< cells {
-                    peak = max(peak, heatmaps.values[k * cells + c])
+            let total = withExtendedLifetime(heatmaps) { () -> Float in
+                let values = heatmaps.values
+                var sum: Float = 0
+                for k in 0 ..< count {
+                    var peak: Float = -.greatestFiniteMagnitude
+                    for c in 0 ..< cells {
+                        peak = max(peak, values[k * cells + c])
+                    }
+                    sum += peak
                 }
-                total += peak
+                return sum
             }
             // The reference maps a mean peak of 0.9 to full confidence.
             score = min(max((total / Float(count)) / 0.9, 0), 1)

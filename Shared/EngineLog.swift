@@ -28,4 +28,8 @@ public nonisolated enum EngineLog {
     public static let client = Logger(subsystem: subsystem, category: "client")
     /// Downloads and installation.
     public static let models = Logger(subsystem: subsystem, category: "models")
+    /// Metal device setup, pipeline compilation and GPU fallbacks. Its own
+    /// category because "the GPU path quietly gave up" is the one failure that
+    /// costs speed without costing correctness, so it has to be findable.
+    public static let metal = Logger(subsystem: subsystem, category: "metal")
 }

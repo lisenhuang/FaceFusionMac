@@ -62,7 +62,16 @@ struct FaceOccluder {
                                                 y: CGFloat(size) / CGFloat(crop.height)),
                           width: size, height: size)
 
-        var values = [Float](repeating: 0, count: size * size * 3)
+        // Same arithmetic per value, only a different destination index, so
+        // this one is bit-for-bit rather than within-a-bit. Worth moving
+        // because it runs twice per face per frame over 65k pixels.
+        if let ops = MetalImageOps.active, resized.mtlBuffer != nil,
+           let fast = ops.packTensorHWC(resized) {
+            return fast
+        }
+
+        let tensor = FloatTensor(shape: [1, size, size, 3])
+        let values = tensor.values
         let invScale: Float = 1.0 / 255.0
         for y in 0 ..< size {
             let src = resized.row(y)
@@ -74,7 +83,7 @@ struct FaceOccluder {
                 values[out + 2] = Float(src[pixel + 2]) * invScale
             }
         }
-        return FloatTensor(shape: [1, size, size, 3], values: values)
+        return tensor
     }
 
     /// The reference's post-processing, step for step: clip the raw output to
@@ -89,9 +98,10 @@ struct FaceOccluder {
     static func postprocess(_ output: FloatTensor, cropSize: Int) -> FloatMask {
         let size = inputSize
         var mask = FloatMask(width: size, height: size)
-        let count = min(output.values.count, mask.values.count)
+        let source = output.values
+        let count = min(source.count, mask.values.count)
         for i in 0 ..< count {
-            mask.values[i] = min(max(output.values[i], 0), 1)
+            mask.values[i] = min(max(source[i], 0), 1)
         }
 
         if cropSize != size {

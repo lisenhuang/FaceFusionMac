@@ -50,6 +50,9 @@ struct FaceSwapper {
         magnitude = max(sqrtf(magnitude), .ulpOfOne)
 
         // vector = (embedding · emap) / ‖embedding‖
+        //
+        // `source.raw` is a real array, not a tensor view, which is what
+        // vDSP wants here — it reads the whole 512-element row.
         var vector = [Float](repeating: 0, count: dimension)
         vDSP_mmul(source.raw, 1, projection, 1, &vector, 1,
                   1, vDSP_Length(dimension), vDSP_Length(dimension))
@@ -93,10 +96,13 @@ struct FaceSwapper {
         let transform = Geometry.alignmentTransform(landmarks: landmarks,
                                                     template: WarpTemplate.arcface128,
                                                     cropSize: Self.inputSize)
-        let crop = image.warped(by: transform, width: Self.inputSize, height: Self.inputSize)
 
         // inswapper wants plain 0...1 RGB: no mean subtraction, unit spread.
-        let target = crop.tensorCHW(order: .rgb, mean: 0, standardDeviation: 1)
+        // The aligned crop is never looked at as pixels, only as this tensor,
+        // so it is warped straight into one.
+        let target = image.warpedTensor(by: transform,
+                                        width: Self.inputSize, height: Self.inputSize,
+                                        order: .rgb, mean: 0, standardDeviation: 1)
         let source = FloatTensor(shape: [1, Self.embeddingDimension], values: conditioning)
 
         let outputs = try model.run(["target": target, "source": source])

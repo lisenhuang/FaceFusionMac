@@ -90,12 +90,14 @@ final class EngineClient {
                  modelDigests: [ModelID: String] = [:],
                  cacheDirectory: URL,
                  compute: ComputePolicy,
+                 computeOverrides: [ModelID: ComputePolicy] = [:],
                  tuning: EngineTuning = EngineTuning()) async throws {
         state = .preparing
         do {
             let config = EngineConfiguration(modelPaths: modelPaths,
                                              modelCacheDirectory: cacheDirectory.path,
                                              compute: compute,
+                                             computeOverrides: computeOverrides,
                                              tuning: tuning,
                                              modelDigests: modelDigests)
             let payload = try EngineJSON.encode(config)

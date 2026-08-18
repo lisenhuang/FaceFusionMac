@@ -299,10 +299,18 @@ final class AppModel {
         if case .ready(let summary) = engine.state,
            Set(summary.loadedModels.compactMap(ModelID.init(rawValue:))) == wanted { return }
         do {
+            // A second enhancer session lets two frames be restored at once
+            // instead of queueing on one, which is worth roughly the enhancer's
+            // share of a frame — but it is another ~340 MB of resident weights,
+            // and a machine that would have to swap for it is better off
+            // without.
+            let tuning = EngineTuning(
+                enhancerReplicas: DeviceCapabilities.enhancerReplicas)
             try await engine.prepare(modelPaths: models.installedPaths(),
                                      modelDigests: models.installedDigests(),
                                      cacheDirectory: ModelManager.compileCacheDirectory,
-                                     compute: .automatic)
+                                     compute: .automatic,
+                                     tuning: tuning)
             statusMessage = nil
             // A source chosen before the engine was up still needs encoding.
             if sourceBuffer != nil, sourceFace == nil { await analyzeSource() }
