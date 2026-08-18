@@ -66,11 +66,11 @@ enum ReviewPrompt {
     /// Asks, if the moment has earned it. Does nothing otherwise, which is the
     /// common case.
     ///
-    /// Never wire this to a button. Apple's guidelines require the prompt to
-    /// follow a natural, successful moment rather than an affordance the user
-    /// went looking for, and a "Rate us" control is exactly the thing they
-    /// forbid — quite apart from spending three system-metered requests on
-    /// people who tapped it out of curiosity.
+    /// Not for a button. The guidelines are about *unprompted* asks: one has to
+    /// follow a natural, successful moment rather than arrive because the app
+    /// felt like asking. Settings has a Rate control and it goes through
+    /// `rate(_:)` instead, which answers to a different requirement — a button
+    /// the user pressed must never do nothing.
     static func requestIfEarned(_ requestReview: RequestReviewAction) async {
         guard isEarned else { return }
 
@@ -99,8 +99,62 @@ enum ReviewPrompt {
         // and it has to be remembered even if the system showed nothing, since
         // the allowance was spent either way.
         Preferences.shared.lastPromptedVersion = currentVersion
+        spendAllowance()
         requestReview()
     }
+
+    // MARK: - The Settings button
+
+    /// How many requests the system grants per person per year.
+    ///
+    /// Apple's number, not ours, and it is the reason this file is careful.
+    private static let allowancePerYear = 3
+
+    /// Where a review can always be left, when the sheet cannot be shown.
+    private static let writeReviewURL = URL(
+        string: "https://apps.apple.com/app/id6797135085?action=write-review")!
+
+    /// Whether a request now stands any chance of being shown.
+    ///
+    /// A guess, and unavoidably so: the system keeps the real count and never
+    /// discloses it. Ours is drawn from the only calls that can affect it —
+    /// this app's — and it is wrong in one direction only. An install upgraded
+    /// from a build that predates this record starts with an empty history and
+    /// may believe it has an ask it has already spent; the cost is one press
+    /// that shows nothing, after which the record is accurate.
+    private static var hasAllowanceLeft: Bool {
+        let cutoff = Date().addingTimeInterval(-365 * 24 * 60 * 60).timeIntervalSince1970
+        let recent = Preferences.shared.reviewRequestDates.filter { $0 > cutoff }
+        return recent.count < allowancePerYear
+    }
+
+    /// Records a request against the year's allowance, and forgets the ones
+    /// that have aged out so the list cannot grow without bound.
+    private static func spendAllowance() {
+        let cutoff = Date().addingTimeInterval(-365 * 24 * 60 * 60).timeIntervalSince1970
+        var dates = Preferences.shared.reviewRequestDates.filter { $0 > cutoff }
+        dates.append(Date().timeIntervalSince1970)
+        Preferences.shared.reviewRequestDates = dates
+    }
+
+    /// The Rate button in Settings.
+    ///
+    /// Returns `nil` when it asked in place, or a URL the caller should open
+    /// when it could not. Both outcomes leave a review possible, which is the
+    /// requirement a button carries and an automatic prompt does not: a prompt
+    /// that stays silent has simply chosen not to interrupt, while a button
+    /// that does nothing is broken.
+    ///
+    /// Deliberately not gated on `successfulSaveCount` or on the once-per-version
+    /// rule. Those exist to stop the app asking people who have not been asked
+    /// to be asked. Someone who went into Settings and pressed this has asked.
+    static func rate(_ request: RequestReviewAction) -> URL? {
+        guard hasAllowanceLeft else { return writeReviewURL }
+        spendAllowance()
+        request()
+        return nil
+    }
+
 
     /// The marketing version, which is what "once per version" is keyed on.
     ///

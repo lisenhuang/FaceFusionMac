@@ -4,6 +4,76 @@
     "" : {
 
     },
+    "Drop a video or photo\nor click to choose" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Drop a video or photo\nor click to choose"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "動画または写真をドロップ\nまたはクリックして選択"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "비디오 또는 사진을 놓거나\n클릭하여 선택"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "拖放视频或照片\n或点按选择"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "拖放影片或照片\n或按一下選擇"
+          }
+        }
+      }
+    },
+    "Drop a photo\nor click to choose" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Drop a photo\nor click to choose"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "写真をドロップ\nまたはクリックして選択"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "사진을 놓거나\n클릭하여 선택"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "拖放照片\n或点按选择"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "拖放照片\n或按一下選擇"
+          }
+        }
+      }
+    },
     "%@ left" : {
 
     },
@@ -30,41 +100,7 @@
     "%lld%%" : {
 
     },
-    "A new version is available" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "A new version is available"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "新しいバージョンがあります"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "새 버전을 사용할 수 있습니다"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "有新版本可用"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "有新版本可用"
-          }
-        }
-      }
-    },
-    "About" : {
+"About" : {
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -356,94 +392,10 @@
         }
       }
     },
-    "Check for Updates" : {
-      "localizations" : {
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "アップデートを確認"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "업데이트 확인"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "检查更新"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "檢查更新"
-          }
-        }
-      }
-    },
-    "Checking asks the App Store for its version number and nothing else — no identifier, no machine details, and nothing about the media you have worked on." : {
-      "localizations" : {
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "確認の際に App Store へ問い合わせるのはバージョン番号だけです。識別子も、Macの情報も、扱ったメディアに関することも送信しません。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "확인할 때 App Store에 묻는 것은 버전 번호뿐입니다. 식별자도, Mac 정보도, 작업한 미디어에 관한 정보도 보내지 않습니다."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "检查时只向 App Store 查询版本号，不发送任何标识符、本机信息，也不发送与你处理过的媒体有关的任何内容。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "檢查時只向 App Store 查詢版本號，不傳送任何識別碼、本機資訊，也不傳送與你處理過的媒體有關的任何內容。"
-          }
-        }
-      }
-    },
-    "Checking models…" : {
+"Checking models…" : {
 
     },
-    "Checking the App Store…" : {
-      "localizations" : {
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "App Store を確認中…"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "App Store 확인 중…"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "正在查询 App Store…"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "正在查詢 App Store…"
-          }
-        }
-      }
-    },
-    "Checking the models already on this Mac…" : {
+"Checking the models already on this Mac…" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -699,35 +651,7 @@
         }
       }
     },
-    "Could not check for updates" : {
-      "localizations" : {
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "アップデートを確認できませんでした"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "업데이트를 확인할 수 없습니다"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "无法检查更新"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "無法檢查更新"
-          }
-        }
-      }
-    },
-    "Could not read this video's frames." : {
+"Could not read this video's frames." : {
       "extractionState" : "stale",
       "localizations" : {
         "ja" : {
@@ -916,77 +840,7 @@
     "Download missing (%@)" : {
 
     },
-    "Drop a photo\nor click to choose" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Drop a photo\nor click to choose"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "写真をドロップ\nまたはクリックして選択"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "사진을 놓거나\n클릭하여 선택"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "拖放照片\n或点按选择"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "拖放照片\n或按一下選擇"
-          }
-        }
-      }
-    },
-    "Drop a video or photo\nor click to choose" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Drop a video or photo\nor click to choose"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "動画または写真をドロップ\nまたはクリックして選択"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "비디오 또는 사진을 놓거나\n클릭하여 선택"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "拖放视频或照片\n或点按选择"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "拖放影片或照片\n或按一下選擇"
-          }
-        }
-      }
-    },
-    "Edge softness" : {
+"Edge softness" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2026,69 +1880,7 @@
         }
       }
     },
-    "Morphiqo %@ is on the App Store. You have %@." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Morphiqo %1$@ is on the App Store. You have %2$@."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "App Store に Morphiqo %1$@ があります。お使いのバージョンは %2$@ です。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "App Store에 Morphiqo %1$@이(가) 있습니다. 현재 버전은 %2$@입니다."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "App Store 上有 Morphiqo %1$@，你的版本是 %2$@。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "App Store 上有 Morphiqo %1$@，你的版本是 %2$@。"
-          }
-        }
-      }
-    },
-    "Morphiqo is up to date" : {
-      "localizations" : {
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Morphiqo は最新です"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Morphiqo가 최신 버전입니다"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Morphiqo 已是最新版本"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Morphiqo 已是最新版本"
-          }
-        }
-      }
-    },
-    "Morphiqo Pro" : {
+"Morphiqo Pro" : {
 
     },
     "Need help? Contact support" : {
@@ -2264,10 +2056,7 @@
         }
       }
     },
-    "Not now" : {
-
-    },
-    "Objects crossing the face stay in front. Slower." : {
+"Objects crossing the face stay in front. Slower." : {
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -2716,6 +2505,62 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "預覽中…"
+          }
+        }
+      }
+    },
+    "Ratings are how other people find Morphiqo. It takes one click and you stay in the app." : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "評価は、ほかの人が Morphiqo を見つけるきっかけになります。クリック一回で済み、アプリから離れる必要もありません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "평점은 다른 사람들이 Morphiqo를 찾는 방법입니다. 한 번만 클릭하면 되고 앱을 벗어나지도 않습니다."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "评分是其他人发现 Morphiqo 的方式。只需点按一次，而且无需离开 App。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "評分是其他人發現 Morphiqo 的方式。只需點按一次，而且無需離開 App。"
+          }
+        }
+      }
+    },
+    "Rate Morphiqo" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Morphiqo を評価"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Morphiqo 평가하기"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "为 Morphiqo 评分"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "為 Morphiqo 評分"
           }
         }
       }
@@ -3947,10 +3792,7 @@
         }
       }
     },
-    "Update" : {
-
-    },
-    "Upgrade" : {
+"Upgrade" : {
 
     },
     "Use Face" : {
@@ -4228,102 +4070,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "将被替换"
-          }
-        }
-      }
-    },
-    "You have %@, and the App Store has %@." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "You have %1$@, and the App Store has %2$@."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "お使いのバージョンは %1$@、App Store のバージョンは %2$@ です。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "현재 버전은 %1$@이고, App Store 버전은 %2$@입니다."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "你的版本是 %1$@，App Store 上的版本是 %2$@。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "你的版本是 %1$@，App Store 上的版本是 %2$@。"
-          }
-        }
-      }
-    },
-    "You have %@. The App Store did not answer, so there is nothing to compare it against — check your connection and try again." : {
-      "localizations" : {
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "お使いのバージョンは %@ です。App Store から応答がなかったため、比較できませんでした。接続を確認してもう一度お試しください。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "현재 버전은 %@입니다. App Store에서 응답이 없어 비교할 수 없습니다. 연결을 확인한 뒤 다시 시도해 주세요."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "你的版本是 %@。App Store 没有响应，因此无从比较。请检查网络连接后重试。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "你的版本是 %@。App Store 沒有回應，因此無從比較。請檢查網路連線後重試。"
-          }
-        }
-      }
-    },
-    "You have %@. Version %@ is on the App Store." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "You have %1$@. Version %2$@ is on the App Store."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "お使いのバージョンは %1$@ です。App Store には %2$@ があります。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "현재 버전은 %1$@입니다. App Store에는 %2$@이(가) 있습니다."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "你的版本是 %1$@，App Store 上是 %2$@。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "你的版本是 %1$@，App Store 上是 %2$@。"
           }
         }
       }

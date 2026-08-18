@@ -50,6 +50,7 @@ final class Preferences {
         static let language = "appearance.language"
         static let successfulSaveCount = "review.successfulSaveCount"
         static let lastPromptedVersion = "review.lastPromptedVersion"
+        static let requestDates = "review.requestDates"
     }
 
     var language: AppLanguage {
@@ -77,6 +78,18 @@ final class Preferences {
         }
     }
 
+    /// When this app last asked the system for a review, most recent last, as
+    /// seconds since 1970.
+    ///
+    /// The system allows three requests per person per year and will not say
+    /// how many are left — or whether any given one was shown. Only this app
+    /// can request a review of this app, so our own calls are the closest thing
+    /// to that counter anyone outside the system can hold. It exists for the
+    /// Settings button, which must not be a control that silently does nothing.
+    var reviewRequestDates: [Double] {
+        didSet { defaults.set(reviewRequestDates, forKey: Key.requestDates) }
+    }
+
     private init() {
         // Registered rather than written, so a key nobody has touched stays
         // absent from the store and still reads as the value intended here.
@@ -85,7 +98,8 @@ final class Preferences {
         // than whatever `integer(forKey:)` invents for a missing key.
         defaults.register(defaults: [
             Key.language: AppLanguage.system.rawValue,
-            Key.successfulSaveCount: 0
+            Key.successfulSaveCount: 0,
+            Key.requestDates: [Double]()
         ])
         // `lastPromptedVersion` has no registered default on purpose: absent
         // *is* the meaning, and a placeholder string would have to be compared
@@ -94,5 +108,6 @@ final class Preferences {
         language = AppLanguage(rawValue: defaults.string(forKey: Key.language) ?? "") ?? .system
         successfulSaveCount = defaults.integer(forKey: Key.successfulSaveCount)
         lastPromptedVersion = defaults.string(forKey: Key.lastPromptedVersion)
+        reviewRequestDates = defaults.array(forKey: Key.requestDates) as? [Double] ?? []
     }
 }

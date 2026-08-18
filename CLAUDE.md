@@ -115,17 +115,18 @@ follow, and the first two have already caused bugs:
 - **`itunes.apple.com/lookup` returns one result with one version number, and
   it is the iOS one.** There is no `kind == "mac-software"` record to find —
   that kind belongs to apps with a *separate* Mac listing. Ours is
-  `kind == "software"` with `MacDesktop-MacDesktop` in `supportedDevices`, which
-  is the only public signal that the record contains a Mac build at all. An iPad
-  app merely runnable on Apple silicon has neither, which is what makes the
-  signal usable. `UpdateChecker.parse` depends on exactly this.
+  `kind == "software"` with `MacDesktop-MacDesktop` in `supportedDevices`, the
+  only public signal that the record contains a Mac build at all. Every other
+  parameter was tried, `media=macSoftware` included, and they all return the
+  same iOS record byte for byte.
 
-- **Keep `MARKETING_VERSION` identical in both projects.** Because one number is
-  published for the whole record, the Mac's Check for Updates can only be right
-  while the two platforms are released at the same version. They diverged once
-  already — iOS 1.8.1 against Mac 1.8.0 — and a Mac on 1.8.0 would have been
-  told 1.8.1 was available when no new Mac build existed. The build numbers may
-  differ; the marketing version may not.
+- **That is why this app does not check for updates.** It had a check; it could
+  only ever have compared a Mac against the iPhone's version number, so it was
+  removed in 1.9.1 rather than left to be subtly wrong. The Mac App Store
+  updates the app itself. Do not add one back without a source of truth for the
+  macOS build's own version — and note that the obvious one, a version file on
+  our website, is a manual step at every release and so a fact that will go
+  stale the first time somebody forgets it.
 
 - **A purchase on either platform unlocks both**, which is why the product
   identifiers are duplicated rather than being platform-specific.

@@ -4,10 +4,9 @@
 //
 //  First run: explain what is about to be downloaded, then download it.
 //
-//  This is the only moment the app needs a network connection in order to do
-//  anything, so it says so plainly rather than leaving the user to wonder. The
-//  App Store version lookup in `UpdateChecker` also uses the network, but it
-//  fails silently and nothing waits on it.
+//  This is the only moment the app needs a network connection, and now the only
+//  time it uses one at all, so it says so plainly rather than leaving the user
+//  to wonder.
 //
 
 import SwiftUI
