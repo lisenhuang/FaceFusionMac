@@ -131,6 +131,62 @@ follow, and the first two have already caused bugs:
 - **A purchase on either platform unlocks both**, which is why the product
   identifiers are duplicated rather than being platform-specific.
 
+## The string catalog does not rewrite itself
+
+`Localizable.xcstrings` used to change every time the project was opened in
+Xcode and run, producing a git diff with no connection to anything you had just
+done. **`SWIFT_EMIT_LOC_STRINGS` is `NO` on every target, and that is what stops
+it.** Do not turn it back on.
+
+With it on, each build extracted the string literals from the source and wrote
+the result back into the catalog *in the source tree* — adding entries it found
+in code, and stamping `"extractionState": "stale"` on entries it did not. Both
+are useful facts and neither is worth a surprise diff. `xcodebuild` from the
+command line never did this, so a terminal-only session could drift for weeks
+and then dump the whole backlog the first time somebody opened the IDE.
+
+Turning it off does **not** affect what the app ships. The catalog is still
+compiled into `.lproj/Localizable.strings` by a separate build step; verified by
+building and reading the strings back out of `Morphiqo.app`, all four languages
+present and correct. What is lost is only the automatic *authoring* of new
+entries.
+
+So a new UI string has to be added to the catalog by hand, and
+`Tools/check-strings.py` is what makes that safe:
+
+```sh
+Tools/check-strings.py           # report drift, exit 1 if any
+Tools/check-strings.py --fix     # delete dead entries, clear stale marks
+```
+
+It builds into its own DerivedData path with extraction forced on and reads the
+compiler's own `.stringsdata`, so the answer is the extractor's rather than a
+guess. That matters more than it sounds: a regex over the source cannot tell
+`Text("swap")` from the word "swap" inside an identifier, and a scan that tried
+it left eight dead entries behind while deleting two live ones. Run it after
+adding or removing any user-facing string, and before a release.
+
+Two things it reports are worth acting on immediately:
+
+- **MISSING** — in the code, not in the catalog. It will render English to every
+  Japanese, Korean and Chinese reader, and nothing will fail to build.
+- **missing a translation** — in the catalog with no `ja`/`ko`/`zh-Hans`/`zh-Hant`
+  value. Same outcome.
+
+The build directory it creates is around 600 MB–1 GB and is git-ignored; delete
+`.strings-check/` when you want the space back.
+
+A third thing it reports needs explaining on this platform. Roughly 49 entries
+show as **DEAD** and are not leftovers — they are strings the Mac UI still
+displays, translated, that never reach a reader in any language but English.
+`MediaWell.title` is a `String` here and a `LocalizedStringKey` on iOS; the same
+goes for `AppModel.statusMessage` and the confirmation text. SwiftUI localises a
+`LocalizedStringKey` and passes a `String` through untouched, so the extractor
+is right to say the catalog entry is unused, and the translations sitting in it
+are unreachable. **Do not delete them to quieten the tool** — they are the work
+that a fix would need. Fixing it means changing those types, which is a real
+change with its own testing, not catalog housekeeping.
+
 ## Git
 
 **Never commit on your own.** Do not run `git commit`, `git push`, `git tag`,
