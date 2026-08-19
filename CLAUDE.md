@@ -77,7 +77,7 @@ and "works on a clean install" is not the bar.
   either — removal from sale is reversible and deletion is not, and the id is
   still doing entitlement work for the people who bought it.
 
-  The same three ids are declared in the `iOS` repository and gate the same
+  The same four ids are declared in the `iOS` repository and gate the same
   purchases: the two apps share a bundle identifier and an App Store record, so
   one Apple ID purchase unlocks both. That is the whole reason the identifiers
   are duplicated rather than being Mac-specific, and it means the arrays have

@@ -18,6 +18,7 @@ final class StoreManager {
     static let shared = StoreManager()
 
     enum ProductID {
+        static let weekly = "com.lisenhuang.morphiqo.pro.weekly"
         static let monthly = "com.lisenhuang.morphiqo.pro.monthly"
         static let annual = "com.lisenhuang.morphiqo.pro.annual"
         static let lifetime = "com.lisenhuang.morphiqo.pro.lifetime"
@@ -27,6 +28,7 @@ final class StoreManager {
     static let subscriptionGroupID = "22293440"
 
     static let productIDs = [
+        ProductID.weekly,
         ProductID.monthly,
         ProductID.annual,
         ProductID.lifetime
@@ -78,7 +80,7 @@ final class StoreManager {
         for await result in Transaction.currentEntitlements {
             guard case .verified(let transaction) = result,
                   transaction.revocationDate == nil,
-                  Self.productIDs.contains(transaction.productID) else {
+                  Self.grantsPro(transaction) else {
                 continue
             }
             active = true
@@ -86,6 +88,19 @@ final class StoreManager {
         }
 
         isPro = active
+    }
+
+    /// Whether a verified, unrevoked transaction unlocks Pro.
+    ///
+    /// The paywall's `SubscriptionStoreView(groupID:)` sells whatever the App
+    /// Store currently offers in the group — including a plan created in the
+    /// dashboard after this binary shipped. Matching `productIDs` alone would
+    /// charge that buyer and unlock nothing, so any auto-renewable in our
+    /// group is honoured too, whether or not this build has heard of it.
+    private static func grantsPro(_ transaction: Transaction) -> Bool {
+        productIDs.contains(transaction.productID)
+            || (transaction.productType == .autoRenewable
+                && transaction.subscriptionGroupID == subscriptionGroupID)
     }
 
     func purchase(_ product: Product) async {
