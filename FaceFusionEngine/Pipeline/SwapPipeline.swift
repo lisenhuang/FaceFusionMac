@@ -327,13 +327,22 @@ final class SwapPipeline {
                                              identityStrength: options.identityStrength)
 
             let swapStarted = Date()
+            // A ceiling, not a count: a face already smaller than the graph's
+            // own 128 resolves to 1 whatever the user chose, so a wide shot
+            // costs exactly what it always did.
+            let boost = FaceSwapper.boost(landmarks: landmarks,
+                                          ceiling: options.closeUpDetail.boostCeiling)
             let (crop, transform) = try swapper.swap(image: input,
                                                      landmarks: landmarks,
-                                                     conditioning: conditioning)
+                                                     conditioning: conditioning,
+                                                     boost: boost)
             timing.swap += Date().timeIntervalSince(swapStarted)
 
             let pasteStarted = Date()
-            var mask = FaceMasker.boxMask(size: FaceSwapper.inputSize, blur: options.maskBlur)
+            // Feathering is a fraction of the crop, and the crop now tracks the
+            // face's footprint, so the same `maskBlur` lands on the same number
+            // of *frame* pixels at every boost. Nothing to compensate for.
+            var mask = FaceMasker.boxMask(size: crop.width, blur: options.maskBlur)
             if options.maskOcclusion, let occluder {
                 do {
                     // Computed on the *input* frame with the swap's own
@@ -342,9 +351,35 @@ final class SwapPipeline {
                     // minimum, the reference's `numpy.minimum.reduce`, and the
                     // mutation copies the cached box mask rather than editing
                     // it in place.
-                    let occlusion = try occluder.occlusionMask(image: input,
-                                                               transform: transform,
+                    //
+                    // Always resolved at 128 and enlarged, never asked for at
+                    // the boosted size. `postprocess` blurs at a fixed σ5 in
+                    // crop pixels, so asking it for a 512 crop would quarter the
+                    // transition band in frame terms and quietly harden every
+                    // occlusion edge the moment the user raised a quality
+                    // setting. Enlarging costs nothing real: the mask comes from
+                    // a 256px graph and is blurred past that detail anyway.
+                    //
+                    // `transform` now lands on the *boosted* crop, so it cannot
+                    // be the one handed to a 128px occlusion crop — the warp
+                    // would fill 128 pixels with the top-left corner of the
+                    // face. Both are the same normalised template at a different
+                    // scale, so the 128 alignment is exactly this one divided by
+                    // the factor and the mask enlarges back onto the crop with
+                    // no drift.
+                    let occlusionTransform = boost == 1
+                        ? transform
+                        : Geometry.alignmentTransform(landmarks: landmarks,
+                                                      template: WarpTemplate.arcface128,
+                                                      cropSize: FaceSwapper.inputSize)
+                    var occlusion = try occluder.occlusionMask(image: input,
+                                                               transform: occlusionTransform,
                                                                cropSize: FaceSwapper.inputSize)
+                    if crop.width != FaceSwapper.inputSize {
+                        let ratio = CGFloat(crop.width) / CGFloat(FaceSwapper.inputSize)
+                        occlusion = occlusion.warped(by: CGAffineTransform(scaleX: ratio, y: ratio),
+                                                     width: crop.width, height: crop.width)
+                    }
                     mask.intersect(with: occlusion)
                     mask.clamp01()
                 } catch {

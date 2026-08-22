@@ -260,6 +260,37 @@ struct StudioView: View {
                 }
             }
 
+            // After "Which face" — who gets replaced, then how well.
+            //
+            // No resolved-factor label beside it, unlike the iOS build. There
+            // the picker sits above a preview shrunk to a phone screen, where
+            // raising the setting can visibly do nothing and the label is what
+            // says the ceiling simply was not reached. Here the preview is
+            // full resolution in a window the user can size, so the difference
+            // shows for itself — and the number would have to come from the
+            // engine anyway, since `FaceSwapper` lives in the XPC service and
+            // the app cannot resolve the boost without duplicating the warp
+            // templates that `GeometryTests` exists to pin down.
+            VStack(alignment: .leading, spacing: 5) {
+                HStack {
+                    Text("Close-up detail").font(.callout)
+                    Spacer()
+                }
+                Picker("", selection: $model.closeUpDetail) {
+                    Text("Standard").tag(CloseUpDetail.standard)
+                    Text("High").tag(CloseUpDetail.high)
+                    Text("Maximum").tag(CloseUpDetail.maximum)
+                }
+                .pickerStyle(.segmented)
+                .labelsHidden()
+
+                Text(closeUpDetailHint)
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            .onChange(of: model.closeUpDetail) { Task { await model.refreshPreview() } }
+
             VStack(alignment: .leading, spacing: 4) {
                 HStack {
                     Text("Resemblance").font(.callout)
@@ -327,6 +358,30 @@ struct StudioView: View {
                     }
                 }
             }
+        }
+    }
+
+    /// What the chosen level costs and buys, in that order — the cost is the
+    /// part a user cannot discover without exporting twice.
+    ///
+    /// Each repeats "small faces cost nothing" rather than saying it once
+    /// above, because the ceiling is the least intuitive thing about the
+    /// control: the slowest option is free on a wide shot, and that is worth
+    /// saying at the moment someone is choosing between them.
+    /// `LocalizedStringKey` rather than `String`, which is the difference
+    /// between this caption being translated and not. `Text` localises a key;
+    /// handed a `String` it renders it verbatim, and the neighbouring
+    /// `faceModeHint` returns one — its text sits in the catalog, translated,
+    /// and reaches the screen in English regardless. Worth a look separately;
+    /// not worth copying here.
+    private var closeUpDetailHint: LocalizedStringKey {
+        switch model.closeUpDetail {
+        case .standard:
+            return "Fastest to export. A face that fills the frame can look soft."
+        case .high:
+            return "Slower to export, sharper on close-ups. Small faces cost nothing."
+        case .maximum:
+            return "Slowest to export, sharpest on close-ups. Small faces cost nothing."
         }
     }
 

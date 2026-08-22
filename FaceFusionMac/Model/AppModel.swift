@@ -109,6 +109,13 @@ final class AppModel {
     var maskOcclusion = true
     var identityStrength: Double = 0.5
     var maskBlur: Double = 0.3
+    /// Ceiling on how much detail the swapper may generate for a large face.
+    ///
+    /// `.high` by default, matching iOS: the swapper's 128px graph leaves a
+    /// close-up visibly softer than the frame around it, and a default of
+    /// `.standard` would ship that to everyone who never opens the control.
+    /// `.maximum` is a tap away for a face that fills the frame.
+    var closeUpDetail: CloseUpDetail = .high
     var useHEVC = true
     /// *Choose* by default: it is the only mode that names a **person** rather
     /// than a position, and so the only one that survives a cut, a crossing, or
@@ -273,7 +280,8 @@ final class AppModel {
                     // identity is encoded once at selection time, so flipping
                     // this per job would align the two differently and weaken
                     // the match.
-                    refineLandmarks: models.isInstalledModel(.faceLandmarker))
+                    refineLandmarks: models.isInstalledModel(.faceLandmarker),
+                    closeUpDetail: closeUpDetail)
     }
 
     // MARK: - Engine lifecycle
